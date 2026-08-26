@@ -1,9 +1,9 @@
 <div align="center">
 
-  # ⚡ Mario Gómez — Portfolio & Web Profile
+  # ⚡ Mario Rubén Gómez Gutierrez — Portfolio & Web Profile
 
   <p align="center">
-    <strong>Senior Full Stack Developer | .NET · APIs & Identity · Flutter Mobile</strong>
+    <strong>Software Engineer | .NET · APIs & Integraciones · Web Technologies</strong>
   </p>
 
   <p align="center">
@@ -13,9 +13,10 @@
   </p>
 
   <p align="center">
+    <img src="https://img.shields.io/badge/Role-Software_Engineer-0071e3?style=flat-square" />
+    <img src="https://img.shields.io/badge/Backend-.NET_Framework_%7C_C%23-512BD4?style=flat-square&logo=dotnet&logoColor=white" />
     <img src="https://img.shields.io/badge/Design_Language-Apple_Aesthetic-000000?style=flat-square&logo=apple&logoColor=white" />
     <img src="https://img.shields.io/badge/CSS-Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white" />
-    <img src="https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=flat-square&logo=javascript&logoColor=black" />
     <img src="https://img.shields.io/badge/Theme-Dark%20%2F%20Light%20Animated-6366F1?style=flat-square" />
   </p>
 
@@ -38,14 +39,14 @@ Sitio web y portafolio profesional desarrollado con un **diseño minimalista ins
 
 ---
 
-## 🛠️ Stack Tecnológico Destacado
+## 🛠️ Habilidades Técnicas & Stack
 
-### **Especialidades Principales**
 ```
-Backend & APIs    :  C# · .NET Framework (4.7+) · SQL Server · REST APIs
-Identidad & Cloud :  Azure Entra ID · SAML SSO · Microsoft Graph API
-Mobile & Scripts  :  Flutter · Dart · Node.js Automation · WhatsApp Cloud API
-Frontend          :  Tailwind CSS · HTML5 · JavaScript (ES6+) · Bootstrap 5
+Lenguajes              :  C#, JavaScript (ES6+), PHP, SQL (T-SQL), Dart, HTML5, CSS3
+Backend & Frameworks   :  .NET Framework (4.7+), ASP.NET Web API, Node.js, Flutter, WordPress
+Bases de Datos         :  SQL Server (Consultas avanzadas, Stored Procedures, Índices, Optimización)
+Cloud, Identidad & APIs:  Azure Entra ID, SAML 2.0, Microsoft Graph API, WhatsApp Cloud API, REST/JSON, Git
+Frontend & UI          :  Bootstrap 5, jQuery, Responsive Web Design, Componentes UI/UX
 ```
 
 ---
