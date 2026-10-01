@@ -1,0 +1,2395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía de Campo del FLV de Mesa (Tu Rol Operativo) - ERM 2026</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-glow: rgba(37, 99, 235, 0.35);
+      --jne-red: #dc2626;
+      --jne-red-glow: rgba(220, 38, 38, 0.35);
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.15);
+      --warning: #f59e0b;
+      --warning-bg: rgba(245, 158, 11, 0.15);
+      --danger: #ef4444;
+      --danger-bg: rgba(239, 68, 68, 0.15);
+      --info-bg: rgba(37, 99, 235, 0.15);
+      --bg-dark: #090d16;
+      --bg-card: #111827;
+      --bg-card-alt: #1a2234;
+      --bg-card-hover: #222d42;
+      --border: #283548;
+      --border-light: #374151;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --text-sub: #cbd5e1;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 22px;
+      --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-dark); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+    /* Top Banner */
+    .top-banner {
+      background: linear-gradient(90deg, #064e3b 0%, #0f172a 100%);
+      padding: 0.65rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .top-banner a {
+      color: #a7f3d0;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .top-banner a:hover { color: #ffffff; text-decoration: underline; }
+
+    /* Header */
+    header {
+      background: #0d131f;
+      border-bottom: 1px solid var(--border);
+      padding: 1.25rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .role-badge {
+      background: var(--success);
+      color: #064e3b;
+      font-weight: 800;
+      font-size: 0.75rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .header-title h1 {
+      font-size: 1.35rem;
+      color: #ffffff;
+    }
+    .header-title p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .header-nav-btns {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: var(--transition);
+      border: none;
+    }
+
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-sub); }
+    .btn-outline:hover { background: var(--bg-card-alt); color: white; border-color: var(--text-muted); }
+    .btn-warning { background: var(--warning); color: #78350f; font-weight: 700; }
+    .btn-warning:hover { background: #d97706; }
+
+    /* Day Nav Bar */
+    .day-nav {
+      background: #111827;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 74px;
+      z-index: 90;
+      padding: 0.5rem 1.5rem;
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      max-width: 100%;
+    }
+
+    .day-tab {
+      padding: 0.6rem 1.1rem;
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border);
+      color: var(--text-sub);
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .day-tab:hover { background: var(--bg-card-hover); color: white; }
+    .day-tab.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+    .day-tab.special { border-color: rgba(220, 38, 38, 0.4); }
+    .day-tab.special.active {
+      background: var(--jne-red);
+      border-color: var(--jne-red);
+      box-shadow: 0 0 12px var(--jne-red-glow);
+    }
+
+    /* Container */
+    main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    .day-section {
+      display: none;
+      animation: fadeIn 0.3s ease-out;
+    }
+    .day-section.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hour Block */
+    .hour-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      transition: var(--transition);
+    }
+    .hour-block:hover { border-color: var(--border-light); }
+
+    .hour-header {
+      padding: 1rem 1.5rem;
+      background: var(--bg-card-alt);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .hour-time-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #0f172a;
+      border: 1px solid var(--primary);
+      color: #60a5fa;
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-family: 'Consolas', monospace;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .hour-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: white;
+      flex: 1;
+    }
+
+    .medium-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.3rem 0.65rem;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .tag-app { background: var(--info-bg); color: #60a5fa; border: 1px solid rgba(37, 99, 235, 0.4); }
+    .tag-fisico { background: var(--warning-bg); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .tag-ambos { background: var(--success-bg); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+
+    .hour-body {
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 950px) {
+      .hour-body { grid-template-columns: 1fr; }
+    }
+
+    .task-col {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .sub-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #93c5fd;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.25rem;
+    }
+
+    /* Checklist task item */
+    .task-check-card {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      cursor: pointer;
+      user-select: none;
+      transition: var(--transition);
+    }
+    .task-check-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--primary);
+    }
+    .task-check-card input[type="checkbox"] {
+      width: 1.25rem;
+      height: 1.25rem;
+      margin-top: 0.15rem;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+    .task-check-card.done {
+      border-color: rgba(16, 185, 129, 0.4);
+      background: rgba(16, 185, 129, 0.05);
+    }
+    .task-check-card.done span.task-text {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    /* Incidencia Case Box */
+    .case-box {
+      background: #0d1424;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: var(--radius-md);
+      padding: 1.1rem;
+    }
+    .case-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.65rem;
+    }
+    .case-title {
+      color: #f87171;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .case-body {
+      font-size: 0.88rem;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+    .case-action {
+      margin-top: 0.75rem;
+      background: rgba(37, 99, 235, 0.1);
+      border-left: 3px solid var(--primary);
+      padding: 0.65rem 0.85rem;
+      font-size: 0.84rem;
+      color: #bfdbfe;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .template-box {
+      background: #090e1a;
+      border: 1px dashed var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 1.1rem;
+      margin-top: 1rem;
+    }
+    .template-title {
+      color: #fbbf24;
+      font-weight: 700;
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.5rem;
+    }
+    .template-code {
+      font-family: 'Consolas', monospace;
+      font-size: 0.8rem;
+      color: #a7f3d0;
+      background: #04070e;
+      padding: 0.75rem;
+      border-radius: 6px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+
+    /* Matrix Table: Qué revisar, qué ver, qué reportar */
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: var(--bg-card-alt);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      font-size: 0.86rem;
+    }
+    .matrix-table th {
+      background: #1e293b;
+      color: white;
+      text-align: left;
+      padding: 0.75rem 1rem;
+      font-weight: 700;
+      border-bottom: 2px solid var(--border);
+    }
+    .matrix-table td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      color: var(--text-sub);
+    }
+    .matrix-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Visual Photo Diagrams (SVG Frames) */
+    .photo-guides-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+    }
+
+    .photo-card {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .photo-frame-svg {
+      width: 100%;
+      height: 160px;
+      background: #050811;
+      border: 2px dashed #3b82f6;
+      border-radius: 8px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .photo-frame-svg.bad {
+      border-color: #ef4444;
+      background: #140505;
+    }
+
+    .photo-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Comparison Box: FLV Mesa vs FLV Responsable */
+    .compare-container {
+      background: linear-gradient(135deg, #111827 0%, #172554 100%);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    /* Exit Hours and Milestones Styles */
+    .exit-timeline-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-card);
+    }
+    .exit-badge-time {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.9rem;
+      border-radius: 9999px;
+      font-weight: 800;
+      font-size: 0.92rem;
+      letter-spacing: 0.03em;
+    }
+    .badge-green-glow {
+      background: #064e3b;
+      color: #34d399;
+      border: 1px solid #10b981;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.35);
+    }
+    .badge-yellow-glow {
+      background: #451a03;
+      color: #fbbf24;
+      border: 1px solid #f59e0b;
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.35);
+    }
+    .badge-red-glow {
+      background: #450a0a;
+      color: #f87171;
+      border: 1px solid #ef4444;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.35);
+    }
+    .badge-blue-glow {
+      background: #0c2340;
+      color: #60a5fa;
+      border: 1px solid #3b82f6;
+      box-shadow: 0 0 12px rgba(59, 130, 246, 0.35);
+    }
+    .hitos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+    }
+    .hito-card {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: var(--transition);
+      position: relative;
+    }
+    .hito-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+    .hito-number {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    /* Optimizaciones Responsivas Móviles Ultra-Compactas (iPhone iOS / Android) */
+    @media (max-width: 768px) {
+      .top-banner {
+        display: none; /* Se oculta en móvil para liberar 45px de altura */
+      }
+      header {
+        position: relative; /* Deja de ser pegajoso: se desliza con el scroll */
+        top: auto;
+        padding: 0.65rem 1rem;
+        border-bottom: none;
+      }
+      .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      .header-title h1 {
+        font-size: 1.05rem;
+        line-height: 1.25;
+        margin-top: 0.15rem;
+      }
+      .header-title p {
+        display: none; /* Oculta el texto descriptivo largo en móvil */
+      }
+      .header-nav-btns {
+        width: 100%;
+        display: flex;
+        gap: 0.35rem;
+      }
+      .header-nav-btns .btn {
+        flex: 1 1 auto;
+        justify-content: center;
+        padding: 0.45rem 0.5rem;
+        font-size: 0.76rem;
+      }
+      .day-nav {
+        position: sticky;
+        top: 0; /* Único elemento que se mantiene pegado arriba, súper delgado */
+        z-index: 100;
+        padding: 0.35rem 0.6rem;
+        background: rgba(17, 24, 39, 0.96);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        -webkit-overflow-scrolling: touch;
+      }
+      .day-tab {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.8rem;
+        border-radius: 6px;
+      }
+      main {
+        padding: 0.85rem 0.65rem;
+      }
+      .hour-body {
+        grid-template-columns: 1fr;
+        padding: 0.85rem;
+        gap: 1rem;
+      }
+      .hour-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 0.85rem;
+      }
+      .hour-title {
+        font-size: 1rem;
+      }
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+      .task-check-card {
+        padding: 0.75rem;
+      }
+      .task-check-card input[type="checkbox"] {
+        min-width: 22px;
+        min-height: 22px;
+      }
+      .matrix-table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+
+    footer {
+      background: #080c14;
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Banner -->
+  <div class="top-banner">
+    <div>
+      🛡️ <strong>MODALIDAD: FLV DE MESA (TU PUESTO OPERATIVO EN AULAS)</strong> • Supervisas tus mesas asignadas.
+    </div>
+    <div>
+      <a href="flv-responsable.html">🏢 Ver Guía del FLV Responsable (Local y Apoyo) ➔</a>
+      &nbsp;|&nbsp;
+      <a href="index.html">📚 Portal General de Consulta</a>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <div class="header-title">
+        <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.25rem;">
+          <span class="role-badge">Tu Puesto: FLV de Mesa</span>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">ERM 2026 • JEE Pacasmayo / Nacional</span>
+        </div>
+        <h1>Guía de Campo Detallada: Qué Revisar, Ver y Reportar</h1>
+        <p>Casos reales de aula, esquemas gráficos de fotos reglamentarias y protocolo ante apertura de mesas.</p>
+      </div>
+      <div class="header-nav-btns">
+        <a href="index.html" class="btn btn-outline">🏠 Portal General</a>
+        <a href="flv-responsable.html" class="btn btn-warning">👥 Rol Responsable</a>
+        <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Day Selector Tab Bar -->
+  <div class="day-nav">
+    <button class="day-tab active" onclick="switchDay('jueves')">&#128197; Jueves 1 Oct (Cierre Campa&ntilde;a)</button>
+    <button class="day-tab" onclick="switchDay('viernes')">&#128197; Viernes 2 Oct (Notificaciones y Despliegue)</button>
+    <button class="day-tab" onclick="switchDay('sabado')">&#128197; S&aacute;bado 3 Oct (V&iacute;spera y V10)</button>
+    <button class="day-tab special" onclick="switchDay('domingo')">&#128680; Domingo 4 Oct (D&Iacute;A D - Comicios)</button>
+    <button class="day-tab" onclick="switchDay('lunes')">&#128197; Lunes 5 Oct (Informe y Pago)</button>
+    <button class="day-tab" onclick="switchDay('appflv')">&#128241; Gu&iacute;a Oficial del App FLV</button>
+    <button class="day-tab" onclick="switchDay('procedimientos')">&#127919; &iquest;Qu&eacute; Revisar, Ver y Reportar?</button>
+    <button class="day-tab" onclick="switchDay('fotografias')">&#128248; Fotos Reglamentarias</button>
+    <button class="day-tab" onclick="switchDay('apertura')">&#10067; &iquest;Me tienen que esperar?</button>
+    <button class="day-tab special" onclick="switchDay('salida')">&#128682; Horas de Salida</button>
+    <button class="day-tab" onclick="switchDay('comparativa')">&#9878;&#65039; &iquest;El Responsable trabaja menos?</button>
+  </div>
+
+  <main>
+
+        <section id="day-jueves" class="day-section active">
+      <div style="margin-bottom: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+          <h2 style="font-size: 1.4rem; color: white;">Jueves 1 de Octubre de 2026: Operativo de Cierre de Campa&ntilde;a</h2>
+          <span class="badge badge-gold">&#9200; 16:00/18:00 hrs hasta la Medianoche (00:00 hrs)</span>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.35rem;">
+          Fiscalizaci&oacute;n de m&iacute;tines y concentraciones pol&iacute;ticas finales. Se ejecuta conjuntamente con las autoridades y es <strong>indistinto al local de votaci&oacute;n</strong>.
+        </p>
+      </div>
+
+      <!-- Banner Clarificador: Cierre de Campaña no depende del Local y es UN SOLO REPORTE -->
+      <div class="alert-box alert-info" style="margin-bottom: 1.5rem; background: rgba(37, 99, 235, 0.12); border-left: 4px solid var(--primary);">
+        <div style="font-size: 1.6rem;">&#128227;</div>
+        <div>
+          <strong style="color: #93c5fd; font-size: 0.98rem;">&iexcl;OPERATIVO INDISTINTO AL LOCAL &bull; UN SOLO REPORTE COLECTIVO!</strong>
+          <p style="font-size: 0.88rem; color: #cbd5e1; margin-top: 0.25rem;">
+            El operativo de Cierre de Campa&ntilde;a <strong>NO se realiza en el colegio ni bajo el mando del FLV Responsable de local</strong>. El Coordinador de Fiscalizaci&oacute;n (COORFIS/FISPRO) distribuye a los fiscalizadores por cuadrantes y zonas para cubrir los m&iacute;tines.<br>
+            <strong>REGLA OPERATIVA CR&Iacute;TICA:</strong> Se elabora <strong>UN SOLO REPORTE POR EVENTO DE CIERRE DE CAMPA&Ntilde;A</strong> (no se hace un reporte individual por fiscalizador). En este &uacute;nico documento f&iacute;sico <strong>firman y dejan su huella digital TODOS LOS FLVs INVOLUCRADOS</strong> que integraron la comitiva, adem&aacute;s de las autoridades presentes.
+          </p>
+        </div>
+      </div>
+
+      <!-- BLOQUE JUEVES: DE LA COMISARIA AL LUGAR DEL CIERRE -->
+      <div class="hour-block">
+        <div class="hour-header">
+          <div class="hour-time-badge">&#9200; 16:00/18:00 hrs hasta las 00:00 hrs (Medianoche)</div>
+          <div class="hour-title">Punto de Partida en Comisar&iacute;a, Desplazamiento y Fiscalizaci&oacute;n con Autoridades</div>
+          <span class="medium-tag tag-ambos">&#128203; Un Solo Reporte Colectivo con Firmas + &#128241; App FLV</span>
+        </div>
+        <div class="hour-body">
+          <!-- Columna Izquierda: Tareas y Checklist -->
+          <div class="task-col">
+            <div class="sub-title">&#128204; Secuencia Operativa Exacta del Jueves</div>
+            
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_j1')">
+              <input type="checkbox" id="chk_j1">
+              <span class="task-text">
+                <strong>1. Concentraci&oacute;n inicial en la COMISAR&Iacute;A:</strong> Acude primero a la comisar&iacute;a de la jurisdicci&oacute;n asignada. Re&uacute;nete con el equipo de fiscalizadores y porta tu credencial oficial del JNE, chaleco/polo institucional y gorro.
+              </span>
+            </div>
+
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_j2')">
+              <input type="checkbox" id="chk_j2">
+              <span class="task-text">
+                <strong>2. Salida conjunta con las AUTORIDADES:</strong> De la comisar&iacute;a se parte hacia el lugar del evento en comitiva oficial integrada por la <strong>Polic&iacute;a Nacional (PNP)</strong>, el <strong>Subprefecto</strong>, el <strong>Teniente Gobernador</strong> y el <strong>Fiscal de Prevenci&oacute;n del Delito</strong> (Ministerio P&uacute;blico).
+              </span>
+            </div>
+
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_j3')">
+              <input type="checkbox" id="chk_j3">
+              <span class="task-text">
+                <strong>3. FOTO &Uacute;NICA Y EN GRUPO en el lugar:</strong> Al llegar al lugar del cierre de campa&ntilde;a (estrado, plaza o avenida), toma la <strong>foto grupal oficial donde aparezcan TODOS los fiscalizadores junto con las autoridades presentes</strong>. Adem&aacute;s, toma varias fotos horizontales panor&aacute;micas del escenario, p&uacute;blico y oradores.
+              </span>
+            </div>
+
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_j4')">
+              <input type="checkbox" id="chk_j4">
+              <span class="task-text">
+                <strong>4. Fiscalizaci&oacute;n hasta la MEDIANOCHE (00:00 hrs):</strong> Supervisa que no haya m&iacute;tines simult&aacute;neos a menos de 1 km (Art. 189&deg; LOE) y que a las <code>00:00 hrs</code> finalicen definitivamente todos los discursos y m&uacute;sica (Art. 190&deg; LOE).
+              </span>
+            </div>
+
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_j5')">
+              <input type="checkbox" id="chk_j5">
+              <span class="task-text">
+                <strong>5. UN SOLO REPORTE suscrito por TODOS los FLVs involucrados:</strong> Al concluir el evento, se redacta <strong>un &uacute;nico Reporte de Operativo</strong> por ese cierre de campa&ntilde;a. Consignan obligatoriamente sus nombres completos, DNI, <strong>firma y huella digital TODOS los FLVs que participaron</strong>, solicitando tambi&eacute;n la <strong>firma y sello de las autoridades presentes</strong> (Comisario PNP, Subprefecto, Teniente Gobernador y Fiscal).
+              </span>
+            </div>
+          </div>
+
+          <!-- Columna Derecha: Incidencia Didáctica y Plantilla -->
+          <div class="task-col">
+            <div class="case-box">
+              <div class="case-header">
+                <span class="case-title">&#128680; Caso Real: D&aacute;divas o Mitin que se Extiende de las 00:00 hrs</span>
+                <span class="badge badge-red">Infracci&oacute;n Grave (Art. 190 LOE / Art. 42 LOP)</span>
+              </div>
+              <div class="case-body">
+                <strong>Situaci&oacute;n A:</strong> Son las 23:45 hrs y un candidato reparte v&iacute;veres o dinero desde un veh&iacute;culo.<br>
+                <strong>Situaci&oacute;n B:</strong> Llegan las 00:05 hrs del viernes y la agrupaci&oacute;n sigue con orquesta en el estrado.
+              </div>
+              <div class="case-action">
+                <strong>&iquest;C&oacute;mo act&uacute;as con las Autoridades?:</strong><br>
+                1. Registra fotos y videos en horizontal desde la comitiva oficial.<br>
+                2. Informa de inmediato al Comisario PNP y al Fiscal presentes para que realicen la <strong>intimaci&oacute;n formal de disoluci&oacute;n y cese del evento</strong>.<br>
+                3. Ingresa la <strong>Alerta de Incidencia</strong> en el App FLV: <em>"Reuniones o manifestaciones pol&iacute;ticas dentro de los 2 d&iacute;as previos al sufragio"</em>.<br>
+                4. Consigna en el <strong>único reporte físico grupal</strong> la hora exacta y haz que las autoridades y todos los FLVs firmen y sellen.
+              </div>
+            </div>
+
+            <div class="template-box">
+              <div class="template-title">&#128203; Plantilla Oficial: Un Solo Reporte por Cierre de Campa&ntilde;a</div>
+              <div style="font-size: 0.84rem; color: var(--text-sub); margin-bottom: 0.4rem;">
+                <strong>Importante:</strong> Es un solo documento mancomunado por evento de cierre. No se entregan reportes individuales sueltos por el mismo mitin:
+              </div>
+              <div class="template-code">REPORTE DE OPERATIVO: CIERRE DE CAMPA&Ntilde;A (UN SOLO REPORTE POR EVENTO)
+Lugar: Plaza de Armas / Av. Principal
+Hora Inicio: 17:30 hrs / Hora T&eacute;rmino: 00:05 hrs
+Organizaci&oacute;n Pol&iacute;tica: [Nombre de la Agrupaci&oacute;n]
+
+Autoridades Presentes:
+- PNP: Mayor PNP Carlos Mendoza (Comisario) [Firma y Sello]
+- Subprefectura: Lic. Elena R&iacute;os (Subprefecta) [Firma y Sello]
+- Teniente Gobernador: Don Juan Torres [Firma]
+- Ministerio P&uacute;blico: Dr. Marco Polo (Fiscal Prevenci&oacute;n) [Firma]
+
+Incidencias: A las 00:00 hrs las autoridades conminaron al cese de m&uacute;sica, concluyendo a las 00:05 hrs conforme a ley.
+
+FISCALIZADORES ELECTORALES PARTICIPANTES (FIRMAN TODOS LOS FLVs INVOLUCRADOS):
+1. [Nombres y Apellidos FLV 1] - DNI: [N&deg; DNI] - [Firma y Huella Digital]
+2. [Nombres y Apellidos FLV 2] - DNI: [N&deg; DNI] - [Firma y Huella Digital]
+3. [Nombres y Apellidos FLV 3] - DNI: [N&deg; DNI] - [Firma y Huella Digital]
+4. [Nombres y Apellidos FLV 4] - DNI: [N&deg; DNI] - [Firma y Huella Digital]</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+        <section id="day-viernes" class="day-section">
+      <div style="margin-bottom: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+          <h2 style="font-size: 1.4rem; color: white;">Viernes 2 de Octubre de 2026: Despliegue ODPE y Notificaciones Preventivas</h2>
+          <span class="badge badge-gold">&#9200; Despliegue 10:00 AM &bull; Notificaciones 15:00 a 18:00 hrs</span>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.35rem;">
+          Jornada t&eacute;cnica de <strong>Despliegue del Material Electoral</strong> y entrega presencial de las dos notificaciones preventivas obligatorias del JEE.
+        </p>
+      </div>
+
+      <!-- BANNER DIRECTIVA OFICIAL: LIMA METROPOLITANA Y CALLAO -->
+      <div class="alert-box alert-warning" style="margin-bottom: 1.5rem; background: rgba(245, 158, 11, 0.12); border-left: 4px solid var(--warning);">
+        <div style="font-size: 1.6rem;">&#128196;</div>
+        <div>
+          <strong style="color: #fbbf24; font-size: 0.98rem;">DIRECTIVA OFICIAL DNFPE (L&aacute;mina 10 Taller FLV ERM 2026):</strong>
+          <p style="font-size: 0.88rem; color: #fef3c7; margin-top: 0.25rem;">
+            <em>"Para Lima Metropolitana y Callao, los fiscalizadores acudir&aacute;n al local de votaci&oacute;n el <strong>viernes 2 de octubre</strong> para esperar el arribo del material electoral."</em><br>
+            <strong>Aclaraci&oacute;n de Fechas:</strong> En Lima, Callao y principales provincias urbanas, el convoy sale y arriba el <strong>Viernes 2 de Octubre</strong>. En provincias rurales con traslados largos (rutas fluviales o de selva/sierra), el material se termina de recibir el s&aacute;bado en la ma&ntilde;ana.
+          </p>
+        </div>
+      </div>
+
+      <!-- BLOQUE 1: DESPLIEGUE VS LOCAL (DIFERENCIA DE RESPONSABLES) -->
+      <div class="hour-block" style="border-left: 4px solid var(--primary);">
+        <div class="hour-header" style="background: rgba(37, 99, 235, 0.1);">
+          <div class="hour-time-badge" style="border-color: #3b82f6; color: #60a5fa;">&#9200; 10:00 hrs en punto (Viernes 2 Oct)</div>
+          <div class="hour-title" style="color: #93c5fd;">Despliegue de Material desde la Sede ODPE vs Recepci&oacute;n en Local</div>
+          <span class="medium-tag tag-app">&#128230; Despliegue Ruta vs Local</span>
+        </div>
+        <div class="hour-body">
+          <div class="task-col">
+            <div class="sub-title">&#128666; 1. Responsable del Despliegue (En Ruta ODPE)</div>
+            <div style="background: rgba(37, 99, 235, 0.08); padding: 1rem; border-radius: var(--radius-md); font-size: 0.86rem; color: var(--text-sub); line-height: 1.5;">
+              <strong style="color: #60a5fa;">&iexcl;Es un rol DISTINTO al Responsable de Local!</strong><br>
+              &bull; <strong>Hora de presentaci&oacute;n:</strong> <code>10:00 AM</code> del viernes en el almac&eacute;n de la ODPE.<br>
+              &bull; <strong>Funci&oacute;n:</strong> Fiscaliza la estiba de cajas de material en los camiones y verifica los precintos de seguridad.<br>
+              &bull; <strong>Custodia en ruta:</strong> Se sube a la comitiva y custodia que durante todo el trayecto el veh&iacute;culo cuente con resguardo armado de las FF.AA. o PNP hasta llegar a cada local de votaci&oacute;n.
+            </div>
+          </div>
+
+          <div class="task-col">
+            <div class="sub-title">&#127970; 2. FLV en el Local de Votaci&oacute;n (Recepci&oacute;n y Arribo V01)</div>
+            <div style="background: rgba(16, 185, 129, 0.08); padding: 1rem; border-radius: var(--radius-md); font-size: 0.86rem; color: var(--text-sub); line-height: 1.5;">
+              <strong style="color: #34d399;">Espera en el Local asignado (Lima Metropolitana, Callao y ODPEs programadas):</strong><br>
+              &bull; <strong>Hora:</strong> En horas de la tarde seg&uacute;n el itinerario de ruta de la ODPE.<br>
+              &bull; <strong>Acciones:</strong> Solicita al personal de la ODPE copia o foto de la <strong>Constancia de Despliegue de Material Electoral</strong>.<br>
+              &bull; <strong>Conteo:</strong> Verifica que la cantidad de cajas recibidas coincida exactamente con las mesas del local.<br>
+              &bull; <strong>Evidencia y App:</strong> Toma <strong>dos (2) fotograf&iacute;as obligatorias del arribo</strong> y sube el reporte <strong>Formato V01 (Arribo del Material Electoral)</strong> al App FLV.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 2: EL OPERATIVO DE NOTIFICACIONES PREVENTIVAS (DETALLE EXACTO) -->
+      <div class="hour-block" style="border-left: 4px solid var(--warning);">
+        <div class="hour-header" style="background: rgba(245, 158, 11, 0.1);">
+          <div class="hour-time-badge" style="border-color: #f59e0b; color: #fbbf24;">&#9200; 15:00 a 18:00 hrs (No exceder las 18:00 hrs)</div>
+          <div class="hour-title" style="color: #fde68a;">Operativo de Notificaciones Preventivas de Ley Seca y Propaganda (Slide 22)</div>
+          <span class="medium-tag tag-fisico">&#128203; Formatos F&iacute;sicos Manuscritos Oficiales</span>
+        </div>
+        <div class="hour-body">
+          <div class="task-col">
+            <div class="sub-title">&#128204; &iquest;C&oacute;mo se ejecuta este operativo seg&uacute;n el Taller FLV?</div>
+            <div style="font-size: 0.86rem; color: var(--text-sub); line-height: 1.5; margin-bottom: 0.75rem;">
+              &bull; <strong>Regla de Horario (Slide 22):</strong> <em>"Es un solo operativo, depende de la zona, no exceder altas horas de la noche. Algunos distritos inician 3:00 PM otros 6:00 PM. Lo m&aacute;s tarde ser&iacute;a 6:00 PM"</em>.<br>
+              &bull; <strong>Zona de Cobertura:</strong> En los alrededores y rutas de acceso a los locales de votaci&oacute;n.<br>
+              &bull; <strong>Modalidad:</strong> Los FLVs son distribuidos por zonas. Algunos son seleccionados por el fiscalizador a cargo para operativos conjuntos con la Fiscal&iacute;a y PNP.<br>
+              &bull; <strong>&iquest;Se sube al App FLV?:</strong> Las notificaciones <strong>NO se suben una por una al App FLV</strong>; se llenan a mano en las plantillas f&iacute;sicas que se entregar&aacute;n al final en el sobre f&iacute;sico del JEE. Solo si hay agresi&oacute;n o delito se registra <em>"Alerta de Incidencia"</em> en el App.
+            </div>
+
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_v1')">
+              <input type="checkbox" id="chk_v1">
+              <span class="task-text">
+                <strong>1. Recojo de Plantillas:</strong> Recibe de tu fiscalizador a cargo las hojas f&iacute;sicas oficiales de notificaci&oacute;n preventiva del JEE Pacasmayo/Nacional y el radio asignado.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_v2')">
+              <input type="checkbox" id="chk_v2">
+              <span class="task-text">
+                <strong>2. Notificar Ley Seca:</strong> Acude a bodegas, bares, licorer&iacute;as y restaurantes en el per&iacute;metro del local escolar. Notifica la prohibici&oacute;n de venta de alcohol (inicia s&aacute;bado a las 08:00 hrs).
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_v3')">
+              <input type="checkbox" id="chk_v3">
+              <span class="task-text">
+                <strong>3. Notificar Retiro de Propaganda:</strong> Notifica a los predios e inmuebles con propaganda en fachada para que la retiren o cubran antes de las 00:00 hrs del s&aacute;bado (24h antes).
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_v4')">
+              <input type="checkbox" id="chk_v4">
+              <span class="task-text">
+                <strong>4. Recabar Datos y Firmas Obligatorias:</strong> Llena con letra clara el nombre, direcci&oacute;n, <strong>n&uacute;mero de suministro el&eacute;ctrico</strong>, DNI y solicita la <strong>firma manuscrita del notificado</strong>, estampando tu propia firma y huella dactilar.
+              </span>
+            </div>
+          </div>
+
+          <div class="task-col">
+            <!-- PLANTILLA OFICIAL 1: LEY SECA -->
+            <div class="template-box" style="margin-top: 0;">
+              <div class="template-title" style="color: #f87171;">&#127866; Plantilla 1: Notificaci&oacute;n de Ley Seca (Art. 351&deg; LOE)</div>
+              <div style="font-size: 0.8rem; color: #fca5a5; margin-bottom: 0.35rem;">
+                <em>"Desde las 08:00 horas del d&iacute;a anterior (s&aacute;bado 3), hasta las 08:00 horas del d&iacute;a siguiente de las elecciones (lunes 5), no es permitido el expendio de bebidas alcoh&oacute;licas de ninguna clase y se cierran los establecimientos dedicados exclusivamente a dicho expendio" (Art. 389&deg; LOE - Delito Electoral).</em>
+              </div>
+              <div class="template-code">FORMATO OFICIAL: NOTIFICACIONES DE LEY SECA
+Distrito: [Tu distrito asignado]
+Establecimiento N&deg; 1:
+- Nombre comercial: Bodega & Licorer&iacute;a San Mart&iacute;n
+- Direcci&oacute;n: Jr. Dos de Mayo N&deg; 340
+- N&uacute;mero de Suministro El&eacute;ctrico: 10482910 (ver medidor de luz)
+- Encargado y/o Propietario: Roberto G&oacute;mez Silva
+- DNI del responsable: 41829014
+- FIRMA DEL NOTIFICADO: [Firma manuscrita del encargado]
+- FIRMA Y HUELLA DIGITAL DEL FLV: [Tu firma y huella dactilar]</div>
+            </div>
+
+            <!-- PLANTILLA OFICIAL 2: PROPAGANDA -->
+            <div class="template-box" style="margin-top: 0.75rem;">
+              <div class="template-title" style="color: #60a5fa;">&#128227; Plantilla 2: Notificaci&oacute;n sobre Suspensi&oacute;n de Propaganda (Art. 190&deg; LOE)</div>
+              <div style="font-size: 0.8rem; color: #bfdbfe; margin-bottom: 0.35rem;">
+                <em>"Desde veinticuatro horas antes (00:00 hrs del s&aacute;bado 3) se suspende toda clase de propaganda pol&iacute;tica" (Art. 389&deg; LOE - Delito Electoral).</em>
+              </div>
+              <div class="template-code">FORMATO OFICIAL: SUSPENSI&Oacute;N O RETIRO DE PROPAGANDA ELECTORAL
+Distrito: [Tu distrito asignado]
+Inmueble N&deg; 1:
+- Propietario del predio: Sra. Mar&iacute;a Condori Quispe
+- DNI / N&uacute;mero de Suministro El&eacute;ctrico: 09482716 / Suministro 20391823
+- Direcci&oacute;n del predio: Av. Progreso N&deg; 150 (Frente al Colegio)
+- FIRMA DEL NOTIFICADO: [Firma manuscrita del propietario]
+- FIRMA Y HUELLA DIGITAL DEL FLV: [Tu firma y huella dactilar]</div>
+            </div>
+
+            <!-- CASO SI SE NIEGAN A FIRMAR -->
+            <div class="case-box" style="margin-top: 0.75rem;">
+              <div class="case-header">
+                <span class="case-title">&#128680; &iquest;Qu&eacute; hacer si el due&ntilde;o o comerciante se niega a firmar?</span>
+                <span class="badge badge-gold">Procedimiento</span>
+              </div>
+              <div class="case-body" style="font-size: 0.82rem;">
+                1. No discutas ni entres en altercados con el ciudadano.<br>
+                2. En el casillero de "FIRMA DEL NOTIFICADO" escribe textualmente: <strong>"Se neg&oacute; a firmar"</strong>.<br>
+                3. Anota obligatoriamente la direcci&oacute;n exacta y el <strong>n&uacute;mero de suministro el&eacute;ctrico</strong> visible en la caja del medidor de luz.<br>
+                4. Toma una foto horizontal de la fachada del predio o local comercial.<br>
+                5. Informa a tu FISPRO/FISDIS para que la Fiscal&iacute;a lo priorice en el operativo conjunto del s&aacute;bado.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+        <section id="day-sabado" class="day-section">
+      <div style="margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.4rem; color: white;">Sábado 3 de Octubre de 2026: Víspera Electoral y Prohibiciones</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Entrada en vigor de la Ley Seca, suspensión de propaganda e inspección de arribo de material y condiciones del local.
+        </p>
+      </div>
+
+      <!-- BLOQUE 1: SABADO 00:00 A 08:00 -->
+      <div class="hour-block">
+        <div class="hour-header">
+          <div class="hour-time-badge">⏰ 00:00 a 08:00 hrs</div>
+          <div class="hour-title">Inicio de Suspensión de Propaganda (00:00) y Ley Seca (08:00)</div>
+          <span class="medium-tag tag-ambos">📝 Físico + 📱 App FLV</span>
+        </div>
+        <div class="hour-body">
+          <div class="task-col">
+            <div class="sub-title">📌 Tus Tareas como FLV de Mesa / Apoyo</div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_s1')">
+              <input type="checkbox" id="chk_s1">
+              <span class="task-text">
+                <strong>Operativo de Retiro de Propaganda (00:00 hrs):</strong> Recorrido en perímetros del centro de votación. Si hay propaganda en predio privado accesible y el dueño lo autoriza por escrito, se retira. En postes de alta tensión NO se retira por peligro eléctrico; se reporta para distorsión.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_s2')">
+              <input type="checkbox" id="chk_s2">
+              <span class="task-text">
+                <strong>Vigencia de Ley Seca (08:00 hrs):</strong> A partir de las 08:00 AM queda prohibida toda venta de alcohol (multa S/ 3,390). Si participas en el operativo conjunto con la Fiscalía, toma fotos horizontales y llena el reporte F07 con firmas de las autoridades.
+              </span>
+            </div>
+          </div>
+
+          <div class="task-col">
+            <div class="case-box">
+              <div class="case-header">
+                <span class="case-title">🚨 Caso Didáctico: Propaganda en Fachada</span>
+                <span class="badge badge-red">Delito Electoral Art. 389 LOE</span>
+              </div>
+              <div class="case-body">
+                <strong>Situación:</strong> Frente a la puerta del colegio electoral hay una gigantografía de un candidato a la alcaldía en la pared de un vecino. El vecino no quiere sacarla.
+              </div>
+              <div class="case-action">
+                <strong>¿Qué debes hacer?:</strong><br>
+                • No ingreses a la propiedad privada sin permiso.<br>
+                • Toma fotografía horizontal donde se aprecie la distancia al local de votación.<br>
+                • Registra la Alerta de Incidencia en el App FLV: <em>"Propaganda dentro de plazos prohibidos"</em>.<br>
+                • Tu fiscalizador a cargo coordinará con la policía y el fiscal para intimar al propietario bajo apercibimiento penal.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 2: SABADO TARDE (ARRIBO Y CONDICIONES) -->
+      <div class="hour-block">
+        <div class="hour-header">
+          <div class="hour-time-badge">⏰ Tarde (Coordinado con ODPE)</div>
+          <div class="hour-title">Arribo de Material (V01) y Condiciones del Local (V10)</div>
+          <span class="medium-tag tag-ambos">📱 App (Responsable) + 📝 Firma de Apoyo</span>
+        </div>
+        <div class="hour-body">
+          <div class="task-col">
+            <div class="sub-title">📌 ¿Cómo apoyas a tu FLV Responsable?</div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_s3')">
+              <input type="checkbox" id="chk_s3">
+              <span class="task-text">
+                <strong>Recepción de Material (Formato V01):</strong> Acompaña a la descarga de cajas electorales de la ODPE. Cuenta que el número de cajas coincida con las mesas asignadas. Firma el reporte V01 como FLV participante.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_s4')">
+              <input type="checkbox" id="chk_s4">
+              <span class="task-text">
+                <strong>Verificación de tus Aulas y Mesas (Formato V10):</strong> Ve a las aulas donde estarán tus mesas asignadas. <strong>Prueba obligatoriamente los interruptores de luz</strong>, revisa que no haya afiches políticos en las paredes y verifica las carpetas.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_s5')">
+              <input type="checkbox" id="chk_s5">
+              <span class="task-text">
+                <strong>Operativo Comisarías:</strong> Si el distrito es grande, tu FLV Responsable ingresa a la comisaría a revisar la carceleta (inmunidad electoral Arts. 342 y 343 LOE); tú te tomas la foto reglamentaria de fachada grupal.
+              </span>
+            </div>
+          </div>
+
+          <div class="task-col">
+            <div class="template-box" style="margin-top: 0;">
+              <div class="template-title">💡 ¿Quién lo sube al App FLV el Sábado?</div>
+              <p style="font-size: 0.88rem; color: var(--text-sub);">
+                Los formatos de <strong>Arribo de Material</strong> y <strong>Condiciones del Local</strong> aparecen activados en el menú del <strong>FLV Responsable</strong>.<br><br>
+                <strong>Tu tarea como FLV de Mesa:</strong><br>
+                1. Estar presente en la inspección de tus aulas.<br>
+                2. Firmar la plantilla física en el casillero de <em>"Fiscalizadores que participaron"</em>.<br>
+                3. Guardar fotos de respaldo en la memoria interna de tu celular.<br>
+                4. Asegurarte de que tu celular quede cargado al 100% para el domingo.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- MODULO 0: QUE REVISAR, QUE VER Y QUE REPORTAR (MATRIZ VISUAL) -->
+    <!-- ============================================================== -->
+        <!-- ============================================================== -->
+    <!-- MODULO APP FLV: GUIA OFICIAL Y EXHAUSTIVA DE LA APLICACION MOVIL -->
+    <!-- ============================================================== -->
+    <section id="day-appflv" class="day-section">
+      <div style="margin-bottom: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+          <h2 style="font-size: 1.4rem; color: #38bdf8;">&#128241; Gu&iacute;a Oficial y Meticulosa del Aplicativo M&oacute;vil "APP FLV"</h2>
+          <span class="exit-badge-time badge-blue-glow">Directiva DNFPE &bull; Versi&oacute;n Oficial ERM 2026</span>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.35rem;">
+          Desglose completo de pantallas, permisos, men&uacute;s, perfiles de usuario, registro de incidencias y sincronizaci&oacute;n en cola local seg&uacute;n la <em>Exposici&oacute;n Oficial APP FLV (15-09-2026)</em>.
+        </p>
+      </div>
+
+      <!-- ARQUITECTURA DE PERFILES: RESPONSABLE VS DE MESA -->
+      <div class="grid-2" style="margin-bottom: 1.5rem;">
+        <!-- PERFIL RESPONSABLE -->
+        <div class="card" style="border-top: 4px solid var(--warning);">
+          <div class="card-header">
+            <h3 class="card-title" style="color: #fbbf24;">&#128081; Perfil: Fiscalizador Responsable de Local</h3>
+            <span class="badge badge-gold">L&aacute;minas 5 y 6</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 0.75rem;">
+            Funcionalidades exclusivas para el l&iacute;der de sede electoral:
+          </p>
+          <ul style="font-size: 0.84rem; color: var(--text-sub); margin-left: 1.25rem; line-height: 1.5;">
+            <li><strong>Asignaci&oacute;n de Mesas de Sufragio:</strong> Distribuye en el sistema las mesas del colegio entre los FLVs acompa&ntilde;antes.</li>
+            <li><strong>Cierre de Puertas del Local (17:00 hrs):</strong> Bot&oacute;n exclusivo para registrar la hora oficial de cierre de rejas exteriores.</li>
+            <li><strong>Formato Arribo de Material Electoral (V01):</strong> Registro de datos del cami&oacute;n, chofer, ruta ODPE, resguardo y 2 fotos obligatorias.</li>
+            <li><strong>Formato Condiciones del Local (V10):</strong> Registro de infraestructura, fluido el&eacute;ctrico, agua y 2 fotos obligatorias (s&aacute;bado).</li>
+            <li><strong>Formato Repliegue de Actas (V06):</strong> Registro de salida del colegio y llegada a la ODPE con placas y custodia militar.</li>
+            <li><strong>Actores del Local:</strong> Registra personal ONPE del local, personeros de local, FF.AA./PNP e instituciones p&uacute;blicas.</li>
+          </ul>
+        </div>
+
+        <!-- PERFIL FLV DE MESA -->
+        <div class="card" style="border-top: 4px solid var(--success);">
+          <div class="card-header">
+            <h3 class="card-title" style="color: #34d399;">&#128737;&#65039; Perfil: Fiscalizador de Mesa (Tu Rol Operativo)</h3>
+            <span class="badge badge-green">L&aacute;mina 7</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 0.75rem;">
+            Funcionalidades espec&iacute;ficas para la fiscalizaci&oacute;n dentro de las aulas:
+          </p>
+          <ul style="font-size: 0.84rem; color: var(--text-sub); margin-left: 1.25rem; line-height: 1.5;">
+            <li><strong>Registro de Alertas de Incidencias:</strong> Env&iacute;o inmediato de anomal&iacute;as (Leves, Moderadas o Graves) con fotos/videos.</li>
+            <li><strong>Jornada Electoral - Instalaci&oacute;n:</strong> Registro de hora, miembros de mesa presentes (titulares, suplentes o fila) y foto obligatoria.</li>
+            <li><strong>Jornada Electoral - Sufragio:</strong> Flujo de votaci&oacute;n, incidencias y el <strong>Hito Fotogr&aacute;fico de las 14:00 hrs en punto</strong>.</li>
+            <li><strong>Jornada Electoral - Escrutinio:</strong> Hora de inicio, conteo de votos distritales/provinciales y Sobre Anaranjado.</li>
+            <li><strong>M&oacute;dulo "Fotos de Acta":</strong> Carga de fotograf&iacute;as n&iacute;tidas y horizontales de:
+              <br>&bull; Acta de Instalaci&oacute;n
+              <br>&bull; Acta de Sufragio
+              <br>&bull; Acta de Escrutinio
+              <br>&bull; Cartel de Resultados (pegado en puerta)</li>
+            <li><strong>Actores de Mesa:</strong> Miembros de mesa, personeros de mesa y personal ONPE de aula.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- REQUERIMIENTOS Y PERMISOS DEL TELEFONO -->
+      <div class="hour-block">
+        <div class="hour-header">
+          <div class="hour-title">&#9881;&#65039; Requisitos T&eacute;cnicos, Instalaci&oacute;n y Permisos Obligatorios (L&aacute;minas 2, 3 y 4)</div>
+          <span class="medium-tag tag-app">&#128241; Google Play Store</span>
+        </div>
+        <div class="hour-body">
+          <div class="task-col">
+            <div class="sub-title">&#128242; Requisitos M&iacute;nimos del Smartphone</div>
+            <ul style="font-size: 0.85rem; color: var(--text-sub); margin-left: 1.25rem; line-height: 1.6;">
+              <li><strong>Sistema Operativo:</strong> Android 7.1 o superior.</li>
+              <li><strong>Cuenta Google activa:</strong> Necesaria para descargar e instalar la app desde Google Play Store buscando <code>JNE Fiscalizaci&oacute;n FLV</code>.</li>
+              <li><strong>Almacenamiento disponible:</strong> M&iacute;nimo 2 GB libres para fotos y cola offline de evidencias.</li>
+              <li><strong>Bater&iacute;a:</strong> Cargar al 100% la noche anterior y llevar cargador / bater&iacute;a port&aacute;til (Power Bank) indispensable.</li>
+            </ul>
+          </div>
+          <div class="task-col">
+            <div class="sub-title">&#128274; Los 4 Permisos OBLIGATORIOS al Abrir la App</div>
+            <div style="font-size: 0.84rem; color: var(--text-sub); line-height: 1.5;">
+              Al abrir la aplicaci&oacute;n por primera vez, el sistema solicitar&aacute; 4 permisos obligatorios que debes aceptar con <strong>"Permitir siempre"</strong> o <strong>"Permitir mientras la app est&aacute; en uso"</strong>:
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem;">
+              <div style="background: #090e1a; padding: 0.5rem; border-radius: 6px; font-size: 0.8rem; border-left: 3px solid #3b82f6;">
+                &#128247; <strong>C&aacute;mara:</strong> Para capturar actas y carteles en vivo.
+              </div>
+              <div style="background: #090e1a; padding: 0.5rem; border-radius: 6px; font-size: 0.8rem; border-left: 3px solid #10b981;">
+                &#128205; <strong>Ubicaci&oacute;n GPS:</strong> Para georreferenciar cada reporte en el local.
+              </div>
+              <div style="background: #090e1a; padding: 0.5rem; border-radius: 6px; font-size: 0.8rem; border-left: 3px solid #f59e0b;">
+                &#127908; <strong>Micr&oacute;fono:</strong> Para registrar audio en videos probatorios.
+              </div>
+              <div style="background: #090e1a; padding: 0.5rem; border-radius: 6px; font-size: 0.8rem; border-left: 3px solid #ef4444;">
+                &#128190; <strong>Multimedia:</strong> Para guardar fotos en la memoria del tel&eacute;fono.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTON DE EMERGENCIA Y MENU LATERAL -->
+      <div class="grid-3" style="margin-bottom: 1.5rem;">
+        <div class="card" style="border-left: 4px solid var(--danger);">
+          <div class="card-header">
+            <h3 class="card-title" style="color: #f87171;">&#128680; Bot&oacute;n de Emergencia</h3>
+            <span class="badge badge-red">L&aacute;mina 14</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-sub); line-height: 1.5;">
+            Ubicado en el men&uacute; lateral. Al presionarlo, genera una <strong>alerta roja inmediata</strong> que se visualiza en tiempo real en la pantalla de la <strong>Direcci&oacute;n Nacional de Estudios Estrat&eacute;gicos y Coordinaci&oacute;n Territorial (DNEECT)</strong> del JNE en Lima.<br>
+            <em>Uso exclusivo:</em> Toma de local, agresiones f&iacute;sicas graves, turbas o quema de material electoral.
+          </p>
+        </div>
+
+        <div class="card" style="border-left: 4px solid var(--primary);">
+          <div class="card-header">
+            <h3 class="card-title" style="color: #60a5fa;">&#128222; Ayuda y Soporte OGTI</h3>
+            <span class="badge badge-blue">L&aacute;mina 15</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-sub); line-height: 1.5;">
+            <strong>Ayuda:</strong> Directorio con n&uacute;meros de contacto directo de la Oficina General de Tecnolog&iacute;as de la Informaci&oacute;n (OGTI) del JNE para resolver problemas de contrase&ntilde;a, inicio de sesi&oacute;n o fallas de app.<br>
+            <strong>Soporte:</strong> Permite descargar directamente en tu celular los archivos PDF oficiales de las plantillas de fiscalizaci&oacute;n para imprimirlos en contingencia.
+          </p>
+        </div>
+
+        <div class="card" style="border-left: 4px solid var(--success);">
+          <div class="card-header">
+            <h3 class="card-title" style="color: #34d399;">&#128246; Sincronizaci&oacute;n Offline</h3>
+            <span class="badge badge-green">Modo Seguro</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-sub); line-height: 1.5;">
+            <strong>&iquest;Qu&eacute; pasa si colapsa la se&ntilde;al dentro del aula?</strong><br>
+            El App FLV funciona 100% fuera de l&iacute;nea (offline). Todo reporte, hora y fotograf&iacute;a tomada se almacena en la <strong>memoria interna encriptada</strong> del tel&eacute;fono. Una vez que sales al patio o te conectas a WiFi, la app sincroniza autom&aacute;ticamente y muestra el check verde de transmisi&oacute;n en el SIPE.
+          </p>
+        </div>
+      </div>
+
+      <!-- PASO A PASO EN EL MODULO "FOTOS DE ACTA" (LAMINA 65) -->
+      <div class="exit-timeline-card">
+        <h3 style="color: white; font-size: 1.15rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+          &#128248; M&oacute;dulo "Fotos de Acta" en el App FLV (L&aacute;minas 65 a 68)
+        </h3>
+        <p style="font-size: 0.88rem; color: var(--text-sub); margin-bottom: 1rem;">
+          Para cada una de tus mesas asignadas, la aplicaci&oacute;n m&oacute;vil habilita el flujo de captura fotogr&aacute;fica obligatoria:
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
+          <div style="background: var(--bg-card-alt); padding: 1rem; border-radius: var(--radius-md); border-left: 3px solid #3b82f6;">
+            <strong style="color: #60a5fa;">1. Acta de Instalaci&oacute;n</strong>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">
+              Foto horizontal completa. Deben verse las firmas de los 3 miembros, personeros y la hora exacta de instalaci&oacute;n.
+            </p>
+          </div>
+          <div style="background: var(--bg-card-alt); padding: 1rem; border-radius: var(--radius-md); border-left: 3px solid #10b981;">
+            <strong style="color: #34d399;">2. Acta de Sufragio</strong>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">
+              Foto horizontal completa. Debe apreciarse el total de electores que votaron escrito en letras y n&uacute;meros.
+            </p>
+          </div>
+          <div style="background: var(--bg-card-alt); padding: 1rem; border-radius: var(--radius-md); border-left: 3px solid #f59e0b;">
+            <strong style="color: #fbbf24;">3. Acta de Escrutinio</strong>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">
+              Foto horizontal n&iacute;tida. Conteo de votos v&aacute;lidos, blancos, nulos e impugnados. Sin sombras ni dedos tapando casilleros.
+            </p>
+          </div>
+          <div style="background: var(--bg-card-alt); padding: 1rem; border-radius: var(--radius-md); border-left: 3px solid #ec4899;">
+            <strong style="color: #f472b6;">4. Cartel de Resultados</strong>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">
+              Foto tomada al cartel pegado en la puerta exterior del aula. Evidencia p&uacute;blica de resultados oficiales.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="day-procedimientos" class="day-section">
+      <div style="margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.4rem; color: white;">🎯 Matriz Táctica: ¿En qué debes fijar tus ojos como FLV de Mesa?</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Guía específica de fiscalización visual dividida por etapas: el objeto a revisar, la conducta o detalle que debes ver, y la alerta a reportar.
+        </p>
+      </div>
+
+      <div class="hour-block">
+        <div class="hour-header">
+          <div class="hour-title">📋 1. Etapa de Instalación (07:00 a 12:00 hrs)</div>
+          <span class="medium-tag tag-app">📱 Foto App FLV + 📝 Acta Instalación</span>
+        </div>
+        <div style="padding: 1.25rem;">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th style="width: 25%;">QUÉ DEBES REVISAR</th>
+                <th style="width: 40%;">QUÉ DETALLES DEBEN BUSCAR TUS OJOS</th>
+                <th style="width: 35%;">QUÉ REPORTAS (ALERTA / INCIDENCIA)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>DNIs de los 3 Miembros de Mesa</strong></td>
+                <td>
+                  • Que estén presentes los 3 (Presidente, Secretario, 3er Miembro).<br>
+                  • Que el DNI coincida físicamente con el rostro de la persona.<br>
+                  • Que NO sean personeros, candidatos, militares o policías en servicio activo.
+                </td>
+                <td>
+                  • Si asume un personero o persona con prohibición $\rightarrow$ <strong>INC-05 (Grave)</strong>.<br>
+                  • Si instalan sin DNI $\rightarrow$ <strong>INC-08 (Grave)</strong>.<br>
+                  • Si un elector de la fila se rehúsa $\rightarrow$ <strong>INC-06</strong>.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Caja de Material Electoral de la ONPE</strong></td>
+                <td>
+                  • Que el número de mesa impreso en la caja sea exactamente el de esa mesa.<br>
+                  • Que los sellos de seguridad de la ODPE estén intactos antes de que el Presidente la abra.<br>
+                  • Ánfora plástica totalmente vacía antes de armarla y colocarle los precintos.
+                </td>
+                <td>
+                  • Si el material no corresponde a la mesa $\rightarrow$ <strong>INC-07 (Moderada)</strong>.<br>
+                  • Si el material llega dañado, roto o faltan actas $\rightarrow$ <strong>INC-02</strong>.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Hora de Instalación en el Acta</strong></td>
+                <td>
+                  • Que la hora escrita en el Acta de Instalación sea la <strong>hora real</strong> en que terminaron de instalar (ej. 07:25 hrs).<br>
+                  • Que no se instale antes de las 07:00 con suplentes (los suplentes solo asumen a partir de las 07:00 AM).
+                </td>
+                <td>
+                  • Si instalaron antes de las 07:00 con suplentes $\rightarrow$ <strong>INC-04 (Moderada)</strong>.<br>
+                  • Si pasan las 12:00 hrs y no se instala $\rightarrow$ <strong>INC-01 (Mesa no instalada definitiva)</strong>.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="hour-block">
+        <div class="hour-header">
+          <div class="hour-title">🗳️ 2. Etapa de Sufragio (08:00 a 17:00 hrs)</div>
+          <span class="medium-tag tag-app">📱 Hito 14:00 hrs + Voto Secreto</span>
+        </div>
+        <div style="padding: 1.25rem;">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th style="width: 25%;">QUÉ DEBES REVISAR</th>
+                <th style="width: 40%;">QUÉ DETALLES DEBEN BUSCAR TUS OJOS</th>
+                <th style="width: 35%;">QUÉ REPORTAS (ALERTA / INCIDENCIA)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Ingreso a la Cámara Secreta</strong></td>
+                <td>
+                  • Que el elector ingrese solo (salvo voto asistido debidamente justificado por discapacidad severa).<br>
+                  • <strong>¡Prohibido teléfonos en mano!:</strong> Que el elector no entre grabando ni tomando fotos con el celular en la cabina secreta.<br>
+                  • Que en la cabina no haya afiches con marcas ni propaganda pegada.
+                </td>
+                <td>
+                  • Si toma foto al voto $\rightarrow$ <strong>INC-09 (Grave)</strong> + aviso a la policía por delito electoral Art. 358 CP.<br>
+                  • Si hay propaganda en la cabina $\rightarrow$ <strong>INC-13 (Moderada)</strong> (ordenar su retiro inmediato).
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Padrón de Electores y Huellero</strong></td>
+                <td>
+                  • Que el votante figure efectivamente en la lista de electores de esa mesa.<br>
+                  • Que firme y ponga su huella digital exactamente en el casillero de su nombre y no en el de otro ciudadano.<br>
+                  • Que no se retire del aula sin firmar el padrón.
+                </td>
+                <td>
+                  • Si se presenta con DNI ajeno $\rightarrow$ <strong>INC-10 (Suplantación - Delito Flagrante)</strong>.<br>
+                  • Si el elector vota en mesa que no le corresponde $\rightarrow$ <strong>INC-16</strong>.<br>
+                  • Si se va sin firmar $\rightarrow$ <strong>INC (Elector se retiró sin firmar)</strong>.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Conducta de Personeros de Mesa</strong></td>
+                <td>
+                  • Que los personeros lleven su credencial visible emitida por la ODPE/JEE.<br>
+                  • Que permanezcan sentados en su lugar sin acercarse a la cabina secreta ni interrogar a los votantes sobre su opción.<br>
+                  • Que no discutan entre sí ni entreguen propaganda política dentro del aula.
+                </td>
+                <td>
+                  • Si induce al voto o interroga electores $\rightarrow$ <strong>INC-14 (Moderada)</strong>.<br>
+                  • Si obstaculiza la votación $\rightarrow$ <strong>INC-55 (Reporte y expulsión por la policía)</strong>.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="hour-block">
+        <div class="hour-header">
+          <div class="hour-title">📊 3. Etapa de Escrutinio (17:30 hrs en adelante)</div>
+          <span class="medium-tag tag-ambos">📱 Fotos 3 Actas + 📦 Custodia Cédulas</span>
+        </div>
+        <div style="padding: 1.25rem;">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th style="width: 25%;">QUÉ DEBES REVISAR</th>
+                <th style="width: 40%;">QUÉ DETALLES DEBEN BUSCAR TUS OJOS</th>
+                <th style="width: 35%;">QUÉ REPORTAS (ALERTA / INCIDENCIA)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Conteo de Cédulas vs Votantes</strong></td>
+                <td>
+                  • Al abrir el ánfora, se cuentan las cédulas cerradas sin desdoblarlas.<br>
+                  • Este total debe coincidir con el número de sufragantes anotado en el Acta de Sufragio.<br>
+                  • <strong>Si sobran cédulas:</strong> El Presidente separa el excedente al azar y las destruye sin abrirlas.<br>
+                  • <strong>Si faltan cédulas:</strong> No se anula la mesa; se escruta con las que hay.
+                </td>
+                <td>
+                  • Si intentan abrir las cédulas sobrantes antes de destruirlas $\rightarrow$ Advertir la norma y reportar.<br>
+                  • Si agregan la diferencia a votos nulos $\rightarrow$ <strong>Prohibición legal</strong> (reportar incidencia).
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Llenado de Actas y Borrador</strong></td>
+                <td>
+                  • Que los miembros llenen primero la Hoja de Borrador antes del Acta definitiva.<br>
+                  • <strong>¡Personeros y ONPE NO escriben en las actas!:</strong> El llenado es exclusivo y manuscrito por los miembros de mesa.<br>
+                  • Que no haya borrones ni enmendaduras en los números de votos.
+                </td>
+                <td>
+                  • Si un personero toca o llena el acta $\rightarrow$ <strong>INC-18 (Grave)</strong>.<br>
+                  • Si el personal ONPE llena el acta en vez de los miembros $\rightarrow$ <strong>INC-17 (Grave)</strong>.
+                </td>
+              </tr>
+              <tr>
+                <td><strong>🚨 Destino de las Cédulas Escrutadas</strong></td>
+                <td>
+                  • <strong>¡YA NO SE DESTRUYEN EN MESA!</strong> (`Res. 000075-2025-JN/ONPE`).<br>
+                  • Las cédulas de votos válidos ya contadas se guardan en el <strong>Sobre Anaranjado</strong>.<br>
+                  • El sobre se lacra con cinta de seguridad y se entrega al coordinador de ONPE.
+                </td>
+                <td>
+                  • Si un personero o miembro de mesa intenta romper las cédulas o tirarlas a la basura $\rightarrow$ <strong>INC-22 (Grave: Destrucción indebida de cédulas)</strong>.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- MODULO FOTOGRAFIAS: ASI SI VS ASI NO (ESQUEMAS GRAFICOS SVG) -->
+    <!-- ============================================================== -->
+    <section id="day-fotografias" class="day-section">
+      <div style="margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.4rem; color: #60a5fa;">📸 Guía Gráfica de Encuadre: Cómo tomar las Fotos Reglamentarias</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          La DNFPE rechaza fotos verticales, selfies o tomas con flash reflejado. Aquí tienes los esquemas visuales exactos de cómo encuadrar:
+        </p>
+      </div>
+
+      <div class="photo-guides-grid">
+        <!-- Foto 1: Instalacion -->
+        <div class="photo-card">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <strong style="color: white; font-size: 0.95rem;">1. Foto de Instalación</strong>
+            <span class="badge badge-green">ASÍ SÍ ✓</span>
+          </div>
+          <div class="photo-frame-svg">
+            <!-- SVG Ilustracion Horizontal con 3 miembros -->
+            <svg viewBox="0 0 320 160" width="100%" height="100%">
+              <!-- Fondo aula -->
+              <rect x="0" y="0" width="320" height="160" fill="#0b1329"/>
+              <!-- Mesa de sufragio -->
+              <rect x="40" y="100" width="240" height="40" rx="4" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+              <!-- Caja de material ONPE -->
+              <rect x="130" y="80" width="60" height="30" fill="#f59e0b" rx="2"/>
+              <text x="160" y="98" fill="#000" font-size="9" font-weight="bold" text-anchor="middle">ONPE</text>
+              <!-- 3 Miembros de Mesa de frente -->
+              <!-- Miembro 1: Presidente -->
+              <circle cx="90" cy="55" r="16" fill="#3b82f6"/>
+              <rect x="74" y="75" width="32" height="28" rx="6" fill="#1d4ed8"/>
+              <text x="90" y="59" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">P</text>
+              <!-- Miembro 2: Secretario -->
+              <circle cx="160" cy="45" r="16" fill="#10b981"/>
+              <rect x="144" y="65" width="32" height="38" rx="6" fill="#047857"/>
+              <text x="160" y="49" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">S</text>
+              <!-- Miembro 3: Tercer Miembro -->
+              <circle cx="230" cy="55" r="16" fill="#8b5cf6"/>
+              <rect x="214" y="75" width="32" height="28" rx="6" fill="#6d28d9"/>
+              <text x="230" y="59" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">3M</text>
+              <!-- Indicador Horizontal -->
+              <rect x="10" y="10" width="110" height="20" rx="4" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981"/>
+              <text x="65" y="24" fill="#34d399" font-size="9" font-weight="bold" text-anchor="middle">HORIZONTAL (16:9)</text>
+            </svg>
+          </div>
+          <div class="photo-desc">
+            • <strong>Encuadre:</strong> Cámara horizontal mostrando los <strong>3 rostros nítidos</strong> de los miembros recibiendo la caja electoral.
+          </div>
+        </div>
+
+        <!-- Foto 2: Sufragio 14:00 -->
+        <div class="photo-card">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <strong style="color: white; font-size: 0.95rem;">2. Sufragio (14:00 hrs)</strong>
+            <span class="badge badge-green">ASÍ SÍ ✓</span>
+          </div>
+          <div class="photo-frame-svg">
+            <svg viewBox="0 0 320 160" width="100%" height="100%">
+              <rect x="0" y="0" width="320" height="160" fill="#0b1329"/>
+              <!-- Cabina secreta al fondo (lejos de ver voto) -->
+              <rect x="250" y="25" width="55" height="110" fill="#1e293b" stroke="#475569" stroke-dasharray="4"/>
+              <text x="277" y="85" fill="#94a3b8" font-size="8" text-anchor="middle">Cabina</text>
+              <!-- Mesa de sufragio con anfora -->
+              <rect x="30" y="95" width="200" height="45" rx="4" fill="#1e293b"/>
+              <!-- Anfora transparente -->
+              <rect x="170" y="70" width="40" height="35" rx="3" fill="rgba(255,255,255,0.15)" stroke="#60a5fa" stroke-width="2"/>
+              <!-- Votante depositando voto -->
+              <circle cx="140" cy="55" r="14" fill="#f59e0b"/>
+              <rect x="126" y="72" width="28" height="40" rx="4" fill="#b45309"/>
+              <!-- Miembros al fondo de la mesa -->
+              <circle cx="60" cy="65" r="12" fill="#3b82f6"/>
+              <circle cx="95" cy="65" r="12" fill="#10b981"/>
+              <!-- Badge 14:00 -->
+              <rect x="10" y="10" width="85" height="20" rx="4" fill="rgba(37, 99, 235, 0.3)" stroke="#3b82f6"/>
+              <text x="52" y="24" fill="#93c5fd" font-size="9" font-weight="bold" text-anchor="middle">⏰ 14:00 HRS</text>
+            </svg>
+          </div>
+          <div class="photo-desc">
+            • <strong>Toma Panorámica:</strong> Mesa en funcionamiento con miembros y votante depositando voto en el ánfora (sin enfocar el interior de la cabina).
+          </div>
+        </div>
+
+        <!-- Foto 3: Las 3 Actas Nítidas -->
+        <div class="photo-card">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <strong style="color: white; font-size: 0.95rem;">3. Fotos de las 3 Actas</strong>
+            <span class="badge badge-green">ASÍ SÍ ✓</span>
+          </div>
+          <div class="photo-frame-svg">
+            <svg viewBox="0 0 320 160" width="100%" height="100%">
+              <rect x="0" y="0" width="320" height="160" fill="#0b1329"/>
+              <!-- Hoja de Acta encuadrada perfectamente -->
+              <rect x="65" y="12" width="190" height="136" rx="4" fill="#ffffff" stroke="#10b981" stroke-width="2"/>
+              <!-- Lineas simulando texto oficial -->
+              <rect x="80" y="25" width="160" height="6" fill="#1e293b"/>
+              <rect x="80" y="38" width="160" height="4" fill="#94a3b8"/>
+              <rect x="80" y="48" width="160" height="4" fill="#cbd5e1"/>
+              <!-- Cuadro de votos -->
+              <rect x="80" y="60" width="160" height="50" fill="#f8fafc" stroke="#94a3b8"/>
+              <line x1="80" y1="75" x2="240" y2="75" stroke="#cbd5e1"/>
+              <line x1="80" y1="90" x2="240" y2="90" stroke="#cbd5e1"/>
+              <!-- Firmas al pie -->
+              <path d="M 90 125 Q 105 115 120 125" stroke="#000" fill="none" stroke-width="2"/>
+              <path d="M 145 125 Q 160 115 175 125" stroke="#000" fill="none" stroke-width="2"/>
+              <path d="M 200 125 Q 215 115 230 125" stroke="#000" fill="none" stroke-width="2"/>
+              <!-- Borde 4 esquinas visibles -->
+              <circle cx="65" cy="12" r="4" fill="#10b981"/>
+              <circle cx="255" cy="12" r="4" fill="#10b981"/>
+              <circle cx="65" cy="148" r="4" fill="#10b981"/>
+              <circle cx="255" cy="148" r="4" fill="#10b981"/>
+            </svg>
+          </div>
+          <div class="photo-desc">
+            • <strong>Encuadre plano cenital (90°):</strong> Las 4 esquinas del acta dentro del encuadre. <strong>Sin flash</strong> para que no haya reflejo blanco que tape números.
+          </div>
+        </div>
+
+        <!-- Foto 4: Lo que NUNCA debes hacer -->
+        <div class="photo-card" style="border-color: rgba(239, 68, 68, 0.4);">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <strong style="color: #fca5a5; font-size: 0.95rem;">4. Errores Graves</strong>
+            <span class="badge badge-red">ASÍ NO ❌</span>
+          </div>
+          <div class="photo-frame-svg bad">
+            <svg viewBox="0 0 320 160" width="100%" height="100%">
+              <!-- Foto vertical recortada -->
+              <rect x="110" y="10" width="100" height="140" fill="#1e1010" stroke="#ef4444" stroke-width="2"/>
+              <!-- Selfie simulada -->
+              <circle cx="160" cy="55" r="24" fill="#f87171"/>
+              <rect x="135" y="85" width="50" height="60" rx="10" fill="#991b1b"/>
+              <!-- Gorro rojo -->
+              <path d="M 136 45 Q 160 30 184 45 Z" fill="#dc2626"/>
+              <!-- Gran X roja encima -->
+              <line x1="20" y1="20" x2="300" y2="140" stroke="#ef4444" stroke-width="6" stroke-linecap="round"/>
+              <line x1="300" y1="20" x2="20" y2="140" stroke="#ef4444" stroke-width="6" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="photo-desc" style="color: #fca5a5;">
+            • <strong>PROHIBIDO:</strong> Selfies, fotos en vertical, fotos a caños, baños o extintores sin contexto. La DNFPE rechaza informes con selfies.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- MODULO APERTURA: ME TIENEN QUE ESPERAR? QUE HAGO SI YA ABRIERON? -->
+    <!-- ============================================================== -->
+    <section id="day-apertura" class="day-section">
+      <div style="margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.4rem; color: #fbbf24;">❓ Pregunta Clave: ¿Me tienen que esperar para abrir la mesa? ¿Qué hago si abrieron sin mí?</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Fundamento legal, autonomía de los miembros de mesa y protocolo de actuación cuando encuentras una mesa ya en funcionamiento.
+        </p>
+      </div>
+
+      <div class="alert-box alert-warning">
+        <div style="font-size: 1.5rem;">⚖️</div>
+        <div>
+          <strong style="color: white; font-size: 1.05rem;">RESPUESTA LEGAL TAXATIVA: ¡NO, NO TIENEN QUE ESPERARTE!</strong><br>
+          De acuerdo con los <strong>Artículos 249° y 250° de la Ley Orgánica de Elecciones (Ley 26859)</strong>, la Mesa de Sufragio es un organismo electoral autónomo formado por ciudadanos. A las <strong>07:00 AM</strong> en punto, los miembros presentes tienen el deber legal de iniciar la instalación de la mesa. <strong>La ley no exige la presencia del fiscalizador del JNE ni de personeros para que la mesa empiece a funcionar.</strong>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 1.25rem;">
+        <div class="card-header">
+          <h3 class="card-title">🚨 Protocolo Paso a Paso: ¿Qué hacer si una mesa instaló sin tu presencia?</h3>
+          <span class="badge badge-blue">Procedimiento de Campo</span>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-sub); margin-bottom: 1rem;">
+          Supongamos que estabas supervisando el Aula 101 y cuando llegas al Aula 102 a las 07:35 AM, la Mesa N° 045123 ya está armada y recibiendo votos. <strong>Sigue exactamente estos 6 pasos:</strong>
+        </p>
+        <div class="timeline" style="margin-left: 1rem;">
+          <div class="timeline-item">
+            <div class="timeline-dot green"></div>
+            <div class="timeline-card">
+              <strong style="color: white;">Paso 1: Conserva la calma y no interrumpas la votación</strong>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+                No grites, no paralices la mesa ni digas que la mesa es nula. La mesa es completamente válida. Espera a que termine de votar el elector que está en la fila.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot blue"></div>
+            <div class="timeline-card">
+              <strong style="color: white;">Paso 2: Preséntate ante el Presidente y Coordinador de Mesa ONPE</strong>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+                Muestra tu credencial del JNE y diles educadamente: <em>"Buenos días, soy el fiscalizador del JNE asignado a esta mesa. Vengo a registrar la instalación y verificar la conformación oficial"</em>.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot gold"></div>
+            <div class="timeline-card">
+              <strong style="color: white;">Paso 3: Solicita ver el Acta de Instalación y los DNIs</strong>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+                Verifica: 1. Qué hora de inicio escribieron en el Acta física (ej. 07:15 hrs) • 2. Los nombres y DNIs de los 3 miembros que firmaron el acta de instalación.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot green"></div>
+            <div class="timeline-card">
+              <strong style="color: white;">Paso 4: Comprueba que no tengan impedimento legal (Art. 57 LOE)</strong>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+                Verifica que ninguno de los tres sea personero, candidato, militar o policía en actividad. Si son miembros titulares, suplentes o electores de la fila con DNI, la instalación fue 100% conforme a derecho.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot blue"></div>
+            <div class="timeline-card">
+              <strong style="color: white;">Paso 5: Toma la fotografía horizontal reglamentaria</strong>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+                Toma la foto horizontal a los 3 miembros sentados en su mesa de trabajo con el material a la vista.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot green"></div>
+            <div class="timeline-card">
+              <strong style="color: white;">Paso 6: Registra el hito en el App FLV con la hora del acta física</strong>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">
+                En el App FLV marcas la mesa como instalada, subes la foto y colocas la hora que figura en el acta (ej. 07:15). <strong>¡Listo! No se genera ninguna incidencia siempre que los miembros cumplan los requisitos de ley.</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- DOMINGO 4 DE OCTUBRE: CRONOGRAMA HORA A HORA CON MAS CASOS -->
+    <!-- ============================================================== -->
+    <section id="day-domingo" class="day-section">
+      <div style="margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.4rem; color: #f87171;">🚨 Domingo 4 de Octubre de 2026: Jornada Electoral Minuto a Minuto</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Cronograma operativo hora por hora para tus mesas asignadas con casos didácticos ampliados.
+        </p>
+      </div>
+
+      <!-- BLOQUE 06:00 A 07:00 -->
+      <div class="hour-block">
+        <div class="hour-header">
+          <div class="hour-time-badge">⏰ 06:00 a 07:00 hrs</div>
+          <div class="hour-title">Llegada, Acreditación e Inspección Previa de tus Aulas</div>
+          <span class="medium-tag tag-app">📱 App FLV + Credencial</span>
+        </div>
+        <div class="hour-body">
+          <div class="task-col">
+            <div class="sub-title">📌 Qué debes hacer a las 06:00 AM</div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_d1')">
+              <input type="checkbox" id="chk_d1">
+              <span class="task-text">
+                <strong>06:00 hrs - Llegada puntual:</strong> Llega con chaleco JNE, gorro rojo y credencial en el pecho. Coordina con tu FLV Responsable para confirmar los números de tus mesas asignadas (ej. Mesas 048120, 048121).
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_d2')">
+              <input type="checkbox" id="chk_d2">
+              <span class="task-text">
+                <strong>06:30 hrs - Revisión de Aulas:</strong> Entra a tus aulas, verifica que las cabinas estén armadas en posición que garantice el secreto del voto (de espaldas a ventanas) y que haya buena iluminación.
+              </span>
+            </div>
+          </div>
+          <div class="task-col">
+            <div class="case-box">
+              <div class="case-header">
+                <span class="case-title">🚨 Caso: Cabina Secreta Frente a la Ventana</span>
+                <span class="badge badge-gold">Incidencia Evitable</span>
+              </div>
+              <div class="case-body">
+                <strong>Situación:</strong> La cabina secreta está ubicada justo frente a una ventana baja que da al patio exterior. Quien pase por el pasillo puede ver cómo marca el elector.
+              </div>
+              <div class="case-action">
+                <strong>Tu acción:</strong> Antes de que inicie la votación, solicita al Coordinador de Mesa ONPE reubicar la cabina contra una pared ciega o colocar papel kraft en la ventana para blindar el secreto del voto.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 07:00 A 12:00 -->
+      <div class="hour-block">
+        <div class="hour-header">
+          <div class="hour-time-badge">⏰ 07:00 a 12:00 hrs (Límite Máximo)</div>
+          <div class="hour-title">Fiscalización de la INSTALACIÓN de la Mesa</div>
+          <span class="medium-tag tag-ambos">📱 App FLV (Foto) + 📝 Acta Físico</span>
+        </div>
+        <div class="hour-body">
+          <div class="task-col">
+            <div class="sub-title">📌 Qué fiscalizar en la Instalación</div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_d3')">
+              <input type="checkbox" id="chk_d3">
+              <span class="task-text">
+                <strong>07:00 hrs - Orden de Prelación:</strong> Si no están los titulares, a las 07:00 asumen los suplentes. Si aún faltan, se convoca a electores de la fila de esa misma mesa.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_d4')">
+              <input type="checkbox" id="chk_d4">
+              <span class="task-text">
+                <strong>FOTO OBLIGATORIA DE INSTALACIÓN:</strong> Foto horizontal con los 3 miembros y la caja de material. Súbela al App FLV en tus mesas asignadas.
+              </span>
+            </div>
+          </div>
+          <div class="task-col">
+            <div class="case-box">
+              <div class="case-header">
+                <span class="case-title">🚨 Caso: Elector de la Fila se Niega a ser Miembro</span>
+                <span class="badge badge-red">Delito Electoral Art. 390 LOE</span>
+              </div>
+              <div class="case-body">
+                <strong>Situación:</strong> Son las 07:20 AM, falta el 3er miembro. La ONPE le pide su DNI al primer elector de la fila y este dice: <em>"Yo no quiero ser miembro de mesa, me voy"</em> e intenta correr hacia la puerta.
+              </div>
+              <div class="case-action">
+                <strong>Tu acción:</strong> El personal ONPE con apoyo de la policía retiene al ciudadano. Negarse a integrar la mesa cuando es requerido formalmente acarrea multa de S/ 260 aprox. y proceso penal. Si insiste y se va, se deja constancia en el acta y se convoca al siguiente. Registra la incidencia en el App FLV.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 08:00 A 17:00 -->
+      <div class="hour-block">
+        <div class="hour-header">
+          <div class="hour-time-badge">⏰ 08:00 a 17:00 hrs (Foto a las 14:00 hrs)</div>
+          <div class="hour-title">Fiscalización del SUFRAGIO y Casos Complejos</div>
+          <span class="medium-tag tag-app">📱 Hito 14:00 hrs + Voto Secreto</span>
+        </div>
+        <div class="hour-body">
+          <div class="task-col">
+            <div class="sub-title">📌 Qué fiscalizar en el Sufragio</div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_d7')">
+              <input type="checkbox" id="chk_d7">
+              <span class="task-text">
+                <strong>Voto con DNI caduco permitido:</strong> Verifica que la mesa acepte DNI caduco si existe resolución de prórroga del JNE. No se acepta constancia de trámite de RENIEC.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_d8')">
+              <input type="checkbox" id="chk_d8">
+              <span class="task-text">
+                <strong>🚨 14:00 HRS EN PUNTO - FOTO OBLIGATORIA:</strong> Toma la fotografía panorámica horizontal de cada mesa en pleno funcionamiento con sus tres miembros y súbela al App FLV.
+              </span>
+            </div>
+          </div>
+          <div class="task-col">
+            <div class="case-box">
+              <div class="case-header">
+                <span class="case-title">🚨 Caso: Impugnación de Identidad por Personero</span>
+                <span class="badge badge-gold">Art. 268° LOE</span>
+              </div>
+              <div class="case-body">
+                <strong>Situación:</strong> Un personero afirma: <em>"Ese señor no es el elector del padrón, es su hermano menor con DNI falso"</em>.
+              </div>
+              <div class="case-action">
+                <strong>Procedimiento que fiscalizas:</strong><br>
+                1. El Presidente de Mesa confronta el DNI, la firma y la foto del padrón.<br>
+                2. Si el personero mantiene la impugnación formal, la mesa decide por mayoría de sus 3 miembros si admite el voto o no.<br>
+                3. Si la mesa lo admite, el elector vota.<br>
+                4. Si el personero pierde la impugnación sin fundamento, el JEE le impondrá multa. Si se comprueba suplantación, la policía detiene al infractor en flagrancia.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 17:00 HRS (CIERRE) -->
+      <div class="hour-block">
+        <div class="hour-header">
+          <div class="hour-time-badge">⏰ 17:00 hrs en punto</div>
+          <div class="hour-title">Cierre de Puertas y Llenado de Lista de Electores</div>
+          <span class="medium-tag tag-ambos">📱 App (FLV Responsable) + 📝 Lista Electores</span>
+        </div>
+        <div class="hour-body">
+          <div class="task-col">
+            <div class="sub-title">📌 Acciones Inmediatas al Cierre</div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_d10')">
+              <input type="checkbox" id="chk_d10">
+              <span class="task-text">
+                <strong>Verificación en tu mesa:</strong> Solo votan quienes ya están dentro del local a las 17:00 hrs. En tu mesa, una vez que vota el último elector de la fila del aula, se cierra el sufragio.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_d11')">
+              <input type="checkbox" id="chk_d11">
+              <span class="task-text">
+                <strong>Marcación de "NO VOTÓ":</strong> El Presidente tacha con "X" en el casillero "NO VOTÓ" a todos los ausentes y firma al pie de la última página.
+              </span>
+            </div>
+          </div>
+          <div class="task-col">
+            <div class="case-box">
+              <div class="case-header">
+                <span class="case-title">🚨 Caso: Personero Quiere Dejar Entrar Familiares</span>
+                <span class="badge badge-red">Art. 274° LOE</span>
+              </div>
+              <div class="case-body">
+                <strong>Situación:</strong> Son las 17:08 hrs. El personero dice: <em>"Mi mamá está afuera esperando, ábranle la puerta porque vive lejos"</em>.
+              </div>
+              <div class="case-action">
+                <strong>Tu respuesta como FLV:</strong> Firmeza jurídica: <em>"Por mandato del Artículo 274° de la Ley Orgánica de Elecciones, a las 17:00 horas se cierra el ingreso al local. Solo pueden votar los electores que ingresaron antes de dicha hora. Nadie más puede ingresar bajo responsabilidad penal"</em>.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 17:30 EN ADELANTE (ESCRUTINIO) -->
+      <div class="hour-block">
+        <div class="hour-header">
+          <div class="hour-time-badge">⏰ 17:30 hrs en adelante</div>
+          <div class="hour-title">Escrutinio, Votos Impugnados y Cédulas No Impugnadas</div>
+          <span class="medium-tag tag-ambos">📱 Fotos de las 3 Actas + 📦 Sobre Naranja</span>
+        </div>
+        <div class="hour-body">
+          <div class="task-col">
+            <div class="sub-title">📌 Qué fiscalizar en el Escrutinio</div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_d13')">
+              <input type="checkbox" id="chk_d13">
+              <span class="task-text">
+                <strong>Foto al inicio del Escrutinio:</strong> Foto a los miembros al abrir el ánfora. Súbela al App FLV.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_d14')">
+              <input type="checkbox" id="chk_d14">
+              <span class="task-text">
+                <strong>🚨 CÉDULAS NO IMPUGNADAS YA NO SE DESTRUYEN:</strong> Se guardan en el <strong>Sobre Anaranjado</strong> lacrado (`Res. 000075-2025-JN/ONPE`).
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_d16')">
+              <input type="checkbox" id="chk_d16">
+              <span class="task-text">
+                <strong>FOTOS OBLIGATORIAS DE LAS 3 ACTAS:</strong> Toma fotografías nítidas, legibles y completas al Acta de Instalación, Acta de Sufragio y Acta de Escrutinio, además de la foto al Cartel de Resultados pegado en la puerta. Súbelas al App FLV.
+              </span>
+            </div>
+          </div>
+          <div class="task-col">
+            <div class="case-box">
+              <div class="case-header">
+                <span class="case-title">🚨 Caso: Voto Impugnado por la Marca</span>
+                <span class="badge badge-gold">Art. 282° LOE</span>
+              </div>
+              <div class="case-body">
+                <strong>Situación:</strong> Una cédula tiene una cruz cuya intersección de líneas está dentro del recuadro del símbolo pero los brazos salen 2 milímetros afuera. Un personero grita: <em>"¡Es nulo!"</em>. Otro dice: <em>"¡Es válido!"</em>.
+              </div>
+              <div class="case-action">
+                <strong>Criterio legal que fiscalizas:</strong><br>
+                • La jurisprudencia del JNE establece que si la intersección de la cruz (+) o aspa (x) está dentro del recuadro, el voto es <strong>VÁLIDO</strong>.<br>
+                • La mesa decide por mayoría. Si el personero apela verbalmente, la mesa <strong>NO computa el voto</strong>; se guarda en el sobre de votos impugnados para que lo resuelva el JEE Pacasmayo.
+              </div>
+            </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE 20:30 A 23:30 HRS (CIERRE DE LABORES Y RETIRO A DOMICILIO) -->
+      <div class="hour-block" style="border-left: 4px solid var(--success); margin-top: 1.5rem;">
+        <div class="hour-header" style="background: rgba(16, 185, 129, 0.08);">
+          <div class="hour-time-badge" style="border-color: #10b981; color: #34d399;">⏰ 20:30 a 23:30 hrs aprox</div>
+          <div class="hour-title" style="color: #6ee7b7;">🏁 Fin de Escrutinio, Cumplimiento de los 5 Hitos y Retiro Autorizado</div>
+          <span class="medium-tag tag-app">🚪 Retiro a Domicilio</span>
+        </div>
+        <div class="hour-body">
+          <div class="task-col">
+            <div class="sub-title">📌 Procedimiento para dar por Concluida tu Jornada</div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_d17')">
+              <input type="checkbox" id="chk_d17">
+              <span class="task-text">
+                <strong>Verificación del 100% de tus mesas:</strong> Todas tus mesas asignadas (ej. 3 o 4 mesas) deben haber cerrado el escrutinio, con Cartel de Resultados pegado y cédulas guardadas en el Sobre Anaranjado.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_d18')">
+              <input type="checkbox" id="chk_d18">
+              <span class="task-text">
+                <strong>Confirmación de Envío en App FLV:</strong> Comprueba que las fotos de las 3 Actas por mesa y del Cartel de Resultados muestren check verde de transmisión (o en cola si no hay señal).
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_d19')">
+              <input type="checkbox" id="chk_d19">
+              <span class="task-text">
+                <strong>Entrega al FLV Responsable y Aviso al Coordinador:</strong> Acércate al centro de acopio del local, entrégale tus borradores físicos/anexos al Responsable y envía reporte de salida por WhatsApp al FISPRO/FISDIS.
+              </span>
+            </div>
+          </div>
+          <div class="task-col">
+            <div class="case-box" style="border-color: rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.05);">
+              <div class="case-header">
+                <span class="case-title" style="color: #34d399;">✅ ¡Misión Cumplida: Puedes irte a Casa!</span>
+                <span class="badge badge-green">FLV de Mesa</span>
+              </div>
+              <div class="case-body">
+                <strong>¿Debes esperar el camión de la ONPE a la ODPE?</strong><br>
+                <strong>NO.</strong> A diferencia del FLV Responsable (que debe viajar en el camión militar hacia la ODPE hasta la madrugada), tú como FLV de mesa <strong>te retiras a tu domicilio a descansar</strong> una vez concluidas tus mesas y entregados tus reportes al Responsable.
+              </div>
+              <div class="case-action" style="border-left-color: #10b981; color: #a7f3d0;">
+                <strong>Seguridad ante todo:</strong> Desplázate preferentemente acompañado de otros fiscalizadores o en transporte seguro de regreso a casa.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- DIA 5: LUNES 5 DE OCTUBRE -->
+    <!-- ========================================== -->
+        <section id="day-lunes" class="day-section">
+      <div style="margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.4rem; color: white;">Lunes 5 de Octubre de 2026: Informe Final y Cobro de Honorarios</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Fin de la Ley Seca (08:00 hrs), consolidación del informe colegiado y presentación formal ante el JEE.
+        </p>
+      </div>
+
+      <div class="hour-block">
+        <div class="hour-header">
+          <div class="hour-time-badge">⏰ 08:00 hrs en adelante</div>
+          <div class="hour-title">Armado de Informe de Local, Entrega Física y Mesa de Partes</div>
+          <span class="medium-tag tag-ambos">📂 Drive + 🏢 Sede JEE</span>
+        </div>
+        <div class="hour-body">
+          <div class="task-col">
+            <div class="sub-title">📌 Pasos Obligatorios para tu Pago</div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_l1')">
+              <input type="checkbox" id="chk_l1">
+              <span class="task-text">
+                <strong>08:00 hrs - Fin de Ley Seca:</strong> Concluye la prohibición del Art. 351 LOE.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_l2')">
+              <input type="checkbox" id="chk_l2">
+              <span class="task-text">
+                <strong>Subir fotos al Drive del local:</strong> Carga todas las fotos horizontales tomadas con tu celular en la carpeta de Google Drive que te compartió tu FISPRO/FISDIS.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_l3')">
+              <input type="checkbox" id="chk_l3">
+              <span class="task-text">
+                <strong>Redactar Informe Conjunto:</strong> Reúnete con los demás FLVs de tu local para redactar un único informe consolidado por local de votación.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_l4')">
+              <input type="checkbox" id="chk_l4">
+              <span class="task-text">
+                <strong>Entrega física de originales:</strong> El FLV Responsable entrega en la sede física del JEE Pacasmayo el sobre cerrado con los reportes físicos manuscritos y firmados en original.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_l5')">
+              <input type="checkbox" id="chk_l5">
+              <span class="task-text">
+                <strong>Firmar y tramitar:</strong> Todos los FLVs firman el documento en PDF con firmas escaneadas legibles. Se remite para firmas digitales del Coordinador y se ingresa por Mesa de Partes Digital para el pago.
+              </span>
+            </div>
+          </div>
+
+          <div class="task-col">
+            <div class="case-box">
+              <div class="case-header">
+                <span class="case-title">⚠️ Advertencia sobre Pago de Honorarios</span>
+                <span class="badge badge-gold">Trámite Administrativo</span>
+              </div>
+              <div class="case-body">
+                Sin la entrega de los reportes manuscritos originales en físico en la sede del JEE y sin la firma de todos los fiscalizadores participantes, la DNFPE no emite la conformidad de servicio para el abono en tu cuenta bancaria. ¡Completa tu informe el mismo lunes!
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- MODULO SALIDA: HORAS DE SALIDA Y FIN DE LABORES (DETALLE TOTAL) -->
+    <!-- ============================================================== -->
+    <section id="day-salida" class="day-section">
+      <div style="margin-bottom: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+          <h2 style="font-size: 1.4rem; color: #38bdf8;">🚪 Horas de Salida y Protocolo de Fin de Labores</h2>
+          <span class="exit-badge-time badge-green-glow">✓ Tu Guía Definitiva de Retiro</span>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.35rem;">
+          Conoce exactamente a qué hora termina tu jornada cada día, bajo qué condiciones técnicas estás autorizado a retirarte a tu domicilio y cuáles son las faltas por abandono de servicio.
+        </p>
+      </div>
+
+      <!-- Regla de Oro Banner -->
+      <div class="alert-box alert-warning" style="margin-bottom: 1.5rem;">
+        <div style="font-size: 1.6rem;">⚖️</div>
+        <div>
+          <strong style="color: #fbbf24; font-size: 1rem;">REGLA DE ORO DE LA DNFPE / JNE:</strong>
+          <p style="margin-top: 0.25rem; font-size: 0.88rem; color: #fef3c7;">
+            En fiscalización electoral de campo, <strong>tu hora de salida NUNCA se rige por un reloj de oficina</strong>. Te retiras únicamente por el <strong>CUMPLIMIENTO EFECTIVO DE TUS HITOS TÉCNICOS Y ENTREGABLES OBLIGATORIOS</strong>. Retirarse antes de que tus mesas concluyan constituye falta grave sancionada con la retención del pago y reporte penal.
+          </p>
+        </div>
+      </div>
+
+      <!-- TABLA MAESTRA DIA A DIA -->
+      <div class="exit-timeline-card">
+        <h3 style="color: white; font-size: 1.15rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+          📅 Cronograma Maestro de Horarios de Ingreso y Salida (ERM 2026)
+        </h3>
+        
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th style="width: 18%;">Día de Servicio</th>
+              <th style="width: 14%;">Hora Ingreso</th>
+              <th style="width: 18%;">Hora Salida Estimada</th>
+              <th style="width: 32%;">¿Cuándo y Bajo Qué Condición Te Retiras?</th>
+              <th style="width: 18%;">¿A Quién Reportas?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong style="color: #60a5fa;">Jueves 1 Octubre</strong><br><span style="font-size: 0.75rem; color: var(--text-muted);">Cierre Propaganda</span></td>
+              <td><code>08:30 hrs</code></td>
+              <td><span class="exit-badge-time badge-blue-glow">18:00 - 19:00 hrs</span></td>
+              <td>Al culminar el patrullaje de verificación del retiro de propaganda política en el radio asignado, previo al silencio de propaganda que rige a las <code>00:00 hrs</code> del viernes.</td>
+              <td>Subida a App FLV + Visto del Coordinador</td>
+            </tr>
+            <tr>
+              <td><strong style="color: #60a5fa;">Viernes 2 Octubre</strong><br><span style="font-size: 0.75rem; color: var(--text-muted);">Ley Seca</span></td>
+              <td><code>07:30 hrs</code></td>
+              <td><span class="exit-badge-time badge-blue-glow">17:00 - 18:00 hrs</span></td>
+              <td>Al verificar que los comercios y bodegas cumplan la prohibición de venta de alcohol (iniciada a las <code>08:00 hrs</code>) y registrar las incidencias en el App FLV.</td>
+              <td>Registro en App FLV</td>
+            </tr>
+            <tr>
+              <td><strong style="color: #fbbf24;">Sábado 3 Octubre</strong><br><span style="font-size: 0.75rem; color: var(--text-muted);">Víspera y Material</span></td>
+              <td><code>08:00 hrs</code></td>
+              <td><span class="exit-badge-time badge-yellow-glow">17:00 - 18:00 hrs</span></td>
+              <td>Al constatar que tus aulas asignadas cuentan con cabinas y mesas señalizadas, y tras verificar que el material de la ONPE quedó bajo llave y resguardo militar/policial en el aula de acopio.</td>
+              <td>Coordinación con FLV Responsable</td>
+            </tr>
+            <tr style="background: rgba(220, 38, 38, 0.08); border-left: 4px solid var(--jne-red);">
+              <td><strong style="color: #f87171;">DOMINGO 4 OCT</strong><br><span style="font-size: 0.75rem; color: #fca5a5; font-weight: 700;">🚨 DÍA D COMICIOS</span></td>
+              <td><code style="color: #fbbf24; font-weight: 800;">06:00 hrs puntual</code></td>
+              <td><span class="exit-badge-time badge-green-glow">20:30 a 23:30 hrs</span><br><span style="font-size: 0.72rem; color: #a7f3d0;">¡Nunca a las 17:00 hrs!</span></td>
+              <td><strong>¡Cumplimiento estricto de los 5 HITOS OBLIGATORIOS!</strong> Todas tus mesas deben tener escrutinio terminado, Cartel pegado, actas transmitidas en el App y formatos entregados al Responsable.</td>
+              <td>FLV Responsable + Mensaje a FISPRO / FISDIS</td>
+            </tr>
+            <tr>
+              <td><strong style="color: #34d399;">Lunes 5 Octubre</strong><br><span style="font-size: 0.75rem; color: var(--text-muted);">Cierre Administrativo</span></td>
+              <td><code>09:00 hrs</code></td>
+              <td><span class="exit-badge-time badge-green-glow">12:00 - 13:00 hrs</span></td>
+              <td>Al resolver posibles inconsistencias o contingencias de actas digitales, entregar anexos físicos pendientes y firmar la conformidad de servicio para la orden de pago.</td>
+              <td>Coordinador Provincial (FISPRO)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- LOS 5 HITOS OBLIGATORIOS PARA RETIRARTE EL DOMINGO -->
+      <div style="margin-top: 2rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem;">
+          <h3 style="color: white; font-size: 1.25rem;">
+            🛑 Los 5 Hitos Obligatorios para que el FLV de Mesa pueda Salir el Domingo
+          </h3>
+          <span style="font-size: 0.82rem; color: var(--text-muted);">
+            No puedes cruzar la puerta del local de votación hasta completar este checklist:
+          </span>
+        </div>
+
+        <div class="hitos-grid">
+          <!-- HITO 1 -->
+          <div class="hito-card">
+            <div style="display: flex; align-items: center; gap: 0.65rem;">
+              <span class="hito-number">1</span>
+              <strong style="color: white; font-size: 0.95rem;">Escrutinio al 100% de tus Mesas</strong>
+            </div>
+            <p style="font-size: 0.83rem; color: var(--text-sub); line-height: 1.5;">
+              Todas las mesas que te fueron asignadas (generalmente de 3 a 5 mesas) deben haber terminado el conteo de votos de las elecciones provinciales y distritales.
+            </p>
+            <div style="font-size: 0.78rem; background: #0c1524; padding: 0.5rem; border-radius: 6px; color: #93c5fd;">
+              ✓ Ánforas completamente vacías.<br>
+              ✓ Actas firmadas por los 3 miembros y personeros.
+            </div>
+          </div>
+
+          <!-- HITO 2 -->
+          <div class="hito-card">
+            <div style="display: flex; align-items: center; gap: 0.65rem;">
+              <span class="hito-number">2</span>
+              <strong style="color: white; font-size: 0.95rem;">Cartel de Resultados Pegado</strong>
+            </div>
+            <p style="font-size: 0.83rem; color: var(--text-sub); line-height: 1.5;">
+              El Presidente de mesa debe fijar el Cartel de Resultados oficial en la puerta exterior del aula donde funcionó la mesa, a la vista de los ciudadanos.
+            </p>
+            <div style="font-size: 0.78rem; background: #0c1524; padding: 0.5rem; border-radius: 6px; color: #93c5fd;">
+              ✓ Foto horizontal tomada al cartel.<br>
+              ✓ Resultados visibles y legibles.
+            </div>
+          </div>
+
+          <!-- HITO 3 -->
+          <div class="hito-card">
+            <div style="display: flex; align-items: center; gap: 0.65rem;">
+              <span class="hito-number">3</span>
+              <strong style="color: white; font-size: 0.95rem;">Cédulas en Sobre Anaranjado</strong>
+            </div>
+            <p style="font-size: 0.83rem; color: var(--text-sub); line-height: 1.5;">
+              Las cédulas de votación escrutadas no impugnadas <strong>YA NO SE DESTRUYEN</strong> (<code>Res. 000075-2025-JN/ONPE</code>). Deben ser guardadas y lacradas en el Sobre Anaranjado y entregadas al Coordinador de Mesa ONPE.
+            </p>
+            <div style="font-size: 0.78rem; background: #0c1524; padding: 0.5rem; border-radius: 6px; color: #fbbf24;">
+              ✓ Sobre Anaranjado lacrado y firmado.<br>
+              ✓ Material electoral devuelto a ONPE.
+            </div>
+          </div>
+
+          <!-- HITO 4 -->
+          <div class="hito-card">
+            <div style="display: flex; align-items: center; gap: 0.65rem;">
+              <span class="hito-number">4</span>
+              <strong style="color: white; font-size: 0.95rem;">Transmisión Exitosa en App FLV</strong>
+            </div>
+            <p style="font-size: 0.83rem; color: var(--text-sub); line-height: 1.5;">
+              Debes haber capturado y subido al aplicativo móvil las fotos nítidas de: Acta de Instalación, Acta de Sufragio, Acta de Escrutinio y Cartel de Resultados de cada mesa.
+            </p>
+            <div style="font-size: 0.78rem; background: #0c1524; padding: 0.5rem; border-radius: 6px; color: #34d399;">
+              ✓ Check verde de "Enviado con éxito".<br>
+              ✓ Si no hay señal, fotos en cola interna segura.
+            </div>
+          </div>
+
+          <!-- HITO 5 -->
+          <div class="hito-card">
+            <div style="display: flex; align-items: center; gap: 0.65rem;">
+              <span class="hito-number">5</span>
+              <strong style="color: white; font-size: 0.95rem;">Descargo con FLV Responsable</strong>
+            </div>
+            <p style="font-size: 0.83rem; color: var(--text-sub); line-height: 1.5;">
+              Acudes al centro de acopio interno del local. Entregas tus hojas de apuntes y formatos físicos al FLV Responsable, este te da la conformidad y envías un WhatsApp de salida al FISPRO.
+            </p>
+            <div style="font-size: 0.78rem; background: #0c1524; padding: 0.5rem; border-radius: 6px; color: #34d399;">
+              ✓ Visto bueno del FLV Responsable.<br>
+              ✓ Reporte de retiro enviado a tu coordinador.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHECKLIST INTERACTIVO DE SALIDA -->
+      <div style="margin-top: 2rem; background: #0b1322; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+          <h3 style="color: #60a5fa; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+            📱 Checklist Digital de Salida del Domingo (Uso en Vivo)
+          </h3>
+          <span style="font-size: 0.78rem; color: var(--text-muted);">
+            Marca cada casilla antes de abandonar el colegio (se guarda en tu teléfono automáticamente)
+          </span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div class="task-check-card" onclick="toggleTask(this, 'chk_salida_1')">
+            <input type="checkbox" id="chk_salida_1">
+            <span class="task-text"><strong>1. Mesas concluidas:</strong> Ninguna de mis mesas asignadas sigue contando votos o llenando actas.</span>
+          </div>
+          <div class="task-check-card" onclick="toggleTask(this, 'chk_salida_2')">
+            <input type="checkbox" id="chk_salida_2">
+            <span class="task-text"><strong>2. Cartel fijado:</strong> El Cartel de Resultados está pegado en la puerta exterior del aula.</span>
+          </div>
+          <div class="task-check-card" onclick="toggleTask(this, 'chk_salida_3')">
+            <input type="checkbox" id="chk_salida_3">
+            <span class="task-text"><strong>3. Cédulas aseguradas:</strong> Cédulas no impugnadas en Sobre Anaranjado entregado a ONPE.</span>
+          </div>
+          <div class="task-check-card" onclick="toggleTask(this, 'chk_salida_4')">
+            <input type="checkbox" id="chk_salida_4">
+            <span class="task-text"><strong>4. App FLV sincronizado:</strong> Fotos de las 3 actas y cartel subidas con check o en cola confirmada.</span>
+          </div>
+          <div class="task-check-card" onclick="toggleTask(this, 'chk_salida_5')">
+            <input type="checkbox" id="chk_salida_5">
+            <span class="task-text"><strong>5. Descargo físico:</strong> Entregué mis notas al FLV Responsable y avisé al FISPRO de mi salida.</span>
+          </div>
+          <div class="task-check-card" onclick="toggleTask(this, 'chk_salida_6')">
+            <input type="checkbox" id="chk_salida_6">
+            <span class="task-text"><strong>6. Salida segura:</strong> Me retiro con credencial a buen recaudo y en compañía o transporte seguro.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PREGUNTAS CLAVE SOBRE LA SALIDA -->
+      <div style="margin-top: 2rem;">
+        <h3 style="color: white; font-size: 1.15rem; margin-bottom: 1rem;">
+          ❓ Preguntas Frecuentes y Situaciones de Riesgo sobre la Hora de Salida
+        </h3>
+
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <!-- CASO 1 -->
+          <div class="case-box" style="border-left: 4px solid var(--danger);">
+            <div class="case-header">
+              <span class="case-title" style="color: #f87171;">⚠️ ¿Qué pasa si me voy a las 17:00 hrs cuando tocan el pito de cierre?</span>
+              <span class="badge badge-red">FALTA MUY GRAVE</span>
+            </div>
+            <div class="case-body">
+              <strong>Situación:</strong> Son las 17:05 hrs, la policía cierra la reja exterior y un fiscalizador de mesa agarra su mochila y dice: <em>"Ya son las 5, ya terminó mi turno, me voy"</em>.
+            </div>
+            <div class="case-action" style="border-left-color: var(--danger); color: #fca5a5;">
+              <strong>Consecuencia Legal Inmediata:</strong><br>
+              1. <strong>Abandono de Servicio Electoral:</strong> Constituye incumplimiento contractual directo según directivas de la DNFPE.<br>
+              2. <strong>Pérdida Total del Pago:</strong> El JNE retiene el 100% de la retribución económica correspondiente a las ERM 2026.<br>
+              3. <strong>Reporte Penal y Administrativo:</strong> El JEE eleva informe por omisión de deberes de función (Art. 377° del Código Penal) e inhabilita al postulante de por vida en el Registro de Personal Electoral del JNE.
+            </div>
+          </div>
+
+          <!-- CASO 2 -->
+          <div class="case-box" style="border-left: 4px solid var(--warning);">
+            <div class="case-header">
+              <span class="case-title" style="color: #fbbf24;">❓ Una de mis mesas terminó a las 20:00 hrs pero otra mesa sigue contando a las 22:30 hrs. ¿Me puedo ir?</span>
+              <span class="badge badge-gold">Criterio Operativo</span>
+            </div>
+            <div class="case-body">
+              <strong>Situación:</strong> Tienes asignadas 3 mesas. Las mesas 012345 y 012346 ya terminaron, pero la mesa 012347 tiene personeros conflictivos que impugnan cada voto y siguen en conteo a las 22:30 hrs.
+            </div>
+            <div class="case-action" style="border-left-color: var(--warning); color: #fde68a;">
+              <strong>Lo que debes hacer:</strong><br>
+              • <strong>NO puedes retirarte:</strong> Eres el custodio de la legalidad de todas tus mesas asignadas. Si abandonas el aula conflictiva, pueden anular el acta o generarse incidentes graves sin fiscalización.<br>
+              • <strong>Pide apoyo al FLV Responsable:</strong> Comunícale al Responsable del local que tu mesa está demorando por impugnaciones para que se acerque al aula a brindar respaldo jurídico y disuasivo.<br>
+              • Tu hora de salida será cuando esa última mesa firme el acta y pegue el cartel.
+            </div>
+          </div>
+
+          <!-- CASO 3 -->
+          <div class="case-box" style="border-left: 4px solid var(--primary);">
+            <div class="case-header">
+              <span class="case-title" style="color: #60a5fa;">🏢 ¿Tengo que esperar a que salga el camión militar hacia la ODPE?</span>
+              <span class="badge badge-blue">Diferencia de Roles</span>
+            </div>
+            <div class="case-body">
+              <strong>Situación:</strong> Son las 21:30 hrs. Ya terminaste tus mesas, subiste tus fotos y entregaste tus notas. Ves que el personal de la ONPE aún está empaquetando cajas en el patio para llevarlas en el camión a la ODPE.
+            </div>
+            <div class="case-action" style="border-left-color: var(--primary); color: #bfdbfe;">
+              <strong>Tu derecho de retiro:</strong><br>
+              • <strong>NO te quedas al repliegue vehicular:</strong> La custodia del convoy militar/policial hacia la ODPE y la entrega del Sobre Plomo es responsabilidad <strong>EXCLUSIVA del FLV Responsable de Local</strong>.<br>
+              • El FLV de Mesa queda formalmente desobligado una vez entregados sus reportes al Responsable y comunicada su salida al FISPRO. Puedes despedirte y retornar a tu domicilio.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- MODULO COMPARATIVA: EL RESPONSABLE TRABAJA MENOS? -->
+    <!-- ============================================================== -->
+    <section id="day-comparativa" class="day-section">
+      <div style="margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.4rem; color: #f59e0b;">⚖️ ¿El FLV Responsable tiene menos carga de trabajo que el de Mesa?</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Análisis objetivo de las diferencias de carga operativa vs carga de responsabilidad penal y jurídica.
+        </p>
+      </div>
+
+      <div class="compare-container">
+        <h3 style="color: white; font-size: 1.2rem; margin-bottom: 0.75rem;">🔍 La Realidad de Ambos Roles: Trabajo de Campo vs Responsabilidad Legal</h3>
+        <p style="font-size: 0.9rem; color: var(--text-sub); margin-bottom: 1.25rem;">
+          A primera vista pareciera que el FLV Responsable <em>"trabaja menos"</em> porque no está parado en un aula contando votos voto a voto ni tomando la foto de las 14:00 en 4 mesas. Sin embargo, su carga se concentra en áreas de <strong>alto riesgo legal, penal y de seguridad</strong>:
+        </p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+          <!-- FLV de Mesa -->
+          <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: var(--radius-md); padding: 1.25rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <span class="badge badge-green">FLV DE MESA (TU ROL)</span>
+              <strong style="color: #34d399;">Carga Física y Operativa Continua</strong>
+            </div>
+            <ul style="font-size: 0.85rem; color: var(--text-sub); margin-left: 1.25rem; line-height: 1.5;">
+              <li><strong>Atención directa en aulas:</strong> Estar de pie supervisando la instalación (07:00 a 12:00) y el flujo de sufragio.</li>
+              <li><strong>Hito fotográfico de las 14:00 hrs:</strong> Obligación de recorrer y fotografiar todas sus mesas asignadas en ese momento exacto.</li>
+              <li><strong>Escrutinio voto a voto:</strong> Supervisión minuciosa del conteo hasta las 20:00 o 22:00 hrs, fotografiando las 3 actas por mesa.</li>
+              <li><strong>Menor exposición ante multitudes:</strong> Trabaja protegido dentro de las aulas sin lidiar con los disturbios de la puerta principal.</li>
+              <li><strong>Hora de salida más temprana:</strong> Una vez concluidas sus mesas y subidas las actas, entrega su reporte al Responsable y concluye su jornada en el local.</li>
+            </ul>
+          </div>
+
+          <!-- FLV Responsable -->
+          <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: var(--radius-md); padding: 1.25rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <span class="badge badge-gold">FLV RESPONSABLE</span>
+              <strong style="color: #fbbf24;">Carga Legal, Seguridad y Madrugada</strong>
+            </div>
+            <ul style="font-size: 0.85rem; color: var(--text-sub); margin-left: 1.25rem; line-height: 1.5;">
+              <li><strong>Presión de Cierre (17:00 hrs):</strong> Da la cara en la puerta exterior del local frente a turbas, electores furiosos y personeros que exigen ingresar.</li>
+              <li><strong>Custodia Nocturna y Madrugada (Sobres Plomos):</strong> No se va a casa al terminar el conteo. Debe subirse al camión de repliegue con escolta militar/policial y viajar a la ODPE (muchas veces llegando a las 02:00 o 04:00 AM).</li>
+              <li><strong>Responsabilidad Penal:</strong> Si se pierde un sobre de actas o se violan precintos en el centro de acopio, el Responsable rinde cuentas directamente ante la Fiscalía Penal.</li>
+              <li><strong>Arribo y Condiciones del Sábado:</strong> Debe inspeccionar todo el colegio el sábado y subir obligatoriamente los formatos V01 y V10 al App.</li>
+              <li><strong>Trámite del Sobre Físico el Lunes:</strong> Debe llevar el sobre cerrado con los reportes manuscritos a la sede del JEE en San Pedro de Lloc.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.25rem; background: var(--bg-card); padding: 1rem; border-radius: var(--radius-md); font-size: 0.88rem; color: #93c5fd; border-left: 4px solid var(--primary);">
+          <strong>Conclusión:</strong> El trabajo en equipo es complementario. El FLV de mesa es los <em>"ojos técnicos en el aula"</em> y el FLV Responsable es el <em>"escudo jurídico y logístico del local"</em>. Apoyarse mutuamente garantiza que todo el grupo cobre sus honorarios sin observaciones.
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p><strong>Plataforma JNE Fiscalizador Pro • Guía Táctica del FLV de Mesa</strong></p>
+    <p style="margin-top: 0.35rem;">ERM 2026 • Normativa Oficial DNFPE, LOE Ley 26859 y Resoluciones JNE.</p>
+  </footer>
+
+  <script>
+    function switchDay(dayId) {
+      document.querySelectorAll('.day-section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.day-tab').forEach(btn => btn.classList.remove('active'));
+
+      const target = document.getElementById('day-' + dayId);
+      if (target) {
+        target.classList.add('active');
+      }
+
+      const activeBtn = Array.from(document.querySelectorAll('.day-tab')).find(b => b.getAttribute('onclick').includes(dayId));
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+
+      window.scrollTo({ top: 120, behavior: 'smooth' });
+    }
+
+    function toggleTask(cardEl, checkId) {
+      const chk = document.getElementById(checkId);
+      if (!chk) return;
+      chk.checked = !chk.checked;
+      updateTaskStyle(cardEl, chk.checked);
+      saveTasksState();
+    }
+
+    function updateTaskStyle(cardEl, isChecked) {
+      if (isChecked) {
+        cardEl.classList.add('done');
+      } else {
+        cardEl.classList.remove('done');
+      }
+    }
+
+    function saveTasksState() {
+      const state = {};
+      document.querySelectorAll('.task-check-card input[type="checkbox"]').forEach(inp => {
+        state[inp.id] = inp.checked;
+      });
+      localStorage.setItem('flv_mesa_tasks_erm2026', JSON.stringify(state));
+    }
+
+    function loadTasksState() {
+      const saved = localStorage.getItem('flv_mesa_tasks_erm2026');
+      if (saved) {
+        try {
+          const state = JSON.parse(saved);
+          Object.keys(state).forEach(id => {
+            const inp = document.getElementById(id);
+            if (inp) {
+              inp.checked = state[id];
+              updateTaskStyle(inp.closest('.task-check-card'), state[id]);
+            }
+          });
+        } catch (e) {}
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadTasksState();
+    });
+  </script>
+</body>
+</html>

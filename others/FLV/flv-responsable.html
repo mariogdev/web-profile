@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía del FLV Responsable de Local de Votación - ERM 2026</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-glow: rgba(37, 99, 235, 0.35);
+      --jne-red: #dc2626;
+      --jne-red-glow: rgba(220, 38, 38, 0.35);
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.15);
+      --warning: #f59e0b;
+      --warning-bg: rgba(245, 158, 11, 0.15);
+      --danger: #ef4444;
+      --danger-bg: rgba(239, 68, 68, 0.15);
+      --info-bg: rgba(37, 99, 235, 0.15);
+      --bg-dark: #090d16;
+      --bg-card: #111827;
+      --bg-card-alt: #1a2234;
+      --bg-card-hover: #222d42;
+      --border: #283548;
+      --border-light: #374151;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --text-sub: #cbd5e1;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 22px;
+      --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-dark); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+    /* Top Banner */
+    .top-banner {
+      background: linear-gradient(90deg, #78350f 0%, #1e1b4b 100%);
+      padding: 0.65rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .top-banner a {
+      color: #fde68a;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .top-banner a:hover { color: #ffffff; text-decoration: underline; }
+
+    /* Header */
+    header {
+      background: #0d131f;
+      border-bottom: 1px solid var(--border);
+      padding: 1.25rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .role-badge {
+      background: var(--warning);
+      color: #78350f;
+      font-weight: 800;
+      font-size: 0.75rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .header-title h1 {
+      font-size: 1.35rem;
+      color: #ffffff;
+    }
+    .header-title p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .header-nav-btns {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: var(--transition);
+      border: none;
+    }
+
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-sub); }
+    .btn-outline:hover { background: var(--bg-card-alt); color: white; border-color: var(--text-muted); }
+    .btn-success { background: var(--success); color: #064e3b; font-weight: 700; }
+    .btn-success:hover { background: #059669; }
+
+    /* Day Nav Bar */
+    .day-nav {
+      background: #111827;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 74px;
+      z-index: 90;
+      padding: 0.5rem 1.5rem;
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      max-width: 100%;
+    }
+
+    .day-tab {
+      padding: 0.6rem 1.1rem;
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border);
+      color: var(--text-sub);
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .day-tab:hover {
+      background: var(--bg-card-hover);
+      color: white;
+    }
+
+    .day-tab.active {
+      background: var(--warning);
+      border-color: var(--warning);
+      color: #78350f;
+      box-shadow: 0 0 12px var(--gold-glow);
+    }
+
+    .day-tab.special {
+      border-color: rgba(220, 38, 38, 0.4);
+    }
+    .day-tab.special.active {
+      background: var(--jne-red);
+      border-color: var(--jne-red);
+      color: white;
+      box-shadow: 0 0 12px var(--jne-red-glow);
+    }
+
+    /* Container */
+    main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    .day-section {
+      display: none;
+      animation: fadeIn 0.3s ease-out;
+    }
+    .day-section.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hour Block */
+    .hour-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      transition: var(--transition);
+    }
+
+    .hour-header {
+      padding: 1rem 1.5rem;
+      background: var(--bg-card-alt);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .hour-time-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #0f172a;
+      border: 1px solid var(--warning);
+      color: #fbbf24;
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-family: 'Consolas', monospace;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .hour-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: white;
+      flex: 1;
+    }
+
+    .medium-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.3rem 0.65rem;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .tag-app { background: var(--info-bg); color: #60a5fa; border: 1px solid rgba(37, 99, 235, 0.4); }
+    .tag-fisico { background: var(--warning-bg); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .tag-ambos { background: var(--success-bg); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+
+    .hour-body {
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 950px) {
+      .hour-body { grid-template-columns: 1fr; }
+    }
+
+    .task-col {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .sub-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #fde68a;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.25rem;
+    }
+
+    /* Checklist task item */
+    .task-check-card {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      cursor: pointer;
+      user-select: none;
+      transition: var(--transition);
+    }
+
+    .task-check-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--warning);
+    }
+
+    .task-check-card input[type="checkbox"] {
+      width: 1.25rem;
+      height: 1.25rem;
+      margin-top: 0.15rem;
+      accent-color: var(--warning);
+      cursor: pointer;
+    }
+
+    .task-check-card.done {
+      border-color: rgba(245, 158, 11, 0.4);
+      background: rgba(245, 158, 11, 0.05);
+    }
+    .task-check-card.done span.task-text {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .case-box {
+      background: #0d1424;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: var(--radius-md);
+      padding: 1.1rem;
+    }
+
+    .case-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.65rem;
+    }
+
+    .case-title {
+      color: #fbbf24;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .case-body {
+      font-size: 0.88rem;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+
+    .case-action {
+      margin-top: 0.75rem;
+      background: rgba(245, 158, 11, 0.1);
+      border-left: 3px solid var(--warning);
+      padding: 0.65rem 0.85rem;
+      font-size: 0.84rem;
+      color: #fde68a;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .template-box {
+      background: #090e1a;
+      border: 1px dashed var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 1.1rem;
+      margin-top: 1rem;
+    }
+
+    .template-title {
+      color: #60a5fa;
+      font-weight: 700;
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .template-code {
+      font-family: 'Consolas', monospace;
+      font-size: 0.8rem;
+      color: #a7f3d0;
+      background: #04070e;
+      padding: 0.75rem;
+      border-radius: 6px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+
+    /* Sobres Grid */
+    .sobres-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+    .sobre-mini {
+      padding: 0.5rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      border-left: 4px solid;
+      background: #0c1220;
+    }
+    .s-plomo { border-color: #94a3b8; }
+    .s-rojo { border-color: #ef4444; }
+    .s-celeste { border-color: #38bdf8; }
+    .s-verde { border-color: #22c55e; }
+    .s-naranja { border-color: #f97316; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    /* Optimizaciones Responsivas Móviles Ultra-Compactas (iPhone iOS / Android) */
+    @media (max-width: 768px) {
+      .top-banner {
+        display: none; /* Se oculta en móvil para liberar 45px de altura */
+      }
+      header {
+        position: relative; /* Deja de ser pegajoso: se desliza con el scroll */
+        top: auto;
+        padding: 0.65rem 1rem;
+        border-bottom: none;
+      }
+      .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      .header-title h1 {
+        font-size: 1.05rem;
+        line-height: 1.25;
+        margin-top: 0.15rem;
+      }
+      .header-title p {
+        display: none; /* Oculta el texto descriptivo largo en móvil */
+      }
+      .header-nav-btns {
+        width: 100%;
+        display: flex;
+        gap: 0.35rem;
+      }
+      .header-nav-btns .btn {
+        flex: 1 1 auto;
+        justify-content: center;
+        padding: 0.45rem 0.5rem;
+        font-size: 0.76rem;
+      }
+      .day-nav {
+        position: sticky;
+        top: 0; /* Único elemento que se mantiene pegado arriba, súper delgado */
+        z-index: 100;
+        padding: 0.35rem 0.6rem;
+        background: rgba(17, 24, 39, 0.96);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        -webkit-overflow-scrolling: touch;
+      }
+      .day-tab {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.8rem;
+        border-radius: 6px;
+      }
+      main {
+        padding: 0.85rem 0.65rem;
+      }
+      .hour-body {
+        grid-template-columns: 1fr;
+        padding: 0.85rem;
+        gap: 1rem;
+      }
+      .hour-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 0.85rem;
+      }
+      .hour-title {
+        font-size: 1rem;
+      }
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+      .task-check-card {
+        padding: 0.75rem;
+      }
+      .task-check-card input[type="checkbox"] {
+        min-width: 22px;
+        min-height: 22px;
+      }
+    }
+
+    footer {
+      background: #080c14;
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Banner -->
+  <div class="top-banner">
+    <div>
+      🏢 <strong>MODALIDAD: FLV RESPONSABLE DE LOCAL DE VOTACIÓN (COORDINACIÓN Y APOYO)</strong>
+    </div>
+    <div>
+      <a href="flv-mesa.html">🛡️ Ver Guía de Tu Rol Principal: FLV de Mesa ➔</a>
+      &nbsp;|&nbsp;
+      <a href="index.html">📚 Volver a la Guía General</a>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <div class="header-title">
+        <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.25rem;">
+          <span class="role-badge">Rol de Coordinación: FLV Responsable</span>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Liderazgo de Local, Cierre a las 17:00 y Formatos V01, V10, V06</span>
+        </div>
+        <h1>Protocolo y Funciones del FLV Responsable de Local</h1>
+        <p>Instrucciones para el líder de sede electoral y guía de apoyo para los FLVs acompañantes.</p>
+      </div>
+      <div class="header-nav-btns">
+        <a href="index.html" class="btn btn-outline">🏠 Portal General</a>
+        <a href="flv-mesa.html" class="btn btn-success">🛡️ Tu Rol: FLV de Mesa</a>
+        <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Day Selector Tab Bar -->
+  <div class="day-nav">
+    <button class="day-tab active" onclick="switchDay('sabado')">📅 Sábado 3 Oct (Arribo V01 y Condiciones V10)</button>
+    <button class="day-tab special" onclick="switchDay('domingo')">🚨 Domingo 4 Oct (Asignación, Cierre 17:00 y Repliegue V06)</button>
+    <button class="day-tab" onclick="switchDay('lunes')">📅 Lunes 5 Oct (Informe Consolidado y Sobre Cerrado)</button>
+  </div>
+
+  <main>
+
+        <!-- ========================================== -->
+    <!-- VIERNES 2 DE OCTUBRE: DESPLIEGUE VS LOCAL -->
+    <!-- ========================================== -->
+    <section id="day-viernes" class="day-section active">
+      <div style="margin-bottom: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+          <h2 style="font-size: 1.4rem; color: white;">Viernes 2 de Octubre: Despliegue de Material (10:00 AM ODPE) y Arribo en Local</h2>
+          <span class="badge badge-gold">&#128666; Despliegue vs Local &bull; Roles Diferenciados</span>
+        </div>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.35rem;">
+          Directiva oficial DNFPE (L&aacute;mina 10 Taller FLV ERM 2026): Aclaraci&oacute;n fundamental sobre las dos funciones de material electoral.
+        </p>
+      </div>
+
+      <!-- ALERTA NORMATIVA: LIMA/CALLAO Y DIFERENCIA DE ROLES -->
+      <div class="alert-box alert-warning" style="margin-bottom: 1.5rem; background: rgba(245, 158, 11, 0.12); border-left: 4px solid var(--warning);">
+        <div style="font-size: 1.6rem;">&#128196;</div>
+        <div>
+          <strong style="color: #fbbf24; font-size: 0.98rem;">L&Aacute;MINA 10 DEL TALLER FLV ERM 2026 (DNFPE):</strong>
+          <p style="font-size: 0.88rem; color: #fef3c7; margin-top: 0.25rem;">
+            <em>"Para Lima Metropolitana y Callao, los fiscalizadores acudir&aacute;n al local de votaci&oacute;n el <strong>viernes 2 de octubre</strong> para esperar el arribo del material electoral."</em><br>
+            <strong>&iquest;Por qu&eacute; el Responsable del Despliegue es diferente al Responsable del Local?:</strong><br>
+            &bull; <strong>FLV Responsable del Despliegue:</strong> Se presenta a las <code>10:00 AM</code> del viernes en el almac&eacute;n de la <strong>ODPE</strong> para fiscalizar la carga y viajar en el cami&oacute;n custodiado por las FF.AA./PNP.<br>
+            &bull; <strong>FLV Responsable de Local:</strong> No viaja en la comitiva; acude a su <strong>local de votaci&oacute;n</strong> en la tarde a recibir el material, cotejar la Constancia de Despliegue y llenar el <strong>Formato V01</strong>.
+          </p>
+        </div>
+      </div>
+
+      <!-- CUADRO COMPARATIVO DE ROLES EN MATERIAL -->
+      <div class="hour-block" style="border-left: 4px solid var(--primary);">
+        <div class="hour-header" style="background: rgba(37, 99, 235, 0.1);">
+          <div class="hour-time-badge" style="border-color: #3b82f6; color: #60a5fa;">&#9200; 10:00 hrs vs Tarde del Viernes</div>
+          <div class="hour-title" style="color: #93c5fd;">Distribuci&oacute;n de Responsabilidades en el Despliegue</div>
+          <span class="medium-tag tag-app">&#128230; Formato V01</span>
+        </div>
+        <div class="hour-body">
+          <div class="task-col">
+            <div class="sub-title">&#128666; Rol 1: Responsable del Despliegue (Ruta ODPE)</div>
+            <ul style="font-size: 0.85rem; color: var(--text-sub); margin-left: 1.25rem; line-height: 1.5;">
+              <li><strong>Hora de presentaci&oacute;n:</strong> <code>10:00 AM</code> del Viernes 2 de Octubre en el local de la ODPE.</li>
+              <li><strong>Fiscalizaci&oacute;n de salida:</strong> Verifica la estiba de cajas electorales, &aacute;nforas y cabinas en los camiones.</li>
+              <li><strong>Precintos y resguardo:</strong> Constata que los precintos de seguridad est&eacute;n intactos y que el veh&iacute;culo cuente con escolta armada de la PNP o FF.AA.</li>
+              <li><strong>Custodia en tr&aacute;nsito:</strong> Se traslada junto al convoy verificando que durante todo el trayecto no se detenga sin justificaci&oacute;n ni quede sin resguardo.</li>
+            </ul>
+          </div>
+
+          <div class="task-col">
+            <div class="sub-title">&#127970; Rol 2: Responsable del Local (Recepci&oacute;n en Sede)</div>
+            <ul style="font-size: 0.85rem; color: var(--text-sub); margin-left: 1.25rem; line-height: 1.5;">
+              <li><strong>Espera en el Local (Viernes tarde):</strong> Acude al colegio asignado para recibir el convoy que llega desde la ODPE (en Lima y Callao el viernes 2; en provincias seg&uacute;n cronograma).</li>
+              <li><strong>Solicitud de Constancia:</strong> Solicita al personal de la ODPE copia o foto de la <strong>Constancia de Despliegue de Material Electoral</strong>.</li>
+              <li><strong>Conteo y Formato V01:</strong> Cuenta las cajas de sufragio (igual al n&uacute;mero de mesas), cajas de reserva y paquetes del CLV. Llena el <strong>Formato V01</strong> en f&iacute;sico y en el App FLV con <strong>dos (2) fotos del arribo</strong>.</li>
+              <li><strong>Custodia militar:</strong> Deja el material en el aula de acopio cerrada con candado y bajo custodia militar/policial.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACLARACION SOBRE EL JUEVES -->
+      <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem;">
+        <h4 style="color: #34d399; font-size: 1rem; margin-bottom: 0.4rem;">&#128227; &iquest;Y qu&eacute; hace el FLV Responsable el Jueves 1 en el Cierre de Campa&ntilde;a?</h4>
+        <p style="font-size: 0.86rem; color: var(--text-sub); line-height: 1.5;">
+          <strong>&iexcl;El cierre de campa&ntilde;a es INDISTINTO al local de votaci&oacute;n y es UN SOLO REPORTE COLECTIVO!</strong> El Responsable de Local escolar <strong>NO</strong> centraliza este operativo en el colegio. Todos los fiscalizadores acuden a la <strong>comisar&iacute;a</strong> asignada entre las 16:00 y 18:00 hrs, parten con las autoridades (PNP, Subprefecto, Teniente Gobernador y Fiscal) hacia los m&iacute;tines, toman la <strong>foto grupal con las autoridades</strong>, fiscalizan hasta las <code>00:00 hrs</code> y suscriben <strong>UN SOLO REPORTE POR CIERRE DE CAMPA&Ntilde;A</strong> en el que firman y colocan su huella <strong>TODOS los FLVs involucrados</strong> junto con los sellos y firmas de las autoridades participantes.
+        </p>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SABADO 3 DE OCTUBRE: ARRIBO Y CONDICIONES -->
+    <!-- ========================================== -->
+    <section id="day-sabado" class="day-section">
+      <div style="margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.4rem; color: white;">Sábado 3 de Octubre: Formatos V01 y V10 en el App FLV</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Estas dos secciones del App FLV están habilitadas exclusivamente para el FLV Responsable del local.
+        </p>
+      </div>
+
+      <!-- ARRIBO DE MATERIAL V01 -->
+      <div class="hour-block">
+        <div class="hour-header">
+          <div class="hour-time-badge">⏰ Tarde del Sábado • Arribo de Material</div>
+          <div class="hour-title">Formato V01: Fiscalización del Arribo del Material Electoral</div>
+          <span class="medium-tag tag-ambos">📱 App FLV + 📝 Formato V01</span>
+        </div>
+        <div class="hour-body">
+          <div class="task-col">
+            <div class="sub-title">📌 Qué registra el FLV Responsable</div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_r1')">
+              <input type="checkbox" id="chk_r1">
+              <span class="task-text">
+                <strong>Datos del Despliegue ODPE:</strong> Número de ruta ODPE, empresa transportista, placa del vehículo, tipo de vehículo y nombre con DNI del conductor.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_r2')">
+              <input type="checkbox" id="chk_r2">
+              <span class="task-text">
+                <strong>Resguardo y Custodia:</strong> Consignar si contó con resguardo policial (PNP) o militar (FF.AA.), cantidad de efectivos y datos del responsable de la escolta.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_r3')">
+              <input type="checkbox" id="chk_r3">
+              <span class="task-text">
+                <strong>Conteo de Paquetes:</strong> Cantidad de cajas de sufragio (igual al número de mesas), cajas de reserva, paquetes de contingencia, paquetes para el CLV y ánforas/cabinas.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_r4')">
+              <input type="checkbox" id="chk_r4">
+              <span class="task-text">
+                <strong>2 Fotografías en SIPE:</strong> Subir en el App FLV dos fotos horizontales descriptivas de la descarga y almacenamiento en el aula de acopio.
+              </span>
+            </div>
+          </div>
+
+          <div class="task-col">
+            <div class="case-box">
+              <div class="case-header">
+                <span class="case-title">🚨 Incidencia Típica en Arribo</span>
+                <span class="badge badge-red">Alerta Inmediata</span>
+              </div>
+              <div class="case-body">
+                <strong>Situación:</strong> Llegan 18 cajas de sufragio pero el local tiene 19 mesas programadas. O las cajas no tienen precinto de seguridad intacto.
+              </div>
+              <div class="case-action">
+                <strong>Acción del Responsable:</strong> Marcar en el Formato V01: <em>"Entrega conforme: NO"</em>, describir el faltante en observaciones, registrar Alerta de Incidencia en el App FLV y comunicar en el acto al FISPRO/FISDIS.
+              </div>
+            </div>
+
+            <div class="template-box">
+              <div class="template-title">📋 Llenado Resuelto del Formato V01</div>
+              <div class="template-code">FORMATO V01 ARRIBO:
+Ruta ODPE: N° 04 - Vehículo: Camión Isuzu Placa T8P-912
+Conductor: Juan Pérez Soto - DNI: 19827364
+Resguardo: SÍ (PNP - 2 efectivos - Suboficial Gómez)
+Cajas de sufragio: 15 / Cajas reserva: 2 / Contingencia: 1
+¿Entrega conforme?: SÍ / ¿Incidencias?: NO
+Firmas: FLV Responsable y FLVs participantes de apoyo.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONDICIONES DEL LOCAL V10 -->
+      <div class="hour-block">
+        <div class="hour-header">
+          <div class="hour-time-badge">⏰ Tarde del Sábado • Condiciones del Local</div>
+          <div class="hour-title">Formato V10: Fiscalización de Infraestructura y Servicios</div>
+          <span class="medium-tag tag-app">📱 Obligatorio Registrar el Sábado en App</span>
+        </div>
+        <div class="hour-body">
+          <div class="task-col">
+            <div class="sub-title">📌 Puntos de Verificación Obligatoria</div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_r5')">
+              <input type="checkbox" id="chk_r5">
+              <span class="task-text">
+                <strong>Fluido Eléctrico (CRÍTICO):</strong> Probar físicamente los interruptores de luz de cada pabellón y aula. Es obligatorio verificar que funcionen para el escrutinio nocturno.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_r6')">
+              <input type="checkbox" id="chk_r6">
+              <span class="task-text">
+                <strong>Infraestructura y Cerco:</strong> Evaluar si techos, pisos y ventanas están en buen estado y si el cerco perimétrico garantiza la seguridad del local.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_r7')">
+              <input type="checkbox" id="chk_r7">
+              <span class="task-text">
+                <strong>2 Fotos Panorámicas:</strong> Subir 2 fotos en App FLV (acondicionamiento de aulas o señalización panorámica). <em>Prohibido fotos de inodoros o caños; prohibido selfies.</em>
+              </span>
+            </div>
+          </div>
+
+          <div class="task-col">
+            <div class="case-box">
+              <div class="case-header">
+                <span class="case-title">🚨 Incidencia: Corte de Energía Eléctrica</span>
+                <span class="badge badge-gold">Incidencia Moderada INC-28</span>
+              </div>
+              <div class="case-body">
+                <strong>Situación:</strong> 3 aulas no tienen luz eléctrica por avería en la llave térmica general del colegio.
+              </div>
+              <div class="case-action">
+                El FLV Responsable marca <em>"¿Condiciones adecuadas?: NO"</em>, solicita inmediatamente al Coordinador de Local de ONPE y al director del colegio reparar la llave, registra Alerta en el App FLV y da cuenta al FISPRO.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- DOMINGO 4 DE OCTUBRE: JORNADA Y REPLIEGUE -->
+    <!-- ========================================== -->
+    <section id="day-domingo" class="day-section">
+      <div style="margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.4rem; color: #fbbf24;">Domingo 4 de Octubre: Asignación, Cierre 17:00 y Repliegue V06</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Liderazgo operativo en el centro de votación y custodia de los sobres de actas electorales hacia la ODPE.
+        </p>
+      </div>
+
+      <!-- ASIGNACION Y APERTURA -->
+      <div class="hour-block">
+        <div class="hour-header">
+          <div class="hour-time-badge">⏰ 06:00 a 07:00 hrs</div>
+          <div class="hour-title">Asignación de Mesas y Registro de Actores Electorales</div>
+          <span class="medium-tag tag-app">📱 App FLV Exclusivo</span>
+        </div>
+        <div class="hour-body">
+          <div class="task-col">
+            <div class="sub-title">📌 Tareas del FLV Responsable</div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_r8')">
+              <input type="checkbox" id="chk_r8">
+              <span class="task-text">
+                <strong>Asignación digital de mesas:</strong> En el menú del App FLV, asigna a cada FLV de mesa las mesas que supervisará (ej. FLV Juan Pérez: mesas 1 a 4).
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_r9')">
+              <input type="checkbox" id="chk_r9">
+              <span class="task-text">
+                <strong>Registro de Actores Globales:</strong> Registrar en el App los datos del CLV de ONPE (nombre, DNI, teléfono), personal PNP y FF.AA. de resguardo, y personeros de local.
+              </span>
+            </div>
+          </div>
+
+          <div class="task-col">
+            <div class="case-box">
+              <div class="case-header">
+                <span class="case-title">💡 Personeros de Local vs Personeros de Mesa</span>
+                <span class="badge badge-blue">Regla LOE</span>
+              </div>
+              <div class="case-body">
+                El personero de centro de votación coordina a los personeros de mesa de su partido. No puede haber dos personeros del mismo partido actuando en la misma mesa simultáneamente.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CIERRE A LAS 17:00 HRS -->
+      <div class="hour-block">
+        <div class="hour-header">
+          <div class="hour-time-badge">⏰ 17:00 hrs en punto</div>
+          <div class="hour-title">Verificación y Registro del CIERRE DE PUERTAS</div>
+          <span class="medium-tag tag-app">📱 Botón "Cierre de Puertas" en App FLV</span>
+        </div>
+        <div class="hour-body">
+          <div class="task-col">
+            <div class="sub-title">📌 Tarea Ineludible del Responsable</div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_r10')">
+              <input type="checkbox" id="chk_r10">
+              <span class="task-text">
+                <strong>Presencia en la puerta principal:</strong> Acompaña al CLV de ONPE y efectivos policiales en la puerta exterior del centro de votación. A las 17:00 hrs se cierra la reja.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_r11')">
+              <input type="checkbox" id="chk_r11">
+              <span class="task-text">
+                <strong>Registro en el App FLV:</strong> Presiona el botón formal de <strong>CIERRE DE PUERTAS</strong> en tu App FLV para reportar la hora exacta al SIPE de la DNFPE.
+              </span>
+            </div>
+          </div>
+
+          <div class="task-col">
+            <div class="case-box">
+              <div class="case-header">
+                <span class="case-title">🚨 Presión Social en la Puerta</span>
+                <span class="badge badge-red">Art. 274 LOE</span>
+              </div>
+              <div class="case-body">
+                Si un grupo de personas intenta entrar por la fuerza a las 17:05 hrs, la policía debe impedirlo. El FLV Responsable no discute ni abre la reja: constata que solo voten los que ya ingresaron al patio antes de las 17:00 hrs.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REPLIEGUE DE ACTAS V06 -->
+      <div class="hour-block">
+        <div class="hour-header">
+          <div class="hour-time-badge">⏰ Concluido el Escrutinio (Noche / Madrugada)</div>
+          <div class="hour-title">Formato V06: Repliegue de Actas Electorales (Local a ODPE)</div>
+          <span class="medium-tag tag-ambos">📱 App FLV + 📝 Formato V06 + 🚔 Custodia</span>
+        </div>
+        <div class="hour-body">
+          <div class="task-col">
+            <div class="sub-title">📌 Conteo y Custodia de Sobres de Colores</div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_r12')">
+              <input type="checkbox" id="chk_r12">
+              <span class="task-text">
+                <strong>Conteo en Centro de Acopio:</strong> Verifica que la cantidad de sobres de actas coincida exactamente con el total de mesas del colegio.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_r13')">
+              <input type="checkbox" id="chk_r13">
+              <span class="task-text">
+                <strong>🚨 ACOMPAÑAMIENTO OBLIGATORIO DEL SOBRE PLOMO:</strong> El fiscalizador designado debe viajar obligatoriamente en el convoy de traslado de los Sobres Plomos (actas ODPE) bajo resguardo policial.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_r14')">
+              <input type="checkbox" id="chk_r14">
+              <span class="task-text">
+                <strong>Cédulas No Impugnadas (Sobre Anaranjado):</strong> Verificar que se replieguen en custodia hacia la ODPE de acuerdo a la Res. Jefatural 000075-2025-JN/ONPE.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_r15')">
+              <input type="checkbox" id="chk_r15">
+              <span class="task-text">
+                <strong>Llegada Conforme a la ODPE:</strong> Firmar la entrega y recepción en la sede de la ODPE y registrar la hora de llegada conforme en el Formato V06 y en el App FLV.
+              </span>
+            </div>
+          </div>
+
+          <div class="task-col">
+            <div class="case-box">
+              <div class="case-header">
+                <span class="case-title">📦 Código de Colores de Sobres (Formato V06)</span>
+                <span class="badge badge-gold">Destinos Oficiales</span>
+              </div>
+              <div class="sobres-mini-grid">
+                <div class="sobre-mini s-plomo"><strong>Sobre Plomo:</strong> Actas ODPE (Cómputo)</div>
+                <div class="sobre-mini s-rojo"><strong>Sobre Rojo:</strong> ONPE Sede Central</div>
+                <div class="sobre-mini s-celeste"><strong>Sobre Celeste:</strong> Actas para el JEE</div>
+                <div class="sobre-mini s-verde"><strong>Sobre Verde:</strong> Actas para el JNE</div>
+                <div class="sobre-mini s-naranja"><strong>Sobre Anaranjado:</strong> Cédulas No Impugnadas</div>
+              </div>
+            </div>
+
+            <div class="template-box">
+              <div class="template-title">📋 Llenado Resuelto del Formato V06</div>
+              <div class="template-code">REPORTE REPLIEGUE V06:
+Tipo de repliegue: INTEGRAL (15 mesas)
+Hora salida LV: 23:45 hrs / Hora llegada ODPE: 00:30 hrs
+¿Entrega conforme?: SÍ
+¿Incluye cédulas no impugnadas?: SÍ (Mesas 048120 a 048134)
+Sobres Plomos: 15 / Rojos: 15 / Celestes: 15 / Verdes: 15 / Anaranjados: 15
+Escolta PNP: Suboficial Díaz - 2 patrulleros.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- LUNES 5 DE OCTUBRE: INFORME Y PAGO -->
+    <!-- ========================================== -->
+    <section id="day-lunes" class="day-section">
+      <div style="margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.4rem; color: white;">Lunes 5 de Octubre: Informe Final y Entrega en Sobre Cerrado</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Consolidación de toda la documentación del local para la emisión de conformidad y pago de honorarios.
+        </p>
+      </div>
+
+      <div class="hour-block">
+        <div class="hour-header">
+          <div class="hour-time-badge">⏰ Lunes 5 Oct • Mañana y Tarde</div>
+          <div class="hour-title">Responsabilidades de Liderazgo del FLV Responsable</div>
+          <span class="medium-tag tag-ambos">📂 Drive + 🏢 Sede JEE</span>
+        </div>
+        <div class="hour-body">
+          <div class="task-col">
+            <div class="sub-title">📌 Acciones Concluyentes</div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_r16')">
+              <input type="checkbox" id="chk_r16">
+              <span class="task-text">
+                <strong>Acopio de fotos en Drive:</strong> Verificar que todos los FLVs del local hayan subido las fotos horizontales completas de sus mesas al enlace Drive compartido.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_r17')">
+              <input type="checkbox" id="chk_r17">
+              <span class="task-text">
+                <strong>Redacción y Cuadros:</strong> Liderar la consolidación del informe físico con el número de electores hábiles, votantes y mesas instaladas.
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_r18')">
+              <input type="checkbox" id="chk_r18">
+              <span class="task-text">
+                <strong>Entrega de Sobre Cerrado en JEE:</strong> Llevar personalmente a la sede física del JEE Pacasmayo el sobre cerrado rotulado con los formatos manuscritos originales (V01, V10, V06, F07 e incidencias).
+              </span>
+            </div>
+            <div class="task-check-card" onclick="toggleTask(this, 'chk_r19')">
+              <input type="checkbox" id="chk_r19">
+              <span class="task-text">
+                <strong>Firma y Trámite:</strong> Asegurar que todos los FLVs firmen con firma escaneada legible el PDF revisado para tramitar las firmas digitales del Coordinador del JEE.
+              </span>
+            </div>
+          </div>
+
+          <div class="task-col">
+            <div class="case-box">
+              <div class="case-header">
+                <span class="case-title">🏢 Sede Oficial de Entrega</span>
+                <span class="badge badge-gold">JEE Pacasmayo</span>
+              </div>
+              <div class="case-body">
+                <strong>Dirección:</strong> Calle Ancash N° 999 – San Pedro de Lloc – Provincia de Pacasmayo – Región La Libertad.<br><br>
+                <em>Recuerda: Los formatos físicos manuscritos deben estar debidamente firmados y con huella digital en original.</em>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p><strong>Plataforma de Consulta JNE Fiscalizador Pro • Módulo del FLV Responsable</strong></p>
+    <p style="margin-top: 0.35rem;">ERM 2026 • Desarrollado según la normativa de la DNFPE y directivas del JEE Pacasmayo.</p>
+  </footer>
+
+  <script>
+    function switchDay(dayId) {
+      document.querySelectorAll('.day-section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.day-tab').forEach(btn => btn.classList.remove('active'));
+
+      const target = document.getElementById('day-' + dayId);
+      if (target) {
+        target.classList.add('active');
+      }
+
+      const activeBtn = Array.from(document.querySelectorAll('.day-tab')).find(b => b.getAttribute('onclick').includes(dayId));
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+
+      window.scrollTo({ top: 120, behavior: 'smooth' });
+    }
+
+    function toggleTask(cardEl, checkId) {
+      const chk = document.getElementById(checkId);
+      if (!chk) return;
+      chk.checked = !chk.checked;
+      updateTaskStyle(cardEl, chk.checked);
+      saveTasksState();
+    }
+
+    function updateTaskStyle(cardEl, isChecked) {
+      if (isChecked) {
+        cardEl.classList.add('done');
+      } else {
+        cardEl.classList.remove('done');
+      }
+    }
+
+    function saveTasksState() {
+      const state = {};
+      document.querySelectorAll('.task-check-card input[type="checkbox"]').forEach(inp => {
+        state[inp.id] = inp.checked;
+      });
+      localStorage.setItem('flv_responsable_tasks_erm2026', JSON.stringify(state));
+    }
+
+    function loadTasksState() {
+      const saved = localStorage.getItem('flv_responsable_tasks_erm2026');
+      if (saved) {
+        try {
+          const state = JSON.parse(saved);
+          Object.keys(state).forEach(id => {
+            const inp = document.getElementById(id);
+            if (inp) {
+              inp.checked = state[id];
+              updateTaskStyle(inp.closest('.task-check-card'), state[id]);
+            }
+          });
+        } catch (e) {}
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadTasksState();
+    });
+  </script>
+</body>
+</html>

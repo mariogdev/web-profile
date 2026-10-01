@@ -1,0 +1,2105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía Integral del Fiscalizador de Local de Votación (FLV) - ERM 2026</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-glow: rgba(37, 99, 235, 0.35);
+      --jne-red: #dc2626;
+      --jne-red-hover: #b91c1c;
+      --jne-red-glow: rgba(220, 38, 38, 0.35);
+      --onpe-blue: #0284c7;
+      --reniec-green: #059669;
+      --gold: #f59e0b;
+      --gold-glow: rgba(245, 158, 11, 0.3);
+      --bg-dark: #090d16;
+      --bg-card: #111827;
+      --bg-card-alt: #1a2234;
+      --bg-card-hover: #222d42;
+      --border: #283548;
+      --border-light: #374151;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --text-sub: #cbd5e1;
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.15);
+      --danger: #ef4444;
+      --danger-bg: rgba(239, 68, 68, 0.15);
+      --warning: #f59e0b;
+      --warning-bg: rgba(245, 158, 11, 0.15);
+      --info-bg: rgba(37, 99, 235, 0.15);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 22px;
+      --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+      --shadow-glow: 0 0 20px rgba(37, 99, 235, 0.25);
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-dark);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(180deg, #131c2e 0%, #0d131f 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .brand-badge {
+      background: var(--jne-red);
+      color: white;
+      font-weight: 800;
+      font-size: 0.85rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-sm);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      box-shadow: 0 0 15px var(--jne-red-glow);
+    }
+
+    .brand-info h1 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .brand-info p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      position: relative;
+      min-width: 260px;
+    }
+
+    .search-box input {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 0.55rem 1rem 0.55rem 2.3rem;
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .search-box input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px var(--primary-glow);
+    }
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-sub);
+    }
+    .btn-outline:hover {
+      background: var(--bg-card-alt);
+      color: white;
+      border-color: var(--text-muted);
+    }
+
+    /* Navigation Bar Container with Controls */
+    .nav-wrapper {
+      background: #0d131f;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 72px;
+      z-index: 90;
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+      gap: 0.5rem;
+    }
+
+    .nav-scroll-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: #93c5fd;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    .nav-scroll-btn:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    nav.tab-nav {
+      display: flex;
+      gap: 0.4rem;
+      overflow-x: auto;
+      padding: 0.6rem 0.25rem 0.6rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) #0d131f;
+      scroll-behavior: smooth;
+      flex: 1;
+      cursor: grab;
+    }
+
+    nav.tab-nav:active {
+      cursor: grabbing;
+    }
+
+    nav.tab-nav::-webkit-scrollbar {
+      height: 5px;
+    }
+    nav.tab-nav::-webkit-scrollbar-thumb {
+      background: var(--border-light);
+      border-radius: 3px;
+    }
+    nav.tab-nav::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
+    }
+
+    .nav-tab {
+      padding: 0.6rem 1rem;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-shrink: 0;
+    }
+
+    .nav-tab:hover {
+      color: var(--text-main);
+      background: var(--bg-card-alt);
+      border-color: var(--border-light);
+    }
+
+    .nav-tab.active {
+      color: #ffffff;
+      background: var(--primary);
+      border-color: var(--primary);
+      box-shadow: 0 2px 10px var(--primary-glow);
+    }
+
+    /* Quick Jump Dropdown */
+    .quick-jump-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding-left: 0.5rem;
+      border-left: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .quick-jump-container select {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: #93c5fd;
+      padding: 0.45rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      padding: 2rem 1.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.25s ease-out;
+    }
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Typography & Utilities */
+    h2.section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    p.section-desc {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .badge-red { background: var(--danger-bg); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .badge-blue { background: var(--info-bg); color: #60a5fa; border: 1px solid rgba(37, 99, 235, 0.3); }
+    .badge-green { background: var(--success-bg); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-gold { background: var(--warning-bg); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+
+    /* Cards Grid */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.4rem;
+      box-shadow: var(--shadow-card);
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .card:hover {
+      border-color: var(--border-light);
+      transform: translateY(-2px);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      gap: 0.75rem;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Alerts */
+    .alert-box {
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-md);
+      margin-bottom: 1.25rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .alert-danger { background: var(--danger-bg); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; }
+    .alert-warning { background: var(--warning-bg); border: 1px solid rgba(245, 158, 11, 0.3); color: #fde68a; }
+    .alert-info { background: var(--info-bg); border: 1px solid rgba(37, 99, 235, 0.3); color: #93c5fd; }
+    .alert-success { background: var(--success-bg); border: 1px solid rgba(16, 185, 129, 0.3); color: #a7f3d0; }
+
+    .alert-box strong { color: #ffffff; }
+
+    /* Timeline Stepper */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+      margin: 1.5rem 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 10px;
+      bottom: 10px;
+      width: 2px;
+      background: var(--border);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -2rem;
+      top: 4px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--primary);
+      border: 3px solid var(--bg-dark);
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+    .timeline-dot.red { background: var(--jne-red); box-shadow: 0 0 10px var(--jne-red-glow); }
+    .timeline-dot.gold { background: var(--gold); box-shadow: 0 0 10px var(--gold-glow); }
+    .timeline-dot.green { background: var(--success); box-shadow: 0 0 10px var(--success-bg); }
+
+    .timeline-card {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+    }
+
+    .timeline-time {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #60a5fa;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Sobres Diagram */
+    .sobres-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin: 1.5rem 0;
+    }
+
+    .sobre-card {
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      background: var(--bg-card);
+      border-left: 6px solid;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .sobre-plomo { border-color: #94a3b8; }
+    .sobre-rojo { border-color: #ef4444; }
+    .sobre-celeste { border-color: #38bdf8; }
+    .sobre-verde { border-color: #22c55e; }
+    .sobre-naranja { border-color: #f97316; }
+
+    .sobre-title { font-weight: 700; font-size: 1rem; color: white; }
+    .sobre-dest { font-size: 0.85rem; color: var(--text-sub); font-weight: 600; }
+
+    /* Incidencias Accordion */
+    .incidencia-search-bar {
+      margin-bottom: 1.25rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .incidencia-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      margin-bottom: 0.65rem;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .incidencia-item:hover { border-color: var(--border-light); }
+
+    .incidencia-header {
+      padding: 0.85rem 1.1rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      user-select: none;
+    }
+
+    .incidencia-title {
+      font-weight: 600;
+      color: var(--text-main);
+      font-size: 0.92rem;
+      flex: 1;
+    }
+
+    .incidencia-body {
+      padding: 0 1.25rem 1.25rem;
+      display: none;
+      color: var(--text-sub);
+      font-size: 0.88rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      background: var(--bg-card-alt);
+    }
+
+    .incidencia-item.open .incidencia-body {
+      display: block;
+      padding-top: 1rem;
+    }
+    .incidencia-item.open { border-color: var(--primary); }
+
+    /* Checklist interactive */
+    .checklist-group {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+      user-select: none;
+    }
+    .check-item:last-child { border-bottom: none; }
+
+    .check-item input[type="checkbox"] {
+      width: 1.25rem;
+      height: 1.25rem;
+      margin-top: 0.2rem;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .check-item.done span {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    /* Form Generator & Simulator */
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-sub);
+      margin-bottom: 0.4rem;
+    }
+
+    .form-control {
+      width: 100%;
+      background: var(--bg-dark);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 0.65rem 0.9rem;
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      outline: none;
+      font-family: inherit;
+    }
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    .output-preview {
+      background: #060911;
+      border: 1px dashed var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.85rem;
+      color: #a7f3d0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin-top: 1rem;
+      max-height: 380px;
+      overflow-y: auto;
+    }
+
+    /* Quiz / Interactive Simulator */
+    .sim-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .sim-question {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .sim-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .sim-opt-btn {
+      text-align: left;
+      padding: 0.85rem 1.1rem;
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.92rem;
+    }
+
+    .sim-opt-btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--primary);
+    }
+
+    .sim-feedback {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: var(--radius-md);
+      display: none;
+      font-size: 0.92rem;
+    }
+
+    /* Section Navigator Bar Bottom */
+    .section-footer-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* Footer */
+    footer {
+      background: #080c14;
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: auto;
+    }
+
+    @media (max-width: 900px) {
+      header {
+        position: relative; /* Deja de ser pegajoso: se desliza con el scroll */
+        top: auto;
+        padding: 0.65rem 1rem;
+      }
+      .brand-info p { display: none; }
+      .brand-info h1 { font-size: 1.05rem; }
+      .quick-jump-container { display: none; }
+      .search-box { width: 100%; min-width: 100%; margin-top: 0.25rem; }
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .role-selector-bar {
+        flex-direction: column;
+        padding: 0.4rem 0.75rem;
+        gap: 0.35rem;
+      }
+      .role-btn-primary, .role-btn-secondary {
+        padding: 0.45rem 0.75rem;
+        font-size: 0.8rem;
+      }
+      .nav-wrapper {
+        position: sticky;
+        top: 0; /* Solo la barra de pestañas queda pegada arriba */
+        z-index: 99;
+        background: rgba(13, 19, 31, 0.96);
+        backdrop-filter: blur(8px);
+        padding: 0 0.5rem;
+      }
+      nav.tab-nav {
+        padding: 0.35rem 0.25rem;
+        -webkit-overflow-scrolling: touch;
+      }
+      .tab-btn {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.8rem;
+      }
+      .header-top { gap: 0.75rem; }
+      .header-actions { width: 100%; }
+      .header-actions .btn { flex: 1 1 auto; justify-content: center; padding: 0.45rem 0.75rem; font-size: 0.78rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-top">
+      <div class="brand">
+        <div class="brand-badge">JNE • DNFPE</div>
+        <div class="brand-info">
+          <h1>Guía Integral del Fiscalizador (FLV)</h1>
+          <p>Elecciones Regionales y Municipales 2026 • JEE Pacasmayo / Nacional (12 Módulos)</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="globalSearch" placeholder="Buscar directivas, horas, formatos, incidencias..." oninput="handleGlobalSearch()">
+        </div>
+        <button class="btn btn-outline" onclick="window.print()">🖨️ Imprimir</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Bar with Controls (Scroll Buttons + MouseWheel + Drag + QuickJump) -->
+  <div class="nav-wrapper">
+    <button class="nav-scroll-btn" onclick="scrollTabs('left')" title="Desplazar a la izquierda">◀</button>
+    <nav class="tab-nav" id="tabNavContainer">
+      <button class="nav-tab active" data-tab="resumen" onclick="switchTab('resumen')">📋 1. Perfil y Reglas</button>
+      <button class="nav-tab" data-tab="cronograma" onclick="switchTab('cronograma')">⏰ 2. Cronograma de Operativos</button>
+      <button class="nav-tab" data-tab="appflv" onclick="switchTab('appflv')">📱 3. App FLV Móvil</button>
+      <button class="nav-tab" data-tab="jornada" onclick="switchTab('jornada')">🗳️ 4. Día de Votación (Inst.-Suf.-Escr.)</button>
+      <button class="nav-tab" data-tab="repliegue" onclick="switchTab('repliegue')">📦 5. Repliegue y Sobres</button>
+      <button class="nav-tab" data-tab="incidencias" onclick="switchTab('incidencias')">🚨 6. Catálogo de Incidencias (70+)</button>
+      <button class="nav-tab" data-tab="formatos" onclick="switchTab('formatos')">📝 7. Formatos y Redacción F07</button>
+      <button class="nav-tab" data-tab="informe" onclick="switchTab('informe')">📂 8. Informe Final y Pago</button>
+      <button class="nav-tab" data-tab="notificaciones" onclick="switchTab('notificaciones')">📜 9. Notificaciones Preventivas</button>
+      <button class="nav-tab" data-tab="checklist" onclick="switchTab('checklist')">✅ 10. Checklist de Mochila</button>
+      <button class="nav-tab" data-tab="simulador" onclick="switchTab('simulador')">💡 11. Simulador de Casos</button>
+      <button class="nav-tab" data-tab="directorio" onclick="switchTab('directorio')">⚖️ 12. Base Legal y Directorio JEE</button>
+    </nav>
+    <button class="nav-scroll-btn" onclick="scrollTabs('right')" title="Desplazar a la derecha">▶</button>
+
+    <div class="quick-jump-container">
+      <select id="quickJumpSelect" onchange="switchTab(this.value)">
+        <option value="" disabled selected>📌 Ir a módulo...</option>
+        <option value="resumen">1. Perfil y Reglas</option>
+        <option value="cronograma">2. Cronograma de Operativos</option>
+        <option value="appflv">3. App FLV Móvil</option>
+        <option value="jornada">4. Día de Votación</option>
+        <option value="repliegue">5. Repliegue y Sobres</option>
+        <option value="incidencias">6. Catálogo de Incidencias</option>
+        <option value="formatos">7. Formatos y Redacción F07</option>
+        <option value="informe">8. Informe Final y Pago</option>
+        <option value="notificaciones">9. Notificaciones Preventivas</option>
+        <option value="checklist">10. Checklist de Mochila</option>
+        <option value="simulador">11. Simulador de Casos</option>
+        <option value="directorio">12. Base Legal y Directorio</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main>
+
+    <!-- Accesos Rápidos a Guías Operativas Especializadas por Rol -->
+    <div style="background: linear-gradient(135deg, #111827 0%, #1e293b 100%); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; margin-bottom: 2rem; box-shadow: var(--shadow-card);">
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+        <div>
+          <span class="badge badge-gold" style="margin-bottom: 0.35rem;">🎯 ¿CÓMO DESEAS ESTUDIAR HOY?</span>
+          <h3 style="color: white; font-size: 1.2rem; margin-top: 0.25rem;">Guías Tácticas de Campo Especializadas por Rol</h3>
+          <p style="color: var(--text-muted); font-size: 0.88rem;">Selecciona una guía interactiva organizada día a día y hora por hora con casos didácticos y formatos:</p>
+        </div>
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+          <a href="flv-mesa.html" class="btn" style="background: #10b981; color: #064e3b; font-weight: 800; font-size: 0.9rem; padding: 0.65rem 1.2rem; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); text-decoration: none; border-radius: 10px;">
+            🛡️ Mi Rol: FLV de Mesa (Día a Día y Hora a Hora) ➔
+          </a>
+          <a href="flv-responsable.html" class="btn" style="background: #f59e0b; color: #78350f; font-weight: 800; font-size: 0.9rem; padding: 0.65rem 1.2rem; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); text-decoration: none; border-radius: 10px;">
+            🏢 Rol de Apoyo: FLV Responsable de Local ➔
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULO 1: RESUMEN Y PERFIL -->
+    <section id="tab-resumen" class="tab-content active">
+      <h2 class="section-title">🛡️ 1. Perfil, Rol y Reglas de Oro del FLV</h2>
+      <p class="section-desc">Directiva Oficial DNFPE (GU-DNFPE-JNE-03) y lineamientos de campo para las ERM 2026.</p>
+
+      <div class="alert-box alert-danger">
+        <div style="font-size: 1.5rem;">⚠️</div>
+        <div>
+          <strong>¡REGLAS CRÍTICAS DE CAMPO!</strong>
+          <ul style="margin-left: 1.25rem; margin-top: 0.35rem;">
+            <li><strong>FOTOS SIEMPRE HORIZONTALES:</strong> Todas las fotografías de evidencias y reportes deben tomarse con el celular de forma <strong>HORIZONTAL</strong>.</li>
+            <li><strong>CERO SELFIES:</strong> Está estrictamente prohibido tomarse autorretratos ("selfies"). No tomar fotos a caños, baños o extintores vacíos sin contexto.</li>
+            <li><strong>FORMATO DE 24 HORAS:</strong> Toda hora en reportes físicos, App FLV e informe final debe registrarse obligatoriamente en formato militar <code>00:00</code> a <code>23:59</code>.</li>
+            <li><strong>NO OBSTACULIZAR:</strong> El FLV no es miembro de mesa ni personal de la ONPE. Fiscaliza la legalidad con neutralidad e imparcialidad estricta, sin interrumpir indebidamente.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">👥 Perfiles de Fiscalizador en el Local</h3>
+            <span class="badge badge-blue">Organización</span>
+          </div>
+          <p style="color: var(--text-sub); margin-bottom: 1rem;">En cada centro de votación se distribuyen funciones específicas:</p>
+          <div style="background: var(--bg-card-alt); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 0.75rem; border-left: 4px solid var(--primary);">
+            <strong style="color: white;">1. FLV Responsable:</strong>
+            <p style="font-size: 0.88rem; color: var(--text-sub); margin-top: 0.25rem;">
+              • Asigna mesas a los FLVs de su local.<br>
+              • Realiza el <strong>Cierre de Puertas a las 17:00 hrs</strong> y lo registra en la App FLV.<br>
+              • Registra los formatos integrales: Arribo de Material (V01), Condiciones del Local (V10), Operativos y Repliegue LV-ODPE (V06).<br>
+              • Consolida los reportes del local y lidera la entrega del informe final.
+            </p>
+          </div>
+          <div style="background: var(--bg-card-alt); padding: 1rem; border-radius: var(--radius-md); border-left: 4px solid var(--jne-red);">
+            <strong style="color: white;">2. FLV de Mesa:</strong>
+            <p style="font-size: 0.88rem; color: var(--text-sub); margin-top: 0.25rem;">
+              • Fiscaliza las mesas de sufragio asignadas.<br>
+              • Registra los 3 hitos: Instalación, Sufragio (foto 14:00 hrs) y Escrutinio.<br>
+              • Toma fotografías de los 3 miembros de mesa y de las 3 actas electorales.<br>
+              • Reporta Alertas de Incidencia de sus mesas en tiempo real.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">📞 Línea de Comunicación Jerárquica</h3>
+            <span class="badge badge-gold">Cadena de Mando</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <div style="padding: 0.75rem 1rem; background: var(--bg-card-alt); border-radius: var(--radius-md); border: 1px solid var(--border);">
+              <span class="badge badge-blue">Nivel 1</span> <strong>FLV (Local de Votación)</strong>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">Reporta de forma inmediata al Fiscalizador a cargo ante cualquier duda o incidencia.</p>
+            </div>
+            <div style="text-align: center; color: var(--primary); font-weight: bold;">↓</div>
+            <div style="padding: 0.75rem 1rem; background: var(--bg-card-alt); border-radius: var(--radius-md); border: 1px solid var(--border);">
+              <span class="badge badge-green">Nivel 2</span> <strong>Fiscalizador a Cargo (FISPRO / FISDIS)</strong>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">Controla, monitorea, revisa los formatos y registra las incidencias en el SIPE-DNFPE.</p>
+            </div>
+            <div style="text-align: center; color: var(--primary); font-weight: bold;">↓</div>
+            <div style="padding: 0.75rem 1rem; background: var(--bg-card-alt); border-radius: var(--radius-md); border: 1px solid var(--border);">
+              <span class="badge badge-red">Nivel 3</span> <strong>Coordinador de Fiscalización (COORFIS) / DFEO</strong>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">Coordina con autoridades de alto nivel (JEE, Fiscalía, Policía, Fuerzas Armadas).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">🎒 Kit Reglamentario del FLV</h3>
+          <span class="badge badge-green">Verificación Previa</span>
+        </div>
+        <div class="grid-4">
+          <div style="background: var(--bg-card-alt); padding: 1rem; border-radius: var(--radius-md);">
+            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🪪</div>
+            <strong style="color: white;">Identificación</strong>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">DNI físico vigente o caduco, Credencial oficial emitida por el JNE.</p>
+          </div>
+          <div style="background: var(--bg-card-alt); padding: 1rem; border-radius: var(--radius-md);">
+            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🧢</div>
+            <strong style="color: white;">Indumentaria Oficial</strong>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Polo/chaleco institucional JNE y gorro rojo reglamentario. Zapatos cómodos.</p>
+          </div>
+          <div style="background: var(--bg-card-alt); padding: 1rem; border-radius: var(--radius-md);">
+            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🔋</div>
+            <strong style="color: white;">Tecnología</strong>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Celular Android 7.1+, batería al 100%, cargador portátil (power bank) y datos móviles.</p>
+          </div>
+          <div style="background: var(--bg-card-alt); padding: 1rem; border-radius: var(--radius-md);">
+            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">📋</div>
+            <strong style="color: white;">Papelería y Útiles</strong>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Tablero acrílico, lapiceros azul y negro, plantillas impresas de formatos V01, V10, V06, F07 e incidencias.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-footer-nav">
+        <div></div>
+        <button class="btn btn-primary" onclick="switchTab('cronograma')">Siguiente: 2. Cronograma de Operativos ➔</button>
+      </div>
+    </section>
+
+    <!-- MODULO 2: CRONOGRAMA DE OPERATIVOS -->
+    <section id="tab-cronograma" class="tab-content">
+      <h2 class="section-title">⏰ 2. Cronograma Operativo de Campo (ERM 2026)</h2>
+      <p class="section-desc">Hitos temporales exactos, bases legales y responsabilidades de fiscalización.</p>
+
+      <div class="timeline">
+        <!-- JUEVES -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-time">Jueves 1 de Octubre • 16:00 a 18:00 hrs hasta las 00:00 hrs</div>
+            <h3 class="timeline-title">Operativo de Cierre de Campaña Electoral</h3>
+            <p style="color: var(--text-sub); font-size: 0.9rem; margin-bottom: 0.75rem;">
+              Fiscalización de mítines y concentraciones públicas proselitistas en plazas y vías principales.
+            </p>
+            <div style="background: var(--bg-card); padding: 0.85rem; border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--text-muted);">
+              • <strong>Prohibiciones:</strong> Mítines simultáneos de distintas organizaciones a menos de 1 km de distancia entre sí (Art. 189 LOE). Mítines sin permiso previo de la autoridad política. Prohibición de miembros del clero en manifestaciones vistiendo hábitos religiosos.<br>
+              • <strong>Acciones del FLV:</strong> Elaborar <strong>un solo Reporte de Operativo por evento</strong> suscrito por <strong>todos los FLVs involucrados</strong> y las autoridades presentes (con foto grupal obligatoria), registrar alerta en App FLV si hay dádivas o infracciones graves.
+            </div>
+          </div>
+        </div>
+
+        <!-- VIERNES -->
+        <div class="timeline-item">
+          <div class="timeline-dot gold"></div>
+          <div class="timeline-card">
+            <div class="timeline-time">Viernes 2 de Octubre • Durante el día (hasta 18:00 hrs)</div>
+            <h3 class="timeline-title">Notificaciones Preventivas de Ley Seca y Propaganda</h3>
+            <p style="color: var(--text-sub); font-size: 0.9rem; margin-bottom: 0.75rem;">
+              Notificación a comercios, bodegas, licorerías y propietarios de predios vecinos a los locales de votación.
+            </p>
+            <div style="background: var(--bg-card); padding: 0.85rem; border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--text-muted);">
+              • Notificación escrita con el formato oficial del JEE, recabando nombre comercial, suministro eléctrico, DNI y firma del encargado.<br>
+              • Notificación sobre suspensión de propaganda electoral en predios privados circundantes.
+            </div>
+          </div>
+        </div>
+
+        <!-- SABADO 00:00 -->
+        <div class="timeline-item">
+          <div class="timeline-dot red"></div>
+          <div class="timeline-card">
+            <div class="timeline-time">Sábado 3 de Octubre • 00:00 hrs en punto</div>
+            <h3 class="timeline-title">Suspensión Absoluta de Propaganda Electoral (24 hrs antes)</h3>
+            <p style="color: var(--text-sub); font-size: 0.9rem; margin-bottom: 0.75rem;">
+              Entra en vigencia el Art. 190° de la LOE: <em>"Desde veinticuatro horas antes, se suspende toda clase de propaganda política"</em>.
+            </p>
+            <div class="alert-box alert-danger" style="margin-bottom: 0; padding: 0.75rem;">
+              <strong>DELITO ELECTORAL (Art. 389° LOE):</strong> Pena privativa de la libertad no menor de 2 años a quien haga propaganda por cualquier medio durante las horas prohibidas. En predios privados con acceso, se retira con autorización escrita del dueño. En postes de luz NO se retira: se reporta al fiscalizador a cargo para coordinar distorsión.
+            </div>
+          </div>
+        </div>
+
+        <!-- SABADO 08:00 -->
+        <div class="timeline-item">
+          <div class="timeline-dot red"></div>
+          <div class="timeline-card">
+            <div class="timeline-time">Sábado 3 de Octubre • 08:00 hrs en punto (hasta Lunes 08:00 hrs)</div>
+            <h3 class="timeline-title">Vigencia de la "LEY SECA" (Art. 351° y 390° LOE)</h3>
+            <p style="color: var(--text-sub); font-size: 0.9rem; margin-bottom: 0.75rem;">
+              Prohibido el expendio de bebidas alcohólicas de cualquier clase. Locales dedicados exclusivamente a este rubro deben permanecer cerrados.
+            </p>
+            <div style="background: var(--bg-card); padding: 0.85rem; border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--text-muted);">
+              • <strong>Sanción:</strong> Cárcel hasta por 6 meses y multa de <strong>S/. 3,390.00</strong> (Art. 390 LOE).<br>
+              • <strong>Operativo Conjunto:</strong> Con Ministerio Público y Policía Nacional. La clausura o decomiso la efectúa el fiscal provincial o PNP, NO el fiscalizador del JNE.
+            </div>
+          </div>
+        </div>
+
+        <!-- SABADO ACTIVIDADES -->
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-time">Sábado 3 de Octubre • Horario coordinado con ODPE</div>
+            <h3 class="timeline-title">Fiscalización de Arribo de Material y Condiciones del Local</h3>
+            <div class="grid-2" style="margin-top: 0.75rem;">
+              <div style="background: var(--bg-card); padding: 0.85rem; border-radius: var(--radius-sm);">
+                <strong style="color: white;">1. Arribo de Material (Formato V01):</strong><br>
+                <span style="font-size: 0.85rem; color: var(--text-muted);">
+                  Verificar vehículo, chofer, ruta ODPE y custodia PNP/FFAA. Verificar conteo de cajas de sufragio, reserva, material de contingencia y paquetes CLV. Tomar 2 fotos en SIPE.
+                </span>
+              </div>
+              <div style="background: var(--bg-card); padding: 0.85rem; border-radius: var(--radius-sm);">
+                <strong style="color: white;">2. Condiciones del Local (Formato V10):</strong><br>
+                <span style="font-size: 0.85rem; color: var(--text-muted);">
+                  Verificar cerco perimétrico, fluido eléctrico (OBLIGATORIO probar luces), agua, aulas habilitadas y señalización. Subir 2 fotos descriptivas a la App FLV el mismo sábado.
+                </span>
+              </div>
+            </div>
+            <div style="margin-top: 0.75rem; background: var(--bg-card); padding: 0.85rem; border-radius: var(--radius-sm); font-size: 0.85rem; color: var(--text-muted);">
+              <strong>3. Operativo en Comisarías (Arts. 342 y 343 LOE):</strong> El FLV designado acude a la comisaría local a verificar el libro de ocurrencias y la carceleta para garantizar que ningún elector ni miembro de mesa esté indebidamente detenido (inmunidad electoral 24h antes y 24h después).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-footer-nav">
+        <button class="btn btn-outline" onclick="switchTab('resumen')">⬅ Anterior: 1. Perfil y Reglas</button>
+        <button class="btn btn-primary" onclick="switchTab('appflv')">Siguiente: 3. App FLV Móvil ➔</button>
+      </div>
+    </section>
+
+    <!-- MODULO 3: APP FLV MOVIL -->
+    <section id="tab-appflv" class="tab-content">
+      <h2 class="section-title">📱 3. Guía Operativa de la Aplicación Móvil "APP FLV"</h2>
+      <p class="section-desc">Manual técnico para el uso en smartphones Android del JNE.</p>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">⚙️ Requisitos Técnicos</h3>
+            <span class="badge badge-green">Android</span>
+          </div>
+          <ul style="margin-left: 1.25rem; font-size: 0.88rem; color: var(--text-sub);">
+            <li>Sistema Operativo: <strong>Android 7.1 o superior</strong>.</li>
+            <li>Conexión a Internet (datos móviles habilitados).</li>
+            <li>Cuenta Google activa para descarga/actualización.</li>
+            <li><strong>Permisos OBLIGATORIOS:</strong> Cámara, Ubicación GPS (precisión alta), Micrófono y Archivos/Multimedia.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">👑 FLV Responsable</h3>
+            <span class="badge badge-gold">Funciones Exclusivas</span>
+          </div>
+          <ul style="margin-left: 1.25rem; font-size: 0.88rem; color: var(--text-sub);">
+            <li>Asignación de mesas de sufragio a los compañeros del local.</li>
+            <li><strong>Cierre de Puertas del Local:</strong> Registro formal a las 17:00 hrs.</li>
+            <li>Formatos integrales: Arribo de Material, Condiciones, Repliegue LV-ODPE.</li>
+            <li>Consolidación de actores globales (PNP, FFAA, CLV de ONPE, observadores).</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">🧑‍💼 FLV de Mesa</h3>
+            <span class="badge badge-blue">Operatividad</span>
+          </div>
+          <ul style="margin-left: 1.25rem; font-size: 0.88rem; color: var(--text-sub);">
+            <li>Registro de Instalación, Sufragio y Escrutinio por mesa.</li>
+            <li>Captura fotográfica de los 3 miembros de mesa por hito.</li>
+            <li>Fotografía obligatoria de las <strong>3 Actas Electorales</strong> (Instalación, Sufragio, Escrutinio).</li>
+            <li>Registro de Alertas de Incidencias en tiempo real.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 1.5rem;">
+        <div class="card-header">
+          <h3 class="card-title">📸 Protocolo Reglamentario de Fotografías en el App</h3>
+          <span class="badge badge-red">Estricto Cumplimiento</span>
+        </div>
+        <div class="grid-3" style="margin-top: 1rem;">
+          <div style="background: var(--bg-card-alt); padding: 1rem; border-radius: var(--radius-md);">
+            <strong style="color: #60a5fa;">1. Fotos de Instalación (07:00 - 12:00)</strong>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.35rem;">
+              Foto en ángulo horizontal donde se aprecie claramente el rostro de los <strong>TRES (3) miembros de mesa</strong> al recibir la caja de material electoral.
+            </p>
+          </div>
+          <div style="background: var(--bg-card-alt); padding: 1rem; border-radius: var(--radius-md);">
+            <strong style="color: #60a5fa;">2. Fotos de Sufragio (14:00 hrs)</strong>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.35rem;">
+              A las <strong>14:00 horas</strong> en punto, tomar fotografía panorámica horizontal de cada mesa en pleno funcionamiento con sus tres miembros.
+            </p>
+          </div>
+          <div style="background: var(--bg-card-alt); padding: 1rem; border-radius: var(--radius-md);">
+            <strong style="color: #60a5fa;">3. Fotos de Escrutinio y Actas</strong>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.35rem;">
+              Foto de los miembros al iniciar el conteo de votos. Fotos nítidas, legibles y sin reflejos de las actas electorales llenas y del cartel de resultados pegado en la puerta.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-footer-nav">
+        <button class="btn btn-outline" onclick="switchTab('cronograma')">⬅ Anterior: 2. Cronograma</button>
+        <button class="btn btn-primary" onclick="switchTab('jornada')">Siguiente: 4. Día de Votación ➔</button>
+      </div>
+    </section>
+
+    <!-- MODULO 4: DIA DE LA VOTACION -->
+    <section id="tab-jornada" class="tab-content">
+      <h2 class="section-title">🗳️ 4. El Día de la Elección: Paso a Paso</h2>
+      <p class="section-desc">Protocolo de fiscalización durante las tres etapas del acto electoral.</p>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">1. Instalación (07:00 a 12:00)</h3>
+            <span class="badge badge-blue">Etapa I</span>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-sub); margin-bottom: 0.75rem;">
+            Apertura de la mesa y entrega del material por parte del personal de la ONPE.
+          </p>
+          <ul style="font-size: 0.85rem; color: var(--text-muted); margin-left: 1.25rem;">
+            <li>Si los titulares no llegan antes de las 07:00, asumen los suplentes. Si no hay suplentes, a las 07:00 se convoca a electores de la fila.</li>
+            <li><strong>Impedimentos:</strong> Personeros, candidatos, militares o policías en servicio NO pueden ser miembros de mesa.</li>
+            <li>Si un miembro se niega a asumir el cargo, comete delito electoral.</li>
+            <li><strong>Límite improrrogable:</strong> A las <strong>12:00 hrs</strong> las mesas no instaladas se declaran no instaladas definitivamente.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">2. Sufragio (Hasta 17:00)</h3>
+            <span class="badge badge-green">Etapa II</span>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-sub); margin-bottom: 0.75rem;">
+            Ejercicio del derecho al voto por los ciudadanos inscritos en el padrón electoral.
+          </p>
+          <ul style="font-size: 0.85rem; color: var(--text-muted); margin-left: 1.25rem;">
+            <li>El elector debe votar en la mesa correspondiente portando su DNI.</li>
+            <li><strong>Prohibido cámaras y celulares</strong> en la cámara secreta para fotografiar el voto.</li>
+            <li>Prohibida la inducción al voto o entrega de dádivas.</li>
+            <li><strong>A las 17:00 hrs:</strong> Cierre estricto de puertas del local. Solo sufragan los electores que ya hayan ingresado.</li>
+            <li>Se marca con "X" en "NO VOTÓ" a los ausentes y se llena el Acta de Sufragio en letras y números.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">3. Escrutinio y Cómputo</h3>
+            <span class="badge badge-gold">Etapa III</span>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-sub); margin-bottom: 0.75rem;">
+            Conteo de votos en acto público e ininterrumpido en el aula de votación.
+          </p>
+          <ul style="font-size: 0.85rem; color: var(--text-muted); margin-left: 1.25rem;">
+            <li><strong>Cuadre de Cédulas:</strong> Cédulas extraídas deben coincidir con la cantidad de votantes.</li>
+            <li>Si hay más cédulas que votantes, el Presidente retira el excedente al azar y lo destruye sin abrirlas.</li>
+            <li>Si hay menos cédulas, se escruta normalmente; NO se anula la mesa ni se agrega a nulos.</li>
+            <li>Resolución de impugnaciones en primera instancia por los miembros de mesa; si hay apelación, el voto no se escruta y va al JEE en sobre especial.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="alert-box alert-warning" style="margin-top: 1.5rem;">
+        <div style="font-size: 1.5rem;">💡</div>
+        <div>
+          <strong>¡CAMBIO HISTÓRICO ERM 2026 - CÉDULAS NO IMPUGNADAS!</strong><br>
+          De acuerdo a la <strong>Resolución Jefatural N° 000075-2025-JN/ONPE</strong> (Reglamento para el recuento de votos, conservación y destrucción de cédulas), las cédulas de sufragio escrutadas <strong>NO IMPUGNADAS YA NO SE DESTRUYEN EN MESA</strong>.<br>
+          Los miembros de mesa las guardan en un sobre especial lacrado, se entrega al coordinador de mesa de la ONPE y se repliega en custodia policial a la ODPE con almacén permanente. ¡Fiscaliza que no las rompan ni las tiren a la basura!
+        </div>
+      </div>
+
+      <div class="section-footer-nav">
+        <button class="btn btn-outline" onclick="switchTab('appflv')">⬅ Anterior: 3. App FLV Móvil</button>
+        <button class="btn btn-primary" onclick="switchTab('repliegue')">Siguiente: 5. Repliegue y Sobres ➔</button>
+      </div>
+    </section>
+
+    <!-- MODULO 5: REPLIEGUE Y SOBRES -->
+    <section id="tab-repliegue" class="tab-content">
+      <h2 class="section-title">📦 5. Protocolo de Repliegue de Actas y Código de Colores de Sobres</h2>
+      <p class="section-desc">Directiva Formato V06: Custodia de actas desde el local de votación hacia la ODPE.</p>
+
+      <div class="sobres-grid">
+        <div class="sobre-card sobre-plomo">
+          <div class="badge badge-blue">Destino: ODPE</div>
+          <div class="sobre-title">📁 Sobre Plomo</div>
+          <div class="sobre-dest">Actas ODPE para cómputo oficial</div>
+          <p style="font-size: 0.82rem; color: var(--text-muted);">
+            <strong>¡VITAL PARA EL FLV!</strong> El FLV o fiscalizador designado debe acompañar obligatoriamente el vehículo de custodia de los sobres plomos. Si se repliega sin el FLV, se registra incidencia grave.
+          </p>
+        </div>
+
+        <div class="sobre-card sobre-rojo">
+          <div class="badge badge-red">Destino: ONPE Sede Central</div>
+          <div class="sobre-title">📁 Sobre Rojo</div>
+          <div class="sobre-dest">Actas ONPE Sede Central</div>
+          <p style="font-size: 0.82rem; color: var(--text-muted);">
+            Contiene el ejemplar del acta electoral destinado a la sede central de la ONPE para el archivo nacional.
+          </p>
+        </div>
+
+        <div class="sobre-card sobre-celeste">
+          <div class="badge badge-blue">Destino: JEE</div>
+          <div class="sobre-title">📁 Sobre Celeste</div>
+          <div class="sobre-dest">Actas Jurado Electoral Especial</div>
+          <p style="font-size: 0.82rem; color: var(--text-muted);">
+            Actas remitidas al JEE para resolver actas observadas, votos impugnados y proclamación de resultados.
+          </p>
+        </div>
+
+        <div class="sobre-card sobre-verde">
+          <div class="badge badge-green">Destino: JNE Central</div>
+          <div class="sobre-title">📁 Sobre Verde</div>
+          <div class="sobre-dest">Actas Jurado Nacional de Elecciones</div>
+          <p style="font-size: 0.82rem; color: var(--text-muted);">
+            Destinado a la Dirección Nacional de Fiscalización y Archivo Electoral del JNE en Lima.
+          </p>
+        </div>
+
+        <div class="sobre-card sobre-naranja">
+          <div class="badge badge-gold">Destino: Cédulas</div>
+          <div class="sobre-title">📁 Sobre Anaranjado</div>
+          <div class="sobre-dest">Cédulas No Impugnadas Escrutadas</div>
+          <p style="font-size: 0.82rem; color: var(--text-muted);">
+            Contiene las cédulas escrutadas conservadas bajo la Resolución N° 000075-2025-JN/ONPE.
+          </p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 1.5rem;">
+        <div class="card-header">
+          <h3 class="card-title">📝 Datos del Formato de Repliegue (Formato V06)</h3>
+          <span class="badge badge-blue">Checklist de Salida y Llegada</span>
+        </div>
+        <div class="grid-2" style="font-size: 0.88rem; color: var(--text-sub);">
+          <div>
+            <strong>1. Datos de Transporte y Custodia:</strong>
+            <ul style="margin-left: 1.25rem; margin-top: 0.35rem; color: var(--text-muted);">
+              <li>Empresa transportista, tipo de vehículo y número de placa.</li>
+              <li>Nombres completos, DNI o Carné de Extranjería del conductor.</li>
+              <li>Resguardo policial o militar: PNP, FF.AA. con DNI y celular del jefe de escolta.</li>
+              <li>Fecha y hora exacta de salida del local de votación.</li>
+            </ul>
+          </div>
+          <div>
+            <strong>2. Datos de Llegada y Conformidad:</strong>
+            <ul style="margin-left: 1.25rem; margin-top: 0.35rem; color: var(--text-muted);">
+              <li>Fecha y hora de llegada a la ODPE sede de cómputo.</li>
+              <li>¿Entrega Conforme?: SÍ o NO (si es NO, consignar acta observada o faltante).</li>
+              <li>¿Incluye cédulas no impugnadas?: Marcar mesas correspondientes.</li>
+              <li>Firmas de los FLV participantes y dos (2) fotografías en el SIPE.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-footer-nav">
+        <button class="btn btn-outline" onclick="switchTab('jornada')">⬅ Anterior: 4. Día de Votación</button>
+        <button class="btn btn-primary" onclick="switchTab('incidencias')">Siguiente: 6. Catálogo de Incidencias ➔</button>
+      </div>
+    </section>
+
+    <!-- MODULO 6: CATALOGO DE INCIDENCIAS -->
+    <section id="tab-incidencias" class="tab-content">
+      <h2 class="section-title">🚨 6. Catálogo Oficial de Incidencias DNFPE (Versión V13)</h2>
+      <p class="section-desc">Base de datos de más de 70 tipos de contingencias con protocolo de actuación inmediata.</p>
+
+      <div class="incidencia-search-bar">
+        <input type="text" id="incidenciaFilter" class="form-control" style="max-width: 400px;" placeholder="Filtrar por palabra clave (ej. celular, personero, miembros, luz, cédula)..." oninput="filterIncidencias()">
+        <select id="categoriaFilter" class="form-control" style="max-width: 250px;" onchange="filterIncidencias()">
+          <option value="ALL">Todas las Categorías</option>
+          <option value="INSTALACION">Instalación de Mesa</option>
+          <option value="SUFRAGIO">Sufragio</option>
+          <option value="ESCRUTINIO">Escrutinio</option>
+          <option value="OPERATIVOS">Operativos y Garantías</option>
+          <option value="CONDICIONES">Condiciones del Local</option>
+          <option value="REPLIEGUE">Repliegue de Actas</option>
+        </select>
+      </div>
+
+      <div id="incidenciasContainer">
+        <!-- Rendered dynamically by JS -->
+      </div>
+
+      <div class="section-footer-nav">
+        <button class="btn btn-outline" onclick="switchTab('repliegue')">⬅ Anterior: 5. Repliegue</button>
+        <button class="btn btn-primary" onclick="switchTab('formatos')">Siguiente: 7. Formatos Oficiales ➔</button>
+      </div>
+    </section>
+
+    <!-- MODULO 7: FORMATOS OFICIALES Y REDACCION F07 -->
+    <section id="tab-formatos" class="tab-content">
+      <h2 class="section-title">📝 7. Guía de Formatos Oficiales y Asistente de Redacción F07</h2>
+      <p class="section-desc">Códigos oficiales DNFPE y redacción jurídica para hechos e incidencias.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">📑 Directorio de Formatos Oficiales</h3>
+            <span class="badge badge-blue">Códigos DNFPE</span>
+          </div>
+          <div style="font-size: 0.88rem; color: var(--text-sub); display: flex; flex-direction: column; gap: 0.65rem;">
+            <div style="padding: 0.65rem; background: var(--bg-card-alt); border-radius: var(--radius-sm);">
+              <strong>F07(MP-DNFPE-JNE-09)00:</strong> Reporte de Fiscalización Electoral (Para narrar cualquier hecho o infracción con firmas de testigos y autoridades).
+            </div>
+            <div style="padding: 0.65rem; background: var(--bg-card-alt); border-radius: var(--radius-sm);">
+              <strong>Formato V01:</strong> Arribo del Material Electoral al Local de Votación (Ruta ODPE, vehículo, placa, resguardo y paquetes).
+            </div>
+            <div style="padding: 0.65rem; background: var(--bg-card-alt); border-radius: var(--radius-sm);">
+              <strong>Formato V10:</strong> Condiciones del Local de Votación (Infraestructura, fluido eléctrico, cerco, señalización, MAT).
+            </div>
+            <div style="padding: 0.65rem; background: var(--bg-card-alt); border-radius: var(--radius-sm);">
+              <strong>Formato V06:</strong> Repliegue de Actas Electorales del Local de Votación a la ODPE (Detalle de sobres de colores y cédulas).
+            </div>
+            <div style="padding: 0.65rem; background: var(--bg-card-alt); border-radius: var(--radius-sm);">
+              <strong>Formato V01 (Operativo):</strong> Retiro de Propaganda Electoral y Cierre de Campaña.
+            </div>
+            <div style="padding: 0.65rem; background: var(--bg-card-alt); border-radius: var(--radius-sm);">
+              <strong>Plantilla V13:</strong> Reporte de Alertas de Incidencias con clasificación y medios probatorios.
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">✍️ Asistente de Redacción de Hechos (F07)</h3>
+            <span class="badge badge-green">Generador Formal</span>
+          </div>
+          <div class="form-group">
+            <label>Tipo de Evento / Asunto:</label>
+            <select id="f07Asunto" class="form-control" onchange="generateF07Text()">
+              <option value="INSTALACIÓN">Instalación de Mesa</option>
+              <option value="SUFRAGIO">Sufragio</option>
+              <option value="ESCRUTINIO">Escrutinio</option>
+              <option value="LEY SECA">Infracción Ley Seca</option>
+              <option value="PROPAGANDA">Propaganda Prohibida (Art. 190 LOE)</option>
+              <option value="REPLIEGUE">Repliegue de Material</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Descripción básica del hecho observado:</label>
+            <input type="text" id="f07Hecho" class="form-control" placeholder="Ej. El personero del partido X intentó revisar las cédulas o un elector usó celular..." oninput="generateF07Text()">
+          </div>
+          <div class="form-group">
+            <label>Número de Mesa o Lugar Específico:</label>
+            <input type="text" id="f07Lugar" class="form-control" placeholder="Ej. Mesa N° 045892 - Aula 102 - I.E. San Pedro" oninput="generateF07Text()">
+          </div>
+          <div class="output-preview" id="f07Output">
+            // Selecciona las opciones para ver el texto formal generado...
+          </div>
+          <button class="btn btn-primary" style="margin-top: 0.75rem; width: 100%; justify-content: center;" onclick="copyF07Text()">📋 Copiar Texto Formateado</button>
+        </div>
+      </div>
+
+      <div class="section-footer-nav">
+        <button class="btn btn-outline" onclick="switchTab('incidencias')">⬅ Anterior: 6. Incidencias</button>
+        <button class="btn btn-primary" onclick="switchTab('informe')">Siguiente: 8. Informe Final y Pago ➔</button>
+      </div>
+    </section>
+
+    <!-- MODULO 8: INFORME FINAL Y PAGO -->
+    <section id="tab-informe" class="tab-content">
+      <h2 class="section-title">📂 8. Ruta de Presentación del Informe Final del FLV y Cobro</h2>
+      <p class="section-desc">Pasos obligatorios para la entrega física, validación digital y trámite de pago de honorarios.</p>
+
+      <div class="card">
+        <div class="timeline" style="margin-left: 1rem;">
+          <div class="timeline-item">
+            <div class="timeline-dot green"></div>
+            <div class="timeline-card">
+              <div class="timeline-time">Paso 1 • Noche de Elecciones / Día siguiente</div>
+              <strong style="color: white; font-size: 1.05rem;">Organización en Google Drive</strong>
+              <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.25rem;">
+                Ordena todas las fotografías horizontales en carpetas por mesa y por operativo dentro del enlace de Drive compartido por tu Fiscalizador a cargo (FISPRO/FISDIS).
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot green"></div>
+            <div class="timeline-card">
+              <div class="timeline-time">Paso 2 • Trabajo en Equipo</div>
+              <strong style="color: white; font-size: 1.05rem;">Redacción Conjunta por Local de Votación</strong>
+              <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.25rem;">
+                Se presenta <strong>UN SOLO INFORME FINAL POR LOCAL DE VOTACIÓN</strong> suscrito por todos los FLVs participantes de dicho centro. Distribuyan las secciones con el FLV responsable.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot green"></div>
+            <div class="timeline-card">
+              <div class="timeline-time">Paso 3 • Vía Correo Electrónico</div>
+              <strong style="color: white; font-size: 1.05rem;">Revisión Previa por el Fiscalizador del JEE</strong>
+              <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.25rem;">
+                Envía el borrador en digital a tu fiscalizador a cargo para que valide los números de mesas, horas en formato 24h y cuadros estadísticos.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot red"></div>
+            <div class="timeline-card">
+              <div class="timeline-time">Paso 4 • En Sede Física del JEE (¡OBLIGATORIO!)</div>
+              <strong style="color: white; font-size: 1.05rem;">Entrega de Formatos Físicos en Sobre Cerrado</strong>
+              <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.25rem;">
+                Lleva en sobre cerrado con el nombre de tu local de votación todas las plantillas manuscritas y firmadas en original: V01, V10, V06, F07 e incidencias. <em>¡Sin los reportes físicos no hay aprobación de informe!</em>
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot blue"></div>
+            <div class="timeline-card">
+              <div class="timeline-time">Paso 5 • Firmas Manuscritas y Digitales</div>
+              <strong style="color: white; font-size: 1.05rem;">Firma Manuscrita de los FLVs y Firma Digital de Autoridades</strong>
+              <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.25rem;">
+                Todos los FLVs del local firman y colocan su huella en el informe consolidado. Luego se remite en PDF al Coordinador de Fiscalización y Fiscalizador a cargo para sus <strong>firmas digitales reglamentarias</strong>.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot gold"></div>
+            <div class="timeline-card">
+              <div class="timeline-time">Paso 6 • Trámite Final</div>
+              <strong style="color: white; font-size: 1.05rem;">Ingreso por Mesa de Partes Digital del JEE</strong>
+              <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.25rem;">
+                Ingresa el documento final con firmas digitales a través de la Mesa de Partes Digital del JEE. Con el cargo generado, se tramita inmediatamente tu orden de servicio para la contraprestación económica.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-footer-nav">
+        <button class="btn btn-outline" onclick="switchTab('formatos')">⬅ Anterior: 7. Formatos</button>
+        <button class="btn btn-primary" onclick="switchTab('notificaciones')">Siguiente: 9. Notificaciones ➔</button>
+      </div>
+    </section>
+
+    <!-- MODULO 9: NOTIFICACIONES PREVENTIVAS Y COMUNICADOS -->
+    <section id="tab-notificaciones" class="tab-content">
+      <h2 class="section-title">📜 9. Notificaciones Preventivas y Comunicados Oficiales</h2>
+      <p class="section-desc">Modelos de notificaciones a comercios y propietarios brindados por el JEE Pacasmayo.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">🍻 1. Notificación Preventiva de Ley Seca</h3>
+            <span class="badge badge-gold">Art. 351° LOE</span>
+          </div>
+          <div style="background: var(--bg-card-alt); padding: 1.1rem; border-radius: var(--radius-md); font-size: 0.88rem; color: var(--text-sub); border-left: 4px solid var(--warning);">
+            <p><strong>Base Legal:</strong> <em>"Desde las 08:00 horas del día anterior al día de la votación (sábado), hasta las 08:00 horas del día siguiente (lunes), no es permitido el expendio de bebidas alcohólicas de ninguna clase y se cierran los establecimientos o espacios comerciales dedicados exclusivamente a dicho expendio."</em></p>
+            <div style="margin-top: 0.75rem; background: var(--bg-dark); padding: 0.85rem; border-radius: 6px; font-family: monospace; font-size: 0.82rem;">
+              DATOS REQUERIDOS AL NOTIFICAR:<br>
+              • Nombre comercial del establecimiento<br>
+              • Dirección exacta y Número de Suministro de luz<br>
+              • Nombre completo y DNI del propietario o encargado<br>
+              • Firma del notificado y fecha de notificación (02/10/2026)<br>
+              • Firma y huella digital del FLV
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">📢 2. Notificación de Retiro de Propaganda</h3>
+            <span class="badge badge-red">Art. 190° LOE</span>
+          </div>
+          <div style="background: var(--bg-card-alt); padding: 1.1rem; border-radius: var(--radius-md); font-size: 0.88rem; color: var(--text-sub); border-left: 4px solid var(--danger);">
+            <p><strong>Base Legal:</strong> <em>"Desde veinticuatro horas antes se suspende toda clase de propaganda política. Quien haga propaganda electoral cualquiera sea el medio es reprimido con pena privativa de libertad no menor de 2 años (Art. 389° LOE)."</em></p>
+            <div style="margin-top: 0.75rem; background: var(--bg-dark); padding: 0.85rem; border-radius: 6px; font-family: monospace; font-size: 0.82rem;">
+              DATOS REQUERIDOS AL NOTIFICAR:<br>
+              • Nombre del Propietario del inmueble<br>
+              • DNI o Número de suministro del predio<br>
+              • Dirección exacta del inmueble vecino al local<br>
+              • Firma del notificado comprometiéndose al retiro o cubrimiento<br>
+              • Firma y huella digital del FLV
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 1rem;">
+        <div class="card-header">
+          <h3 class="card-title">🏛️ Comunicado Oficial de Sanción (Aviso Público JEE)</h3>
+          <span class="badge badge-blue">JEE Pacasmayo</span>
+        </div>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+          Este comunicado se fija en lugares visibles de los locales de votación y perímetros comunales:
+        </p>
+        <div style="background: #090d16; border: 1px solid var(--border); padding: 1rem; border-radius: var(--radius-md); font-size: 0.88rem; line-height: 1.5;">
+          <strong style="color: #60a5fa;">JURADO ELECTORAL ESPECIAL DE PACASMAYO</strong><br>
+          <span style="color: var(--text-muted); font-size: 0.82rem;">Sede: Calle Ancash N° 999 – San Pedro de Lloc – Pacasmayo – La Libertad</span>
+          <p style="margin-top: 0.5rem; color: var(--text-sub);">
+            Se recuerda a la ciudadanía y comerciantes que organizar espectáculos públicos, funciones de cine o reuniones públicas durante las horas de votación, así como el expendio de licor, acarrea pena de cárcel y multa de <strong>S/. 3,390.00</strong> (Art. 390° LOE).
+          </p>
+        </div>
+      </div>
+
+      <div class="section-footer-nav">
+        <button class="btn btn-outline" onclick="switchTab('informe')">⬅ Anterior: 8. Informe Final</button>
+        <button class="btn btn-primary" onclick="switchTab('checklist')">Siguiente: 10. Checklist de Mochila ➔</button>
+      </div>
+    </section>
+
+    <!-- MODULO 10: CHECKLIST DE MOCHILA -->
+    <section id="tab-checklist" class="tab-content">
+      <h2 class="section-title">✅ 10. Checklist de Mochila y Equipamiento del FLV</h2>
+      <p class="section-desc">Verificación interactiva de materiales obligatorios para el servicio electoral (guardado automático).</p>
+
+      <div class="checklist-group">
+        <div class="card-header" style="margin-bottom: 0.75rem;">
+          <h3 class="card-title">🎒 Verificación de Elementos Obligatorios</h3>
+          <span class="badge badge-green" id="checkCount">0 / 8 listos</span>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+          Marca cada elemento conforme lo guardes en tu mochila. Se sincroniza con la memoria local de tu dispositivo.
+        </p>
+
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" id="chk1" onchange="saveChecklist()">
+          <span>DNI físico original (vigente o vencido) y Credencial oficial del JNE en mica con cinta roja.</span>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" id="chk2" onchange="saveChecklist()">
+          <span>Indumentaria reglamentaria: polo/chaleco oficial JNE y gorro rojo institucional.</span>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" id="chk3" onchange="saveChecklist()">
+          <span>Smartphone con App FLV instalada, GPS activado, cámara probada y batería al 100%.</span>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" id="chk4" onchange="saveChecklist()">
+          <span>Cargador portátil (Power Bank) y cable USB de recarga rápida para jornada extendida.</span>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" id="chk5" onchange="saveChecklist()">
+          <span>Tablero acrílico, 3 lapiceros azules y 2 lapiceros negros tipo bolígrafo.</span>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" id="chk6" onchange="saveChecklist()">
+          <span>Formatos impresos en físico en cantidad suficiente: V01 (Arribo), V10 (Condiciones), V06 (Repliegue) y F07 (Reportes).</span>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" id="chk7" onchange="saveChecklist()">
+          <span>Plantillas de Notificaciones Preventivas de Ley Seca y Propaganda Electoral.</span>
+        </label>
+        <label class="check-item" onclick="toggleCheck(this)">
+          <input type="checkbox" id="chk8" onchange="saveChecklist()">
+          <span>Número telefónico y WhatsApp de tu Fiscalizador a cargo (FISPRO/FISDIS) guardado en contactos.</span>
+        </label>
+      </div>
+
+      <div class="section-footer-nav">
+        <button class="btn btn-outline" onclick="switchTab('notificaciones')">⬅ Anterior: 9. Notificaciones</button>
+        <button class="btn btn-primary" onclick="switchTab('simulador')">Siguiente: 11. Simulador de Casos ➔</button>
+      </div>
+    </section>
+
+    <!-- MODULO 11: SIMULADOR DE CASOS PRACTICOS -->
+    <section id="tab-simulador" class="tab-content">
+      <h2 class="section-title">💡 11. Simulador de Casos Prácticos en Mesa</h2>
+      <p class="section-desc">Entrena tus reflejos y criterios jurídicos ante las contingencias más frecuentes del día de la elección.</p>
+
+      <div class="grid-2">
+        <div class="sim-card">
+          <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Caso Práctico 1</span>
+          <div class="sim-question">
+            A las 17:05 horas, la fila afuera del local aún tiene 20 personas que llegaron después del cierre. El coordinador de la ONPE quiere dejarlos pasar. ¿Cuál es tu postura como FLV?
+          </div>
+          <div class="sim-options">
+            <button class="sim-opt-btn" onclick="checkAnswer(1, 0, this)">A) Permitir que voten porque tienen derecho constitucional al sufragio.</button>
+            <button class="sim-opt-btn" onclick="checkAnswer(1, 1, this)">B) Exigir el cumplimiento estricto del Art. 274 LOE: Solo votan los electores que ingresaron antes de las 17:00 hrs.</button>
+            <button class="sim-opt-btn" onclick="checkAnswer(1, 2, this)">C) Someterlo a votación entre los personeros de mesa.</button>
+          </div>
+          <div id="sim-feedback-1" class="sim-feedback"></div>
+        </div>
+
+        <div class="sim-card">
+          <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Caso Práctico 2</span>
+          <div class="sim-question">
+            Durante el escrutinio, un personero pide al Presidente de Mesa romper y destruir en la basura las cédulas de votos válidos ya contadas. ¿Qué debes advertir?
+          </div>
+          <div class="sim-options">
+            <button class="sim-opt-btn" onclick="checkAnswer(2, 0, this)">A) Que está en lo correcto según la tradición electoral.</button>
+            <button class="sim-opt-btn" onclick="checkAnswer(2, 1, this)">B) ¡YA NO SE DESTRUYEN! Bajo la Res. N° 000075-2025-JN/ONPE, se conservan en sobre lacrado para su repliegue a la ODPE.</button>
+            <button class="sim-opt-btn" onclick="checkAnswer(2, 2, this)">C) Que se deben quemar en el patio del colegio.</button>
+          </div>
+          <div id="sim-feedback-2" class="sim-feedback"></div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top: 1rem;">
+        <div class="sim-card">
+          <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Caso Práctico 3</span>
+          <div class="sim-question">
+            Son las 07:15 AM y de los miembros de mesa solo llegó el Presidente titular. Hay suplentes y electores en la fila. ¿A quiénes se convoca para completar la mesa?
+          </div>
+          <div class="sim-options">
+            <button class="sim-opt-btn" onclick="checkAnswer(3, 0, this)">A) A los personeros de mesa presentes para que ayuden.</button>
+            <button class="sim-opt-btn" onclick="checkAnswer(3, 1, this)">B) Primero a los miembros suplentes presentes en el aula. Si faltaran, se convoca a los primeros electores de la fila de esa misma mesa.</button>
+            <button class="sim-opt-btn" onclick="checkAnswer(3, 2, this)">C) A cualquier transeúnte de la calle.</button>
+          </div>
+          <div id="sim-feedback-3" class="sim-feedback"></div>
+        </div>
+
+        <div class="sim-card">
+          <span class="badge badge-gold" style="margin-bottom: 0.5rem;">Caso Práctico 4</span>
+          <div class="sim-question">
+            Al terminar el escrutinio, el vehículo que transporta los Sobres Plomos (actas ODPE) sale hacia la ODPE pero el chofer no permite que suba el fiscalizador del JNE. ¿Qué acción corresponde?
+          </div>
+          <div class="sim-options">
+            <button class="sim-opt-btn" onclick="checkAnswer(4, 0, this)">A) Dejarlos ir y viajar en transporte público al día siguiente.</button>
+            <button class="sim-opt-btn" onclick="checkAnswer(4, 1, this)">B) Exigir acompañamiento obligatorio del sobre plomo, coordinar con la escolta policial y reportar incidencia grave inmediata.</button>
+            <button class="sim-opt-btn" onclick="checkAnswer(4, 2, this)">C) Retener las actas y llevárselas a su casa.</button>
+          </div>
+          <div id="sim-feedback-4" class="sim-feedback"></div>
+        </div>
+      </div>
+
+      <div class="section-footer-nav">
+        <button class="btn btn-outline" onclick="switchTab('checklist')">⬅ Anterior: 10. Checklist</button>
+        <button class="btn btn-primary" onclick="switchTab('directorio')">Siguiente: 12. Base Legal y Directorio ➔</button>
+      </div>
+    </section>
+
+    <!-- MODULO 12: BASE LEGAL Y DIRECTORIO JEE -->
+    <section id="tab-directorio" class="tab-content">
+      <h2 class="section-title">⚖️ 12. Base Legal y Directorio del JEE Pacasmayo</h2>
+      <p class="section-desc">Marco jurídico oficial y canales de enlace para emergencias operativas.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">📖 Artículos Clave de la Ley Orgánica de Elecciones (Ley 26859)</h3>
+            <span class="badge badge-blue">LOE</span>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--text-sub); display: flex; flex-direction: column; gap: 0.75rem;">
+            <div style="padding: 0.75rem; background: var(--bg-card-alt); border-radius: var(--radius-sm);">
+              <strong style="color: #60a5fa;">Artículo 190°:</strong> Desde 24 horas antes se suspende toda clase de propaganda política.
+            </div>
+            <div style="padding: 0.75rem; background: var(--bg-card-alt); border-radius: var(--radius-sm);">
+              <strong style="color: #60a5fa;">Artículo 274°:</strong> A las 17:00 horas termina la votación y se cierran las puertas del local.
+            </div>
+            <div style="padding: 0.75rem; background: var(--bg-card-alt); border-radius: var(--radius-sm);">
+              <strong style="color: #60a5fa;">Artículos 342° y 343°:</strong> Garantía de no detención arbitraria de electores y miembros de mesa (24h antes a 24h después).
+            </div>
+            <div style="padding: 0.75rem; background: var(--bg-card-alt); border-radius: var(--radius-sm);">
+              <strong style="color: #60a5fa;">Artículo 351° y 390°:</strong> Prohibición de expendio de bebidas alcohólicas (Ley Seca), cárcel hasta 6 meses y multa de S/. 3,390.00.
+            </div>
+            <div style="padding: 0.75rem; background: var(--bg-card-alt); border-radius: var(--radius-sm);">
+              <strong style="color: #60a5fa;">Artículo 389°:</strong> Delito electoral: pena privativa de libertad no menor de 2 años por realizar propaganda en horas prohibidas.
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">🏛️ Directorio de Contactos y Emergencia</h3>
+            <span class="badge badge-gold">JEE Pacasmayo</span>
+          </div>
+          <div style="font-size: 0.88rem; color: var(--text-sub); display: flex; flex-direction: column; gap: 0.85rem;">
+            <div style="padding: 0.85rem; background: var(--bg-card-alt); border-radius: var(--radius-md);">
+              <strong style="color: white;">Sede Física del Jurado Electoral Especial de Pacasmayo:</strong><br>
+              <span style="color: #93c5fd;">Calle Ancash N° 999 – San Pedro de Lloc – Provincia de Pacasmayo – La Libertad</span>
+            </div>
+            <div style="padding: 0.85rem; background: var(--bg-card-alt); border-radius: var(--radius-md);">
+              <strong style="color: white;">Soporte Técnico Aplicativo Móvil FLV (OGTI JNE):</strong><br>
+              <span style="color: var(--text-muted);">Mesa de ayuda informática y sincronización SIPE disponible desde la sección SOPORTE del App FLV.</span>
+            </div>
+            <div style="padding: 0.85rem; background: var(--bg-card-alt); border-radius: var(--radius-md);">
+              <strong style="color: white;">Fuerzas de Apoyo y Seguridad:</strong><br>
+              <span style="color: var(--text-muted);">Policía Nacional del Perú (Comisarías locales y USE), Fiscalía de Prevención del Delito de la jurisdicción, y Fuerzas Armadas (Custodia de locales).</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-footer-nav">
+        <button class="btn btn-outline" onclick="switchTab('simulador')">⬅ Anterior: 11. Simulador</button>
+        <button class="btn btn-primary" onclick="switchTab('resumen')">⬆ Volver al Inicio: 1. Perfil</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p><strong>Plataforma de Consulta JNE Fiscalizador Pro • ERM 2026</strong></p>
+    <p style="margin-top: 0.35rem;">Desarrollado en conformidad con la normativa del Jurado Nacional de Elecciones (JNE), DNFPE y directivas del JEE Pacasmayo.</p>
+    <p style="margin-top: 0.35rem; color: #4b5563;">Ejecución 100% Frontend Local • Sin dependencias externas</p>
+  </footer>
+
+  <!-- Interactive JavaScript Logic -->
+  <script>
+    // Tab switching
+    function switchTab(tabId) {
+      if (!tabId) return;
+
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
+
+      const target = document.getElementById('tab-' + tabId);
+      if (target) {
+        target.classList.add('active');
+      }
+
+      const activeBtn = document.querySelector(`.nav-tab[data-tab="${tabId}"]`);
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        // Ensure active tab is smoothly visible in horizontal nav scroll
+        activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+
+      // Update quick jump selector
+      const quickSelect = document.getElementById('quickJumpSelect');
+      if (quickSelect) {
+        quickSelect.value = tabId;
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Scroll buttons for tabs
+    function scrollTabs(direction) {
+      const container = document.getElementById('tabNavContainer');
+      const scrollAmount = 260;
+      if (direction === 'left') {
+        container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      } else {
+        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      }
+    }
+
+    // Setup MouseWheel horizontal scrolling and Drag on Tabs Bar
+    function initNavScrollListeners() {
+      const container = document.getElementById('tabNavContainer');
+      if (!container) return;
+
+      // Mouse wheel horizontal scroll
+      container.addEventListener('wheel', (e) => {
+        if (e.deltaY !== 0) {
+          e.preventDefault();
+          container.scrollLeft += e.deltaY;
+        }
+      }, { passive: false });
+
+      // Drag to scroll
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+
+      container.addEventListener('mousedown', (e) => {
+        isDown = true;
+        startX = e.pageX - container.offsetLeft;
+        scrollLeft = container.scrollLeft;
+      });
+      container.addEventListener('mouseleave', () => { isDown = false; });
+      container.addEventListener('mouseup', () => { isDown = false; });
+      container.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - container.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        container.scrollLeft = scrollLeft - walk;
+      });
+    }
+
+    // Incidencias Catalog Data (DNFPE V13 Official List)
+    const incidenciasData = [
+      // INSTALACION
+      { cat: 'INSTALACION', gra: 'GRAVE', cod: 'INC-01', tit: 'Mesa de sufragio no fue instalada', desc: 'No se logró la concurrencia de miembros titulares, suplentes ni electores de la fila hasta las 12:00 horas.' },
+      { cat: 'INSTALACION', gra: 'GRAVE', cod: 'INC-02', tit: 'A la hora prevista para la instalación no ha llegado el material electoral', desc: 'El material de la ODPE sufre retrasos o siniestros en la ruta.' },
+      { cat: 'INSTALACION', gra: 'MODERADA', cod: 'INC-03', tit: 'Mesa de sufragio fue instalada después de las 12:00 horas', desc: 'Infracción legal a la LOE; ninguna mesa puede instalarse pasada el mediodía.' },
+      { cat: 'INSTALACION', gra: 'MODERADA', cod: 'INC-04', tit: 'Mesa instalada antes de las 7:00 AM con miembros suplentes y/o electores de la fila', desc: 'Se debe esperar hasta las 07:00 AM para convocar a suplentes o fila.' },
+      { cat: 'INSTALACION', gra: 'GRAVE', cod: 'INC-05', tit: 'Ciudadano ejerce funciones de miembro de mesa a pesar de prohibición legal', desc: 'Personeros, autoridades, candidatos o personal policial/militar que asumen mesa indebidamente.' },
+      { cat: 'INSTALACION', gra: 'GRAVE', cod: 'INC-06', tit: 'Elector se niega a desempeñar cargo de miembro de mesa', desc: 'Elector de la fila que se rehúsa a asumir mesa ante requerimiento de la autoridad (multa y delito).' },
+      { cat: 'INSTALACION', gra: 'MODERADA', cod: 'INC-07', tit: 'Material electoral incompleto y/o deteriorado al momento de instalación', desc: 'Falta de ánforas, tampones, actas o cédulas insuficientes.' },
+      { cat: 'INSTALACION', gra: 'GRAVE', cod: 'INC-08', tit: 'Miembro de mesa sin DNI instala la mesa', desc: 'No se puede instalar mesa sin la plena identificación con DNI de los miembros.' },
+
+      // SUFRAGIO
+      { cat: 'SUFRAGIO', gra: 'GRAVE', cod: 'INC-09', tit: 'Elector intenta o hace uso de dispositivo digital dentro de la cámara secreta', desc: 'Toma de fotos o videos al voto en contravención a la ley de secreto del voto.' },
+      { cat: 'SUFRAGIO', gra: 'GRAVE', cod: 'INC-10', tit: 'Ciudadano intenta suplantar o suplanta la identidad de un elector', desc: 'Uso de DNI ajeno o falsificado para emitir voto ilícito (delito flagrante).' },
+      { cat: 'SUFRAGIO', gra: 'MODERADA', cod: 'INC-11', tit: 'Ciudadano muestra su voto antes de depositarlo en el ánfora', desc: 'Vulneración al carácter secreto del voto (el voto se anula).' },
+      { cat: 'SUFRAGIO', gra: 'GRAVE', cod: 'INC-12', tit: 'Actor electoral induce al voto dentro del local de votación', desc: 'Personero, orientador o ciudadano que orienta o coacciona la decisión del elector.' },
+      { cat: 'SUFRAGIO', gra: 'MODERADA', cod: 'INC-13', tit: 'Cámara secreta contiene propaganda electoral o cartel de candidatos con marcas', desc: 'Propaganda dentro del aula de votación (debe retirarse inmediatamente).' },
+      { cat: 'SUFRAGIO', gra: 'MODERADA', cod: 'INC-14', tit: 'Personero interroga a electores sobre su preferencia electoral', desc: 'Conducta expresamente prohibida a los personeros de mesa.' },
+      { cat: 'SUFRAGIO', gra: 'GRAVE', cod: 'INC-15', tit: 'Miembro de mesa abandona la mesa durante la etapa de sufragio', desc: 'Dejar la mesa incompleta sin justificación médica o de fuerza mayor.' },
+      { cat: 'SUFRAGIO', gra: 'MODERADA', cod: 'INC-16', tit: 'Elector vota en mesa que no le corresponde', desc: 'Error o negligencia en el control del padrón por parte del presidente de mesa.' },
+
+      // ESCRUTINIO
+      { cat: 'ESCRUTINIO', gra: 'GRAVE', cod: 'INC-17', tit: 'Personal de la ODPE/ONPE participa en llenado y/o registro de acta de escrutinio', desc: 'El personal de ONPE solo asesora; el llenado es competencia exclusiva de los miembros de mesa.' },
+      { cat: 'ESCRUTINIO', gra: 'GRAVE', cod: 'INC-18', tit: 'Personero participa en llenado de acta de escrutinio', desc: 'Prohibición absoluta a personeros de tocar o llenar actas oficiales.' },
+      { cat: 'ESCRUTINIO', gra: 'MODERADA', cod: 'INC-19', tit: 'No se colocó el cartel de resultados de la mesa en lugar visible', desc: 'Obligación legal de pegar el cartel de resultados a la salida del aula.' },
+      { cat: 'ESCRUTINIO', gra: 'MODERADA', cod: 'INC-20', tit: 'No se lacró o se lacró parcialmente el acta de escrutinio', desc: 'Inobservancia en la colocación de etiquetas de seguridad reglamentarias.' },
+      { cat: 'ESCRUTINIO', gra: 'GRAVE', cod: 'INC-21', tit: 'Escrutinio se realiza en lugar diferente al local de votación', desc: 'Traslado no autorizado de las mesas para el conteo.' },
+      { cat: 'ESCRUTINIO', gra: 'GRAVE', cod: 'INC-22', tit: 'Destrucción de cédulas no impugnadas en mesa', desc: 'Vulneración de la Res. Jefatural 000075-2025-JN/ONPE: ¡deben conservarse!' },
+
+      // OPERATIVOS Y GARANTIAS
+      { cat: 'OPERATIVOS', gra: 'GRAVE', cod: 'INC-23', tit: 'Expendio de bebidas alcohólicas dentro del periodo prohibido (Ley Seca)', desc: 'Venta de licor entre las 08:00 del sábado y las 08:00 del lunes (Art. 351 LOE).' },
+      { cat: 'OPERATIVOS', gra: 'GRAVE', cod: 'INC-24', tit: 'Propaganda dentro de los plazos prohibidos por ley (Art. 190 LOE)', desc: 'Difusión de proselitismo desde las 00:00 horas del sábado 3 de octubre.' },
+      { cat: 'OPERATIVOS', gra: 'GRAVE', cod: 'INC-25', tit: 'Detención indebida a miembro de mesa o elector dentro de las 24 horas', desc: 'Vulneración de la garantía de inmunidad electoral de los Arts. 342 y 343 LOE.' },
+      { cat: 'OPERATIVOS', gra: 'GRAVE', cod: 'INC-26', tit: 'Espectáculos públicos o reuniones en horas de votación', desc: 'Realización de fiestas, conciertos o cines prohibidos durante el acto electoral.' },
+      { cat: 'OPERATIVOS', gra: 'GRAVE', cod: 'INC-27', tit: 'Reuniones de electores en un radio menor de 100 metros del local', desc: 'Aglomeraciones proselitistas en el perímetro de seguridad.' },
+
+      // CONDICIONES DEL LOCAL
+      { cat: 'CONDICIONES', gra: 'MODERADA', cod: 'INC-28', tit: 'No se cuenta con servicios básicos de agua y/o electricidad', desc: 'Averías o cortes en el suministro durante la jornada.' },
+      { cat: 'CONDICIONES', gra: 'GRAVE', cod: 'INC-29', tit: 'No se cuenta con resguardo policial o FF.AA. a un día antes de la elección', desc: 'Falta de custodia efectiva en las instalaciones del local de votación.' },
+      { cat: 'CONDICIONES', gra: 'MODERADA', cod: 'INC-30', tit: 'Cerco perimétrico deficiente o inexistente', desc: 'Vulnerabilidad física para la seguridad de electores y material electoral.' },
+
+      // REPLIEGUE
+      { cat: 'REPLIEGUE', gra: 'GRAVE', cod: 'INC-31', tit: 'Se replegó sobres de color plomo sin acompañamiento del fiscalizador', desc: 'Quiebre de la cadena de custodia del material que computa la ODPE.' },
+      { cat: 'REPLIEGUE', gra: 'GRAVE', cod: 'INC-32', tit: 'Cantidad de sobres replegados es diferente al número total de mesas', desc: 'Descuadre o extravío de paquetes de actas en el centro de acopio.' },
+      { cat: 'REPLIEGUE', gra: 'GRAVE', cod: 'INC-33', tit: 'Se envió material electoral sin resguardo policial o militar', desc: 'Traslado negligente sin escolta armada autorizada.' },
+      { cat: 'REPLIEGUE', gra: 'GRAVE', cod: 'INC-34', tit: 'Pérdida, quema o robo de actas electorales o cédulas escrutadas', desc: 'Atentado contra el proceso electoral y la voluntad popular (Art. 359 CP).' }
+    ];
+
+    function renderIncidencias(list) {
+      const container = document.getElementById('incidenciasContainer');
+      if (list.length === 0) {
+        container.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--text-muted);">No se encontraron incidencias que coincidan con la búsqueda.</div>';
+        return;
+      }
+
+      container.innerHTML = list.map(item => {
+        const badgeColor = item.gra === 'GRAVE' ? 'badge-red' : (item.gra === 'MODERADA' ? 'badge-gold' : 'badge-blue');
+        return `
+          <div class="incidencia-item" data-cat="${item.cat}">
+            <div class="incidencia-header" onclick="toggleIncidencia(this)">
+              <div class="incidencia-title">
+                <strong>${item.cod}:</strong> ${item.tit}
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span class="badge ${badgeColor}">${item.gra}</span>
+                <span style="color: var(--text-muted); font-size: 0.85rem;">▼</span>
+              </div>
+            </div>
+            <div class="incidencia-body">
+              <p><strong>Descripción oficial:</strong> ${item.desc}</p>
+              <div style="margin-top: 0.65rem; font-size: 0.85rem; color: #93c5fd; background: var(--bg-card); padding: 0.65rem; border-radius: 6px;">
+                <strong>Protocolo de Actuación:</strong> 1. Tomar evidencia fotográfica/video HORIZONTAL • 2. Ingresar Alerta de Incidencia en App FLV • 3. Levantar reporte F07 con firmas si procede • 4. Comunicar inmediatamente al Fiscalizador a cargo (FISPRO/FISDIS).
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleIncidencia(el) {
+      const item = el.parentElement;
+      item.classList.toggle('open');
+      const arrow = el.querySelector('span:last-child');
+      if (item.classList.contains('open')) {
+        arrow.textContent = '▲';
+      } else {
+        arrow.textContent = '▼';
+      }
+    }
+
+    function filterIncidencias() {
+      const q = document.getElementById('incidenciaFilter').value.toLowerCase();
+      const cat = document.getElementById('categoriaFilter').value;
+
+      const filtered = incidenciasData.filter(i => {
+        const matchText = i.tit.toLowerCase().includes(q) || i.desc.toLowerCase().includes(q) || i.cod.toLowerCase().includes(q);
+        const matchCat = (cat === 'ALL') || (i.cat === cat);
+        return matchText && matchCat;
+      });
+
+      renderIncidencias(filtered);
+    }
+
+    // Global Search Bar across sections
+    function handleGlobalSearch() {
+      const query = document.getElementById('globalSearch').value.toLowerCase().trim();
+      if (!query) return;
+
+      if (query.includes('inci') || query.includes('foto') || query.includes('celular') || query.includes('falta') || query.includes('violenc')) {
+        switchTab('incidencias');
+        document.getElementById('incidenciaFilter').value = query;
+        filterIncidencias();
+      } else if (query.includes('hora') || query.includes('cierre') || query.includes('jueves') || query.includes('sabado') || query.includes('domingo') || query.includes('ley seca')) {
+        switchTab('cronograma');
+      } else if (query.includes('sobre') || query.includes('plomo') || query.includes('rojo') || query.includes('celeste') || query.includes('verde') || query.includes('repliegue')) {
+        switchTab('repliegue');
+      } else if (query.includes('app') || query.includes('movil') || query.includes('play store')) {
+        switchTab('appflv');
+      } else if (query.includes('informe') || query.includes('pago') || query.includes('mesa de partes')) {
+        switchTab('informe');
+      } else if (query.includes('notific') || query.includes('aviso')) {
+        switchTab('notificaciones');
+      } else if (query.includes('mochila') || query.includes('check')) {
+        switchTab('checklist');
+      } else if (query.includes('caso') || query.includes('simul')) {
+        switchTab('simulador');
+      } else if (query.includes('ley') || query.includes('pacasmayo') || query.includes('directorio') || query.includes('loe')) {
+        switchTab('directorio');
+      }
+    }
+
+    // Checklist interactive with localStorage
+    function toggleCheck(el) {
+      const chk = el.querySelector('input');
+      chk.checked = !chk.checked;
+      updateCheckStyle(el, chk.checked);
+      saveChecklist();
+    }
+
+    function updateCheckStyle(el, isChecked) {
+      if (isChecked) {
+        el.classList.add('done');
+      } else {
+        el.classList.remove('done');
+      }
+    }
+
+    function saveChecklist() {
+      const checks = {};
+      let total = 0;
+      let count = 0;
+      document.querySelectorAll('.check-item input').forEach(inp => {
+        total++;
+        checks[inp.id] = inp.checked;
+        if (inp.checked) count++;
+        updateCheckStyle(inp.parentElement, inp.checked);
+      });
+      localStorage.setItem('flv_checklist_erm2026', JSON.stringify(checks));
+      document.getElementById('checkCount').textContent = `${count} / ${total} listos`;
+      if (count === total) {
+        document.getElementById('checkCount').className = 'badge badge-green';
+      } else {
+        document.getElementById('checkCount').className = 'badge badge-gold';
+      }
+    }
+
+    function loadChecklist() {
+      const saved = localStorage.getItem('flv_checklist_erm2026');
+      if (saved) {
+        try {
+          const checks = JSON.parse(saved);
+          Object.keys(checks).forEach(id => {
+            const inp = document.getElementById(id);
+            if (inp) {
+              inp.checked = checks[id];
+              updateCheckStyle(inp.parentElement, checks[id]);
+            }
+          });
+        } catch (e) {}
+      }
+      saveChecklist();
+    }
+
+    // Form Generator Logic
+    function generateF07Text() {
+      const asunto = document.getElementById('f07Asunto').value;
+      const hecho = document.getElementById('f07Hecho').value || '[Describa aquí los hechos y circunstancias exactas]';
+      const lugar = document.getElementById('f07Lugar').value || '[Local de Votación / Mesa / Dirección]';
+
+      const now = new Date();
+      const horas = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+      const fecha = now.toLocaleDateString('es-PE', { day: '2-digit', month: 'long', year: 'numeric' });
+
+      const template = `FORMATO F07(MP-DNFPE-JNE-09)00 - REPORTE DE FISCALIZACIÓN ELECTORAL
+--------------------------------------------------------------------------------
+ASUNTO: FISCALIZACIÓN DEL ACTO ELECTORAL - ${asunto}
+LUGAR / ÁMBITO: ${lugar}
+FECHA Y HORA: ${fecha} a las ${horas} hrs (Formato 24 Horas)
+
+DETALLE DE LA FISCALIZACIÓN:
+Siendo las ${horas} horas del día de la fecha, en mi calidad de Fiscalizador de Local de Votación (FLV) asignado por el Jurado Electoral Especial, en cumplimiento de la Ley Orgánica de Elecciones N° 26859 y las directivas de la DNFPE, cumplo con informar los siguientes hechos:
+
+1. Circunstancias observadas:
+${hecho}
+
+2. Medidas y acciones inmediatas adoptadas:
+- Se procedió a recabar los medios probatorios correspondientes (fotografías horizontales y/o registro audiovisual).
+- Se ingresó la Alerta de Incidencia en el Aplicativo Móvil FLV para su comunicación en tiempo real al SIPE-DNFPE.
+- Se dio cuenta de manera inmediata al Fiscalizador a cargo (FISPRO / FISDIS) para las coordinaciones legales del caso.
+
+3. Actores presentes y testigos:
+- Se adjuntan nombres, DNI, institución y firmas de las autoridades, miembros de mesa o personeros que dan fe de los hechos.
+
+--------------------------------------------------------------------------------
+Firma del FLV: _____________________   Huella Digital: [     ]
+DNI N°: ____________________________`;
+
+      document.getElementById('f07Output').textContent = template;
+    }
+
+    function copyF07Text() {
+      const text = document.getElementById('f07Output').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('¡Texto del Formato F07 copiado al portapapeles con éxito!');
+      });
+    }
+
+    // Quiz & Simulator Logic
+    function checkAnswer(qNum, optIndex, btnEl) {
+      const card = btnEl.closest('.sim-card');
+      const feedback = card.querySelector('.sim-feedback');
+      const allBtns = card.querySelectorAll('.sim-opt-btn');
+
+      allBtns.forEach(b => {
+        b.style.pointerEvents = 'none';
+        b.style.opacity = '0.7';
+      });
+
+      if (qNum === 1) {
+        if (optIndex === 1) {
+          btnEl.style.background = 'rgba(16, 185, 129, 0.25)';
+          btnEl.style.borderColor = '#10b981';
+          feedback.style.display = 'block';
+          feedback.className = 'sim-feedback alert-box alert-success';
+          feedback.innerHTML = '<strong>¡CORRECTO!</strong> Conforme al Artículo 274° de la LOE, a las 17:00 horas se cierran las puertas del local y únicamente sufragan aquellos electores que hayan ingresado antes de dicha hora. El FLV Responsable debe verificar y registrar este cierre en la App FLV.';
+        } else {
+          btnEl.style.background = 'rgba(239, 68, 68, 0.25)';
+          btnEl.style.borderColor = '#ef4444';
+          feedback.style.display = 'block';
+          feedback.className = 'sim-feedback alert-box alert-danger';
+          feedback.innerHTML = '<strong>INCORRECTO.</strong> La ley electoral peruana (Art. 274 LOE) es taxativa: a las 17:00 horas se cierra el ingreso. No se puede someter a votación ni admitir a electores que llegaron pasadas las 17:00 hrs.';
+        }
+      } else if (qNum === 2) {
+        if (optIndex === 1) {
+          btnEl.style.background = 'rgba(16, 185, 129, 0.25)';
+          btnEl.style.borderColor = '#10b981';
+          feedback.style.display = 'block';
+          feedback.className = 'sim-feedback alert-box alert-success';
+          feedback.innerHTML = '<strong>¡EXCELENTE!</strong> De acuerdo con la Resolución Jefatural N° 000075-2025-JN/ONPE, las cédulas de sufragio escrutadas NO IMPUGNADAS YA NO SE DESTRUYEN. Deben ser lacradas en sobre especial para su repliegue y custodia a la ODPE.';
+        } else {
+          btnEl.style.background = 'rgba(239, 68, 68, 0.25)';
+          btnEl.style.borderColor = '#ef4444';
+          feedback.style.display = 'block';
+          feedback.className = 'sim-feedback alert-box alert-danger';
+          feedback.innerHTML = '<strong>INCORRECTO.</strong> Destruir las cédulas escrutadas no impugnadas en mesa constituía una práctica anterior pero ha sido formalmente modificada por la Res. Jefatural 000075-2025-JN/ONPE. Ahora se conservan y repliegan obligatoriamente.';
+        }
+      } else if (qNum === 3) {
+        if (optIndex === 1) {
+          btnEl.style.background = 'rgba(16, 185, 129, 0.25)';
+          btnEl.style.borderColor = '#10b981';
+          feedback.style.display = 'block';
+          feedback.className = 'sim-feedback alert-box alert-success';
+          feedback.innerHTML = '<strong>¡CORRECTO!</strong> La prelación legal (Art. 250 LOE) indica: primero se convoca a los suplentes presentes. Si no alcanzan, a las 07:00 AM se convoca a electores de la fila de esa misma mesa. ¡Los personeros están expresamente prohibidos de ser miembros!';
+        } else {
+          btnEl.style.background = 'rgba(239, 68, 68, 0.25)';
+          btnEl.style.borderColor = '#ef4444';
+          feedback.style.display = 'block';
+          feedback.className = 'sim-feedback alert-box alert-danger';
+          feedback.innerHTML = '<strong>INCORRECTO.</strong> Los personeros jamás pueden asumir funciones de miembros de mesa (constituye impedimento legal e incidencia grave). Se convoca primero a suplentes y luego a electores de la fila.';
+        }
+      } else if (qNum === 4) {
+        if (optIndex === 1) {
+          btnEl.style.background = 'rgba(16, 185, 129, 0.25)';
+          btnEl.style.borderColor = '#10b981';
+          feedback.style.display = 'block';
+          feedback.className = 'sim-feedback alert-box alert-success';
+          feedback.innerHTML = '<strong>¡EXCELENTE!</strong> El repliegue de los Sobres Plomos exige acompañamiento del fiscalizador del JNE bajo resguardo armado. Su salida sin el fiscalizador rompe la cadena de custodia y es una incidencia grave en el SIPE.';
+        } else {
+          btnEl.style.background = 'rgba(239, 68, 68, 0.25)';
+          btnEl.style.borderColor = '#ef4444';
+          feedback.style.display = 'block';
+          feedback.className = 'sim-feedback alert-box alert-danger';
+          feedback.innerHTML = '<strong>INCORRECTO.</strong> El fiscalizador nunca debe retener actas ni dejar que los sobres plomos salgan sin su custodia armada. Debe exigirse el cumplimiento de la directiva y dar cuenta inmediata al FISPRO/FISDIS.';
+        }
+      }
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', () => {
+      initNavScrollListeners();
+      renderIncidencias(incidenciasData);
+      loadChecklist();
+      generateF07Text();
+    });
+  </script>
+</body>
+</html>
